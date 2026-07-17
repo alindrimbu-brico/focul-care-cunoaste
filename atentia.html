@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atenția — un eseu academic și spiritual | Aether Nomad</title>
+<meta name="description" content="Tot ce se poate spune despre atenție: de la William James și rețelele neuronale la nepsis, sati, dharana și muraqaba. Un eseu academic și spiritual.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#161029;--void-2:#1f1739;--panel:#241b42;
+    --gold:#F5B847;--coral:#FF8763;--lilac:#C6A6F2;--teal:#54D6C2;
+    --cream:#F3EBDC;--muted:#9D93B8;
+    --line:rgba(243,235,220,.12);--line-2:rgba(243,235,220,.07);
+    --measure:64ch;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Spectral',Georgia,serif;background:var(--void);color:var(--cream);line-height:1.78;
+    font-size:1.15rem;font-weight:400;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased}
+
+  ::selection{background:rgba(245,184,71,.28);color:#fff}
+
+  /* starfield (calm) */
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .glow{position:absolute;top:-30vh;left:50%;transform:translateX(-50%);width:80vw;height:80vw;border-radius:50%;
+    background:radial-gradient(circle, rgba(245,184,71,.10) 0%, rgba(198,166,242,.05) 40%, transparent 68%);filter:blur(10px);
+    animation:breathe 12s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.75;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.06)}}
+  .star{position:absolute;background:var(--cream);border-radius:50%;opacity:.5;animation:tw 6s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.12}50%{opacity:.7}}
+
+  /* reading progress */
+  .progress{position:fixed;top:0;left:0;height:2px;width:0%;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--coral));box-shadow:0 0 10px var(--gold)}
+
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 26px}
+
+  /* eyebrow / labels */
+  .eyebrow{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 70px;z-index:1}
+  .hero .eyebrow{margin-bottom:26px;display:flex;align-items:center;gap:12px;animation:rise .9s both .1s}
+  .hero .eyebrow::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .hero-word{position:relative;animation:rise 1s both .2s}
+  .hero-word h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(4rem,20vw,13rem);
+    line-height:.86;letter-spacing:-.03em;color:var(--cream)}
+  .hero-word .echo{position:absolute;inset:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(4rem,20vw,13rem);line-height:.86;letter-spacing:-.03em;color:var(--lilac);
+    filter:blur(22px);opacity:.35;z-index:-1;animation:drift 9s ease-in-out infinite}
+  @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-8px)}}
+  .hero-lead{font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.6;font-weight:300;color:var(--cream);
+    max-width:34ch;margin-top:34px;animation:rise .9s both .5s}
+  .hero-cite{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.12em;color:var(--muted);
+    margin-top:18px;animation:rise .9s both .7s}
+  .hero-cue{margin-top:54px;font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--muted);animation:rise .9s both .95s, bob 2s ease-in-out infinite 1.4s}
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+  /* ---------- CHAPTERS ---------- */
+  .chapter{padding:64px 0;position:relative}
+  .chapter + .chapter{border-top:1px solid var(--line-2)}
+  .ch-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .ch-eyebrow .num{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);letter-spacing:.1em}
+  .ch-eyebrow .rule{flex:1;height:1px;background:var(--line)}
+  .chapter h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.9rem,5.5vw,3rem);
+    line-height:1.05;letter-spacing:-.02em;margin-bottom:26px;color:var(--cream)}
+  .chapter h2 em{font-style:italic;color:var(--gold);font-family:'Spectral',serif;font-weight:500}
+  .chapter p{margin-bottom:22px;max-width:var(--measure)}
+  .chapter p:last-child{margin-bottom:0}
+  .chapter .lead-cap::first-letter{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:3.6em;
+    float:left;line-height:.72;margin:.06em .12em 0 0;color:var(--gold)}
+  .chapter h3{font-family:'Space Mono',monospace;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--lilac);margin:34px 0 14px}
+  .chapter strong{color:var(--cream);font-weight:600}
+  .term{color:var(--gold);font-weight:500;font-style:italic}
+  .foreign{font-weight:500;color:var(--teal)}
+
+  /* pull quote */
+  .pull{margin:20px auto;padding:48px 0;text-align:center;max-width:820px}
+  .pull blockquote{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(1.6rem,4.6vw,2.5rem);
+    line-height:1.24;letter-spacing:-.01em;color:var(--cream)}
+  .pull blockquote .q{color:var(--gold)}
+  .pull cite{display:block;margin-top:22px;font-family:'Space Mono',monospace;font-style:normal;font-size:.72rem;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- CONSTELLATION (signature) ---------- */
+  .constellation-sec{padding:70px 0 40px}
+  .constellation{position:relative;width:min(680px,92vw);height:min(680px,92vw);margin:26px auto 10px}
+  .cx-center{position:absolute;inset:0;margin:auto;width:150px;height:150px;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    background:radial-gradient(circle,rgba(245,184,71,.16),transparent 70%);z-index:2}
+  .cx-center .cx-k{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  .cx-center .cx-v{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold);margin-top:4px}
+  .cx-lines{position:absolute;inset:0;z-index:1}
+  .cx-node{position:absolute;transform:translate(-50%,-50%);z-index:3;width:150px;text-align:center;cursor:default}
+  .cx-node .dot{width:11px;height:11px;border-radius:50%;background:var(--c,var(--lilac));margin:0 auto 8px;
+    box-shadow:0 0 12px var(--c,var(--lilac));animation:tw 5s ease-in-out infinite}
+  .cx-node .foreignw{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.05rem;color:var(--cream);line-height:1.1}
+  .cx-node .trad{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .cx-node .mean{font-size:.82rem;color:var(--lilac);line-height:1.4;max-height:0;opacity:0;overflow:hidden;transition:.35s;font-style:italic}
+  .cx-node:hover .mean{max-height:60px;opacity:1;margin-top:5px}
+  .cx-node:hover .dot{transform:scale(1.5)}
+
+  /* ---------- REFERENCES ---------- */
+  .refs{padding:60px 0}
+  .refs ol{list-style:none;counter-reset:r;max-width:var(--measure)}
+  .refs li{counter-increment:r;position:relative;padding:12px 0 12px 46px;border-top:1px solid var(--line-2);font-size:.96rem;color:var(--muted);line-height:1.6}
+  .refs li::before{content:counter(r,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:'Space Mono',monospace;
+    font-size:.72rem;color:var(--gold);letter-spacing:.05em}
+  .refs li b{color:var(--cream);font-weight:600;font-style:italic}
+
+  /* ---------- FINALE ---------- */
+  .finale{padding:90px 0 40px;text-align:center}
+  .finale .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,6vw,3.4rem);
+    line-height:1.08;letter-spacing:-.02em;margin-bottom:26px;
+    background:linear-gradient(180deg,var(--cream),var(--lilac) 150%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .finale p{max-width:52ch;margin:0 auto 30px;color:var(--muted)}
+  .finale a.cta{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:.74rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--void);background:var(--gold);text-decoration:none;
+    padding:15px 26px;border-radius:999px;transition:.25s}
+  .finale a.cta:hover{transform:translateY(-3px);box-shadow:0 16px 40px -18px var(--gold)}
+
+  footer{text-align:center;padding:50px 0 70px;color:var(--muted);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em}
+  footer .sig{color:var(--gold);font-weight:700}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.show{opacity:1;transform:none}
+
+  a{color:var(--gold)}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px}
+
+  @media (max-width:560px){
+    body{font-size:1.08rem}
+    .hero{min-height:86vh;padding:100px 0 50px}
+    .cx-node{width:118px}
+    .cx-node .foreignw{font-size:.92rem}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="sky" aria-hidden="true">
+  <div class="glow"></div>
+  <div class="stars" id="stars"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow">Aether Nomad · Focul care cunoaște</div>
+    <div class="hero-word">
+      <span class="echo" aria-hidden="true">Atenția</span>
+      <h1>Atenția</h1>
+    </div>
+    <p class="hero-lead">„Atenția este cea mai rară și mai pură formă de generozitate."</p>
+    <div class="hero-cite">— Simone Weil</div>
+    <div class="hero-cue">Coboară în singura facultate care contează ↓</div>
+  </header>
+
+  <!-- 1 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">I</span><span class="rule"></span><span class="eyebrow">Paradoxul</span></div>
+    <h2>Toți știm ce este — până când suntem întrebați</h2>
+    <p class="lead-cap">În 1890, William James scria că oricine știe ce este atenția. E acea luare în stăpânire de către minte, limpede și vie, a unuia dintre mai multe obiecte posibile — o focalizare, o concentrare a conștiinței. Iar esența ei, spunea el, e că presupune o retragere: ca să te dedici cu adevărat unui lucru, trebuie să lași deoparte altele.</p>
+    <p>Aici stă întregul mister. Atenția nu adaugă nimic la lume; ea <strong>alege</strong>. Din oceanul de senzații, gânduri și zgomote care ne asaltează în fiecare clipă, atenția desface un singur fir și îl face real. Ce nu primește atenția, practic nu există pentru noi. De aceea filozofii au numit-o poarta: nu pentru că ar produce experiența, ci pentru că decide ce anume din infinit intră în ea.</p>
+    <p>Acest eseu urmărește atenția pe două drumuri care, la capăt, se dovedesc a fi unul singur: drumul <em>academic</em> — al științei cognitive și al filozofiei — și drumul <em>spiritual</em> — al tradițiilor contemplative care, de milenii, au numit atenția rugăciune.</p>
+  </section>
+
+  <!-- pull -->
+  <div class="pull reveal">
+    <blockquote><span class="q">Atenția</span> este substanța din care e făcută rugăciunea. O atenție absolut neamestecată <span class="q">este</span> rugăciune.</blockquote>
+    <cite>Simone Weil · „Așteptarea lui Dumnezeu"</cite>
+  </div>
+
+  <!-- 2 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">II</span><span class="rule"></span><span class="eyebrow">Știința</span></div>
+    <h2>Anatomia unui <em>reflector</em></h2>
+    <p class="lead-cap">Psihologia experimentală a tratat atenția ca pe un filtru. În 1958, Donald Broadbent a propus că mintea, incapabilă să proceseze totul, lasă să treacă doar un canal — de aici „efectul cocktail party": într-o încăpere plină de voci, o auzi doar pe cea la care ești atent, până când cineva îți rostește numele și filtrul se sparge. Anne Treisman a rafinat modelul: celelalte canale nu sunt tăiate complet, ci doar coborâte în volum.</p>
+    <p>În 1990, Michael Posner și Steven Petersen au arătat că atenția nu e o singură funcție, ci un sistem cu trei rețele neuronale: <strong>alerta</strong> (starea de pregătire), <strong>orientarea</strong> (îndreptarea reflectorului către un loc) și <strong>controlul executiv</strong> (rezolvarea conflictelor, menținerea scopului). Atenția are, așadar, o anatomie — circuite reale în trunchiul cerebral, în lobii parietali, în cortexul cingular anterior.</p>
+    <h3>Atenția ca resursă limitată</h3>
+    <p>Daniel Kahneman a definit atenția drept efort: un buget mental limitat, pe care îl cheltuim. Iar când nu-l cheltuim pe nimic anume, mintea rătăcește — se activează așa-numita <strong>rețea a modului implicit</strong>. Un studiu celebru al lui Killingsworth și Gilbert (2010) a găsit ceva tulburător: mintea rătăcitoare e o minte nefericită. Suntem mai mulțumiți când suntem prezenți în ceea ce facem decât atunci când gândul aleargă în altă parte, chiar și spre lucruri plăcute.</p>
+    <h3>Absorbția: <span class="foreign">flow</span></h3>
+    <p>La polul opus rătăcirii stă ceea ce Mihaly Csikszentmihalyi a numit <em>flow</em>: starea de absorbție totală, în care atenția și acțiunea se contopesc, iar sinele care se observă dispare. Nu întâmplător, e una dintre cele mai apropiate descrieri laice ale extazului contemplativ.</p>
+    <h3>Neuroștiința contemplativă</h3>
+    <p>Din anii '70, când Jon Kabat-Zinn a adus meditația în spital sub numele de MBSR, cercetarea a confirmat ce spuneau călugării: atenția e antrenabilă. Lucrările lui Richard Davidson, ale lui Amishi Jha și ale altora arată că practica susținută întărește rețelele atenției și îngroașă zonele corticale implicate. Atenția nu e un dat fix — e un <strong>mușchi</strong>.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">III</span><span class="rule"></span><span class="eyebrow">Filosofia</span></div>
+    <h2>Privirea dreaptă și iubitoare</h2>
+    <p class="lead-cap">Pentru Simone Weil, atenția era centrul întregii vieți morale și spirituale. Ea considera că adevăratul scop al studiului — al unei probleme de geometrie, al unei limbi latine — nu e rezultatul, ci exercitarea atenției însăși, care mai târziu se poate întoarce spre Dumnezeu. A fi capabil să întrebi un om care suferă „prin ce treci?" și să-i asculți cu adevărat răspunsul cerea, spunea ea, o atenție atât de rară încât e aproape un miracol.</p>
+    <p>Filozoafa Iris Murdoch a preluat de la Weil chiar acest cuvânt — <em>atenția</em> — și l-a făcut inima eticii sale: progresul moral nu e o chestiune de voință, ci de calitate a privirii. A vedea cu adevărat realitatea, dincolo de vălul propriului egoism, printr-o „privire dreaptă și iubitoare" — aceasta e virtutea. Iar poeta Mary Oliver a rezumat totul în cinci cuvinte: <strong>atenția e începutul devoțiunii</strong>.</p>
+    <p>Fenomenologia, de la Husserl încoace, a numit trăsătura fundamentală a conștiinței <em>intenționalitate</em>: conștiința e întotdeauna conștiință <em>a ceva</em>. Nu există atenție în gol — a fi treaz înseamnă mereu a fi îndreptat către. Krishnamurti a împins ideea până la capăt: cea mai înaltă formă de atenție e conștiența fără alegere, o privire care nu judecă și nu apucă, ci doar vede.</p>
+  </section>
+
+  <!-- CONSTELLATION -->
+  <section class="constellation-sec reveal">
+    <div class="ch-eyebrow"><span class="num">IV</span><span class="rule"></span><span class="eyebrow">Tradițiile</span></div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:14px;">Un cuvânt, opt limbi, o singură poartă</h2>
+    <p style="max-width:var(--measure);color:var(--muted);margin-bottom:10px;">Fiecare mare tradiție contemplativă a descoperit, independent, aceeași facultate — și i-a dat un nume. Trece cu privirea peste fiecare stea ca să-i afli înțelesul. Toate arată spre același centru.</p>
+
+    <div class="constellation" id="constellation">
+      <svg class="cx-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g stroke="rgba(245,184,71,.22)" stroke-width=".25">
+          <line x1="50" y1="50" x2="50" y2="9"></line>
+          <line x1="50" y1="50" x2="79" y2="21"></line>
+          <line x1="50" y1="50" x2="91" y2="50"></line>
+          <line x1="50" y1="50" x2="79" y2="79"></line>
+          <line x1="50" y1="50" x2="50" y2="91"></line>
+          <line x1="50" y1="50" x2="21" y2="79"></line>
+          <line x1="50" y1="50" x2="9" y2="50"></line>
+          <line x1="50" y1="50" x2="21" y2="21"></line>
+        </g>
+      </svg>
+
+      <div class="cx-center"><span class="cx-k">Convergența</span><span class="cx-v">Prezența</span></div>
+
+      <div class="cx-node" style="left:50%;top:9%;--c:var(--gold)"><span class="dot"></span><span class="foreignw">Nepsis</span><span class="trad">Creștinism ortodox</span><span class="mean">trezvia, paza minții și a inimii</span></div>
+      <div class="cx-node" style="left:79%;top:21%;--c:var(--coral)"><span class="dot"></span><span class="foreignw">Sati</span><span class="trad">Budism</span><span class="mean">luarea-aminte, prezența nejudecată</span></div>
+      <div class="cx-node" style="left:91%;top:50%;--c:var(--teal)"><span class="dot"></span><span class="foreignw">Dharana</span><span class="trad">Yoga</span><span class="mean">fixarea minții într-un singur punct</span></div>
+      <div class="cx-node" style="left:79%;top:79%;--c:var(--lilac)"><span class="dot"></span><span class="foreignw">Muraqaba</span><span class="trad">Sufism</span><span class="mean">vegherea inimii sub privirea lui Dumnezeu</span></div>
+      <div class="cx-node" style="left:50%;top:91%;--c:var(--gold)"><span class="dot"></span><span class="foreignw">Prosoche</span><span class="trad">Stoicism</span><span class="mean">atenția neîncetată la clipa prezentă</span></div>
+      <div class="cx-node" style="left:21%;top:79%;--c:var(--coral)"><span class="dot"></span><span class="foreignw">Ekagrata</span><span class="trad">Vedanta</span><span class="mean">unificarea minții împrăștiate</span></div>
+      <div class="cx-node" style="left:9%;top:50%;--c:var(--teal)"><span class="dot"></span><span class="foreignw">Hudur</span><span class="trad">Sufism</span><span class="mean">prezența inimii, opusul uitării</span></div>
+      <div class="cx-node" style="left:21%;top:21%;--c:var(--lilac)"><span class="dot"></span><span class="foreignw">Spanda</span><span class="trad">Shivaismul din Kashmir</span><span class="mean">vibrația vie a conștiinței treze</span></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">V</span><span class="rule"></span><span class="eyebrow">Calea inimii</span></div>
+    <h2>Când atenția coboară în <em>inimă</em></h2>
+    <p class="lead-cap">În creștinismul răsăritean, atenția are un nume tehnic: <span class="foreign">nepsis</span> — trezvia. Părinții din Filocalia o numesc „paza minții": lucrarea neîncetată de a veghea gândurile la poarta lor, înainte să prindă rădăcină. Iar isihasmul adaugă mișcarea decisivă — <strong>coborârea minții în inimă</strong>: atenția, de obicei împrăștiată în cap, e adunată și așezată în centrul ființei, unde, prin Rugăciunea lui Iisus rostită pe respirație, devine rugăciune neîncetată.</p>
+    <p>Budismul numește aceeași facultate <span class="foreign">sati</span> — luarea-aminte — și o face temelia căii, prin Satipatthana Sutta: atenția la trup, la simțire, la minte, la fenomene. Yoga lui Patanjali o așază ca a șasea treaptă, <span class="foreign">dharana</span>, concentrarea într-un punct, care se adâncește în meditație și apoi în <em>samadhi</em>, contopirea. Sufismul o practică drept <span class="foreign">muraqaba</span>, vegherea, și <span class="foreign">dhikr</span>, pomenirea neîncetată a Numelui, până când inima devine <span class="foreign">hudur</span> — pură prezență.</p>
+    <p>Chiar și stoicii, cu mult înainte, cereau <span class="foreign">prosoche</span>: atenția continuă la prezent și la propriul suflet — ceea ce Pierre Hadot a numit „exerciții spirituale". Iar în shivaismul din Kashmir, atenția însăși e divină: a fi pe deplin treaz e <span class="foreign">spanda</span>, pulsația conștiinței care e Dumnezeu jucându-se cu sine.</p>
+  </section>
+
+  <!-- pull 2 -->
+  <div class="pull reveal">
+    <blockquote>Spune-mi la ce ești atent <span class="q">și îți voi spune</span> cine ești.</blockquote>
+    <cite>José Ortega y Gasset</cite>
+  </div>
+
+  <!-- 6 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">VI</span><span class="rule"></span><span class="eyebrow">Practica</span></div>
+    <h2>Arta de a te întoarce</h2>
+    <p class="lead-cap">Toate căile împart aceeași unealtă: o ancoră. Respirația, un cuvânt, o flacără, o icoană. Atenția se așază pe ancoră — și, inevitabil, fuge. Aici e neînțelegerea comună: mulți cred că distragerea e eșecul. Nu e. <strong>Momentul în care observi că ai fost dus și te întorci — acela este exercițiul.</strong> Fiecare întoarcere e o repetiție care întărește mușchiul. Nu contează de câte ori pleci; contează că revii, blând, fără reproș.</p>
+    <p>Tradițiile disting două mișcări. <em>Concentrarea</em> — atenția strânsă asupra unui singur punct (dharana, rugăciunea inimii), care liniștește și adâncește. Și <em>conștiența deschisă</em> — o atenție largă, receptivă, care nu se agață de nimic și lasă totul să treacă (choiceless awareness, vipassana). Prima construiește stabilitatea; a doua construiește libertatea. Împreună, ele conduc de la efort la har — la momentul în care atenția nu mai e ceva ce faci, ci ceea ce ești.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">VII</span><span class="rule"></span><span class="eyebrow">Iubirea</span></div>
+    <h2>Cea mai tăcută formă de dăruire</h2>
+    <p class="lead-cap">A fi atent la cineva este, poate, cel mai profund lucru pe care i-l putem dărui. Nu sfaturi, nu soluții — doar prezența întreagă, neîmpărțită, care spune: <em>exiști, te văd, contezi</em>. Weil scria că plenitudinea iubirii aproapelui înseamnă pur și simplu a fi capabil să-l privești cu atenție. În lumea de azi, unde privirile sunt fragmentate de o mie de ecrane, atenția neîmpărțită a devenit forma cea mai rară de tandrețe.</p>
+    <p>De aceea atenția e și un act etic, nu doar spiritual. Ceea ce alegem să privim ne modelează. Privirea repetată devine obicei, obiceiul devine caracter, caracterul devine destin. Suntem, în sens foarte literal, ceea ce ne acordăm atenția.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">VIII</span><span class="rule"></span><span class="eyebrow">Criza</span></div>
+    <h2>Ultima libertate</h2>
+    <p class="lead-cap">Încă din 1971, Herbert Simon avertiza: o bogăție de informație creează o sărăcie de atenție. Astăzi trăim în plină economie a atenției — o industrie de miliarde construită pentru a captura, fragmenta și vinde exact facultatea pe care misticii o numeau sacră. Fiecare notificare e o mică deturnare a poartei prin care intră realitatea în noi.</p>
+    <p>Tocmai de aceea a-ți păzi atenția a devenit un act de libertate, ba chiar de rezistență. A alege ce privești — și a refuza ce ți se impune — e ultima suveranitate care nu poate fi luată. Vechea trezvie a Părinților și practica modernă de „a-ți proteja atenția" sunt, la rădăcină, același gest. Iar acest gest e, în cele din urmă, spiritual: cine își recucerește atenția își recucerește viața.</p>
+  </section>
+
+  <!-- FINALE -->
+  <section class="finale reveal">
+    <div class="big">Atenția este biletul.</div>
+    <p>Cea mai lungă călătorie din univers se face stând pe loc — fiind pur și simplu prezent. Nu ai nevoie de bagaj, de vamă, de hartă. Ai nevoie doar să fii treaz, aici, acum. Atenția e prețul și e răsplata: poarta prin care intri în singurul loc care te conținea deja.</p>
+    <a class="cta" href="all-inclusive-univers.html">Urcă la bord — All Inclusive în Univers →</a>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="refs reveal">
+    <div class="ch-eyebrow"><span class="num">≡</span><span class="rule"></span><span class="eyebrow">Lectură & surse</span></div>
+    <ol>
+      <li>William James, <b>The Principles of Psychology</b> (1890) — definiția fondatoare a atenției.</li>
+      <li>Donald Broadbent, <b>Perception and Communication</b> (1958) — modelul filtrului.</li>
+      <li>Daniel Kahneman, <b>Attention and Effort</b> (1973) — atenția ca resursă limitată.</li>
+      <li>Posner & Petersen (1990) — cele trei rețele ale atenției.</li>
+      <li>Mihaly Csikszentmihalyi, <b>Flow</b> (1990) — psihologia absorbției.</li>
+      <li>Killingsworth & Gilbert (2010) — mintea rătăcitoare și fericirea.</li>
+      <li>Simone Weil, <b>Așteptarea lui Dumnezeu</b> / <b>Greutatea și harul</b> — atenția ca rugăciune.</li>
+      <li>Iris Murdoch, <b>The Sovereignty of Good</b> (1970) — privirea dreaptă și iubitoare.</li>
+      <li>Pierre Hadot, <b>Filosofia ca mod de viață</b> — prosoche și exercițiile spirituale.</li>
+      <li><b>Filocalia</b> — nepsis, paza minții, isihasmul.</li>
+      <li>Patanjali, <b>Yoga Sutra</b> — dharana, dhyana, samadhi.</li>
+      <li><b>Satipatthana Sutta</b> — temeiurile budiste ale luării-aminte (sati).</li>
+      <li>Jon Kabat-Zinn, <b>Full Catastrophe Living</b> (1990) — MBSR.</li>
+      <li>Herbert Simon (1971) · Matthew Crawford, <b>The World Beyond Your Head</b> · Jenny Odell, <b>How to Do Nothing</b> — economia atenției.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <div>Un eseu <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</div>
+    <div style="margin-top:8px;opacity:.7">Fii treaz. Aici. Acum.</div>
+  </footer>
+
+</div>
+
+<script>
+  // starfield
+  (function(){
+    var box=document.getElementById('stars'),frag=document.createDocumentFragment();
+    for(var i=0;i<60;i++){var s=document.createElement('div');s.className='star';
+      var sz=Math.random()*2+1;s.style.width=sz+'px';s.style.height=sz+'px';
+      s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(Math.random()*6)+'s';frag.appendChild(s);}
+    box.appendChild(frag);
+  })();
+
+  // reading progress
+  var prog=document.getElementById('progress');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement,b=document.body;
+    var st=h.scrollTop||b.scrollTop, sh=(h.scrollHeight||b.scrollHeight)-h.clientHeight;
+    prog.style.width=(sh>0?(st/sh*100):0)+'%';
+  },{passive:true});
+
+  // scroll reveal
+  (function(){
+    if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('show');});return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target);}});},{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(function(e){io.observe(e);});
+  })();
+</script>
+</body>
+</html>

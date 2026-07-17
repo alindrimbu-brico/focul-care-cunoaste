@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focul care cunoaște · Oracle Deck — Aether Nomad</title>
+<meta name="description" content="Oracle Deck de 33 de cărți de înțelepciune — Cele Cinci Cercuri și cele Trei Chei. Un produs Aether Nomad, „Focul care cunoaște".">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#161029;--void-2:#1f1739;--panel:#241b42;
+    --gold:#F5B847;--coral:#FF8763;--lilac:#C6A6F2;--teal:#54D6C2;
+    --cream:#F3EBDC;--muted:#9D93B8;
+    --line:rgba(243,235,220,.12);--line-2:rgba(243,235,220,.07);
+    --accent:var(--gold);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Spectral',Georgia,serif;background:var(--void);color:var(--cream);line-height:1.6;
+    min-height:100vh;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(245,184,71,.28);color:#fff}
+
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .glow{position:absolute;top:-30vh;left:50%;transform:translateX(-50%);width:90vw;height:90vw;border-radius:50%;
+    background:radial-gradient(circle, rgba(245,184,71,.12) 0%, rgba(198,166,242,.05) 42%, transparent 66%);filter:blur(14px);
+    animation:breathe 13s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.7;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.07)}}
+  .star{position:absolute;background:var(--cream);border-radius:50%;opacity:.5;animation:tw 6s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.12}50%{opacity:.7}}
+
+  .lang-switch{position:fixed;top:16px;right:16px;z-index:60;display:flex;align-items:center;gap:4px;
+    background:rgba(20,14,38,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:999px;padding:6px 8px 6px 12px}
+  .lang-switch .globe{font-size:.8rem;opacity:.7;margin-right:3px}
+  .lang-switch button{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--muted);
+    background:transparent;border:none;padding:6px 10px;border-radius:999px;cursor:pointer;transition:.2s}
+  .lang-switch button:hover{color:var(--cream)}
+  .lang-switch button.active{background:var(--gold);color:#1a1228;font-weight:700}
+
+  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 22px 80px}
+
+  /* ---------- COVER ---------- */
+  .cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 0 40px}
+  .brandmark{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:30px;animation:rise .8s both .1s}
+  .cover .sigil{width:120px;height:120px;margin-bottom:26px;animation:rise .9s both .2s, spin 60s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .cover h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.6rem,8vw,5rem);line-height:.98;letter-spacing:-.02em;
+    background:linear-gradient(160deg,var(--cream),var(--gold) 60%,var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:rise .9s both .3s}
+  .cover .sub{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    margin-top:18px;animation:rise .9s both .45s}
+  .cover .desc{max-width:44ch;margin:26px auto 0;color:var(--cream);font-size:1.08rem;line-height:1.7;font-weight:300;animation:rise .9s both .6s}
+  .cover-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:40px;animation:rise .9s both .8s}
+  .btn{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;
+    padding:14px 24px;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--gold);transition:.22s}
+  .btn:hover{background:var(--gold);color:#1a1228;transform:translateY(-2px)}
+  .btn.primary{background:var(--gold);color:#1a1228;font-weight:700}
+  .btn.primary:hover{box-shadow:0 16px 40px -18px var(--gold)}
+  .btn.ghost{border-color:var(--line);color:var(--muted)}
+  .btn.ghost:hover{background:var(--void-2);color:var(--cream);border-color:var(--lilac)}
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+  /* ---------- STAGE ---------- */
+  .view{display:none;padding:100px 0 20px;animation:fade .5s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .view-head{text-align:center;margin-bottom:30px}
+  .view-head .eyebrow{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+  .view-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.5rem,4vw,2.2rem);margin-top:8px;letter-spacing:-.01em}
+  .toolbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+
+  .stage{display:flex;gap:22px;justify-content:center;align-items:flex-start;flex-wrap:wrap;min-height:440px}
+  .slot{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .slot .pos{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent,var(--gold))}
+
+  /* ---------- CARD ---------- */
+  .card{width:280px;height:440px;perspective:1400px;cursor:pointer;flex-shrink:0}
+  .card.sm{width:150px;height:236px;cursor:pointer}
+  .card-inner{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.4,.1,.2,1);transform-style:preserve-3d}
+  .card.flipped .card-inner{transform:rotateY(180deg)}
+  .card-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;overflow:hidden}
+
+  /* back */
+  .card-back{background:linear-gradient(155deg,#2a2050,#191233);border:1px solid rgba(245,184,71,.35);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 24px 60px -30px rgba(0,0,0,.9)}
+  .card-back::before{content:"";position:absolute;inset:8px;border:1px solid rgba(245,184,71,.22);border-radius:11px}
+  .back-sigil{width:60%;opacity:.9}
+  .card.sm .card-back::before{inset:5px}
+
+  /* front */
+  .card-front{transform:rotateY(180deg);background:linear-gradient(160deg,var(--void-2),var(--panel));
+    border:1px solid var(--line);box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
+    display:flex;flex-direction:column;padding:22px 20px}
+  .card-front::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 60% at 50% 0%, var(--accent), transparent 60%);opacity:.14;pointer-events:none}
+  .card-front::after{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.8}
+  .c-top{display:flex;justify-content:space-between;align-items:baseline;position:relative;z-index:2}
+  .c-num{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.08em}
+  .c-el{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .c-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-56%);font-size:8rem;line-height:1;color:var(--accent);
+    opacity:.1;z-index:1;font-family:'Spectral',serif}
+  .c-body{margin-top:auto;position:relative;z-index:2}
+  .c-kw{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.65rem;line-height:1.05;letter-spacing:-.01em;color:var(--cream)}
+  .c-text{font-size:.98rem;line-height:1.5;color:var(--cream);margin-top:12px;font-style:italic;opacity:.95}
+  .c-inv{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.02em;color:var(--accent);margin-top:16px;line-height:1.4}
+  .c-inv::before{content:"↳ ";opacity:.7}
+  /* small card scaling */
+  .card.sm .c-glyph{font-size:4.6rem}
+  .card.sm .c-kw{font-size:1.05rem}
+  .card.sm .c-text{font-size:.66rem;margin-top:7px;line-height:1.4}
+  .card.sm .c-inv{font-size:.52rem;margin-top:9px}
+  .card.sm .card-front{padding:14px 13px}
+
+  .tap-hint{text-align:center;font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin-top:26px;transition:opacity .4s}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px;margin-top:10px}
+  .gallery .card{width:100%;height:auto;aspect-ratio:150/236}
+
+  /* footer */
+  footer{text-align:center;padding:56px 0 20px;color:var(--muted);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em}
+  footer .sig{color:var(--gold);font-weight:700}
+
+  a{color:var(--gold)}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
+
+  @media (max-width:560px){
+    .card{width:250px;height:392px}
+    .cover{padding:80px 0 30px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}.card-inner{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="lang-switch" role="group" aria-label="Language">
+  <span class="globe" aria-hidden="true">🌐</span>
+  <button data-lang="ro" class="active">RO</button>
+  <button data-lang="en">EN</button>
+</div>
+
+<div class="sky" aria-hidden="true"><div class="glow"></div><div class="stars" id="stars"></div></div>
+
+<div class="wrap">
+
+  <!-- COVER -->
+  <section class="cover" id="cover">
+    <div class="brandmark">Aether Nomad · Focul care cunoaște</div>
+    <svg class="sigil" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="20" fill="none" stroke="#F5B847" stroke-width="1.4"/>
+      <circle cx="50" cy="50" r="8" fill="#F5B847" opacity=".85"/>
+      <g stroke="#F5B847" stroke-width="1.2">
+        <line x1="50" y1="6" x2="50" y2="24"/><line x1="50" y1="76" x2="50" y2="94"/>
+        <line x1="6" y1="50" x2="24" y2="50"/><line x1="76" y1="50" x2="94" y2="50"/>
+        <line x1="19" y1="19" x2="32" y2="32"/><line x1="68" y1="68" x2="81" y2="81"/>
+        <line x1="81" y1="19" x2="68" y2="32"/><line x1="32" y1="68" x2="19" y2="81"/>
+      </g>
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#F5B847" stroke-width=".5" opacity=".5"/>
+    </svg>
+    <h1 data-i18n="title">Focul care cunoaște</h1>
+    <div class="sub" data-i18n="sub">Oracle Deck · 33 de cărți de înțelepciune</div>
+    <p class="desc" data-i18n="desc">Cele Cinci Cercuri și cele Trei Chei. Distilarea cărților noastre într-un singur oracol: trage o carte și ascultă ce știe focul.</p>
+    <div class="cover-actions">
+      <button class="btn primary" data-act="draw" data-i18n="btnDraw">Trage o carte</button>
+      <button class="btn" data-act="spread" data-i18n="btnSpread">Desfășurare · 3 cărți</button>
+      <button class="btn ghost" data-act="gallery" data-i18n="btnGallery">Toate cărțile</button>
+    </div>
+  </section>
+
+  <!-- DRAW ONE -->
+  <section class="view" id="view-draw">
+    <div class="view-head">
+      <div class="eyebrow" data-i18n="drawEyebrow">Cartea ta</div>
+      <h2 data-i18n="drawTitle">Ce știe focul pentru tine</h2>
+    </div>
+    <div class="stage" id="drawStage"></div>
+    <div class="tap-hint" id="drawHint" data-i18n="tapHint">Atinge cartea pentru a o întoarce</div>
+    <div class="toolbar">
+      <button class="btn primary" data-act="draw" data-i18n="btnAgain">Trage din nou</button>
+      <button class="btn ghost" data-act="home" data-i18n="btnHome">← Acasă</button>
+    </div>
+  </section>
+
+  <!-- SPREAD -->
+  <section class="view" id="view-spread">
+    <div class="view-head">
+      <div class="eyebrow" data-i18n="spreadEyebrow">Desfășurare</div>
+      <h2 data-i18n="spreadTitle">Trup · Minte · Duh</h2>
+    </div>
+    <div class="stage" id="spreadStage"></div>
+    <div class="tap-hint" id="spreadHint" data-i18n="tapHint">Atinge cartea pentru a o întoarce</div>
+    <div class="toolbar">
+      <button class="btn primary" data-act="spread" data-i18n="btnAgain">Trage din nou</button>
+      <button class="btn ghost" data-act="home" data-i18n="btnHome">← Acasă</button>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="view" id="view-gallery">
+    <div class="view-head">
+      <div class="eyebrow" data-i18n="galleryEyebrow">Colecția completă</div>
+      <h2 data-i18n="galleryTitle">Cele 33 de cărți</h2>
+    </div>
+    <div class="gallery" id="galleryStage"></div>
+    <div class="toolbar">
+      <button class="btn ghost" data-act="home" data-i18n="btnHome">← Acasă</button>
+    </div>
+  </section>
+
+  <footer>
+    <div>Un produs <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</div>
+    <div style="margin-top:8px;opacity:.7" data-i18n="footerLine">33 de cărți · Cele Cinci Cercuri + Trei Chei · pentru Etsy, Amazon și retail</div>
+  </footer>
+
+</div>
+
+<script>
+  // ---------- starfield ----------
+  (function(){var b=document.getElementById('stars'),f=document.createDocumentFragment();
+    for(var i=0;i<60;i++){var s=document.createElement('div');s.className='star';var z=Math.random()*2+1;
+      s.style.width=z+'px';s.style.height=z+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(Math.random()*6)+'s';f.appendChild(s);}b.appendChild(f);})();
+
+  // ---------- elements meta ----------
+  var EL = {
+    earth:{ro:'Pământ',en:'Earth',glyph:'地',color:'#F5B847'},
+    water:{ro:'Apă',   en:'Water',glyph:'水',color:'#54D6C2'},
+    fire: {ro:'Foc',   en:'Fire', glyph:'火',color:'#FF8763'},
+    wind: {ro:'Vânt',  en:'Wind', glyph:'風',color:'#C6A6F2'},
+    voidx:{ro:'Vid',   en:'Void', glyph:'空',color:'#E7DCF6'},
+    key:  {ro:'Cheie', en:'Key',  glyph:'✦',color:'#F5B847'}
+  };
+
+  // ---------- 33 cards ----------
+  var CARDS = [
+    {el:'earth',kw:{ro:'Rădăcina',en:'The Root'},t:{ro:'Nimic înalt nu crește fără rădăcini adânci. Coboară înainte să urci.',en:'Nothing tall grows without deep roots. Descend before you rise.'},inv:{ro:'Așază-te. Simte-ți greutatea.',en:'Sit. Feel your own weight.'}},
+    {el:'earth',kw:{ro:'Răbdarea',en:'Patience'},t:{ro:'Piatra nu se grăbește să devină munte. Ce e temeinic se face încet.',en:'The stone does not rush to become a mountain. What is lasting is made slowly.'},inv:{ro:'Nu forța azi ce se coace mâine.',en:'Don\u2019t force today what ripens tomorrow.'}},
+    {el:'earth',kw:{ro:'Trupul',en:'The Body'},t:{ro:'Sufletul locuiește undeva anume. Cinstește casa în care stai.',en:'The soul dwells somewhere. Honor the house you live in.'},inv:{ro:'Mulțumește azi trupului tău.',en:'Thank your body today.'}},
+    {el:'earth',kw:{ro:'Disciplina',en:'Discipline'},t:{ro:'Libertatea nu e lipsa formei, ci forma stăpânită.',en:'Freedom is not the absence of form, but form mastered.'},inv:{ro:'Alege un singur lucru și ține-te de el.',en:'Choose one thing and keep to it.'}},
+    {el:'earth',kw:{ro:'Smerenia',en:'Humility'},t:{ro:'Spicul plin se pleacă și nu e frânt de vânt.',en:'The full ear of wheat bends and is not broken by the wind.'},inv:{ro:'Recunoaște azi un lucru pe care nu-l știi.',en:'Admit one thing you do not know today.'}},
+    {el:'earth',kw:{ro:'Temelia',en:'The Foundation'},t:{ro:'Zidește pe ce nu se clatină. Restul e nisip frumos.',en:'Build on what does not shift. The rest is beautiful sand.'},inv:{ro:'Ce rămâne când pierzi totul? Acolo zidește.',en:'What remains when all is lost? Build there.'}},
+
+    {el:'water',kw:{ro:'Curgerea',en:'The Flow'},t:{ro:'Apa nu se luptă cu piatra; o ocolește și ajunge la mare.',en:'Water does not fight the stone; it goes around and reaches the sea.'},inv:{ro:'Unde te lupți degeaba? Curge pe lângă.',en:'Where do you struggle in vain? Flow past it.'}},
+    {el:'water',kw:{ro:'Golirea',en:'Emptying'},t:{ro:'Doar cupa goală poate fi umplută. Fă loc.',en:'Only the empty cup can be filled. Make room.'},inv:{ro:'Lasă azi ceva să plece.',en:'Let something leave today.'}},
+    {el:'water',kw:{ro:'Forma',en:'The Form'},t:{ro:'Apa ia forma vasului, dar rămâne apă. Adaptează-te fără să te pierzi.',en:'Water takes the vessel\u2019s shape yet stays water. Adapt without losing yourself.'},inv:{ro:'Îndoaie-te, nu te rupe.',en:'Bend, do not break.'}},
+    {el:'water',kw:{ro:'Blândețea',en:'Gentleness'},t:{ro:'Ce e moale învinge ce e tare. Picătura sapă stânca.',en:'The soft overcomes the hard. The drop carves the rock.'},inv:{ro:'Fii blând azi, mai ales cu tine.',en:'Be gentle today, above all with yourself.'}},
+    {el:'water',kw:{ro:'Adâncul',en:'The Deep'},t:{ro:'La suprafață e furtună; în adânc, tăcere. Coboară.',en:'On the surface, storm; in the deep, silence. Descend.'},inv:{ro:'Sub emoție, ce e liniștit?',en:'Beneath the emotion, what is still?'}},
+    {el:'water',kw:{ro:'Oglinda',en:'The Mirror'},t:{ro:'Apa liniștită oglindește cerul; mintea liniștită, adevărul.',en:'Still water mirrors the sky; a still mind, the truth.'},inv:{ro:'Liniștește-te ca să vezi limpede.',en:'Grow still, to see clearly.'}},
+
+    {el:'fire',kw:{ro:'Scânteia',en:'The Spark'},t:{ro:'Tot ce arde a pornit dintr-o scânteie. Nu o disprețui pe a ta.',en:'All that blazes began as a spark. Do not despise yours.'},inv:{ro:'Ce mic pas aprinzi azi?',en:'What small step will you light today?'}},
+    {el:'fire',kw:{ro:'Arderea',en:'The Burning'},t:{ro:'Focul nu distruge aurul; îi arde zgura. Lasă-te curățat.',en:'Fire does not destroy gold; it burns away the dross. Let yourself be purified.'},inv:{ro:'Ce trebuie să lași să ardă?',en:'What must you let burn?'}},
+    {el:'fire',kw:{ro:'Curajul',en:'Courage'},t:{ro:'Curajul nu e lipsa fricii, ci mersul înainte cu ea de mână.',en:'Courage is not the absence of fear, but walking on with it by the hand.'},inv:{ro:'Fă azi lucrul de care ți-e teamă.',en:'Do the thing you fear today.'}},
+    {el:'fire',kw:{ro:'Voința',en:'The Will'},t:{ro:'Un scop clar arde prin o mie de scuze.',en:'A clear aim burns through a thousand excuses.'},inv:{ro:'Ce vrei cu adevărat? Spune-o.',en:'What do you truly want? Say it.'}},
+    {el:'fire',kw:{ro:'Lumina',en:'The Light'},t:{ro:'O singură lumânare risipește o beznă veche de o mie de ani.',en:'A single candle scatters a darkness a thousand years old.'},inv:{ro:'Aprinde, nu blestema întunericul.',en:'Kindle a light; do not curse the dark.'}},
+    {el:'fire',kw:{ro:'Pasiunea',en:'Passion'},t:{ro:'Fă din ceea ce iubești rug, nu cenușă.',en:'Make of what you love a fire, not ashes.'},inv:{ro:'Ce te aprinde? Mergi spre asta.',en:'What sets you alight? Move toward it.'}},
+
+    {el:'wind',kw:{ro:'Suflarea',en:'The Breath'},t:{ro:'Între inspir și expir încape toată viața. Ești la o suflare de pace.',en:'Between in-breath and out-breath fits a whole life. You are one breath from peace.'},inv:{ro:'Respiră o dată, adânc, acum.',en:'Take one deep breath, now.'}},
+    {el:'wind',kw:{ro:'Gândul',en:'The Thought'},t:{ro:'Nu ești gândurile tale; ești cerul prin care trec norii.',en:'You are not your thoughts; you are the sky the clouds pass through.'},inv:{ro:'Privește un gând fără să-l crezi.',en:'Watch a thought without believing it.'}},
+    {el:'wind',kw:{ro:'Libertatea',en:'Freedom'},t:{ro:'Nimeni nu-ți poate lua felul în care întâmpini ce ți se dă.',en:'No one can take the way you meet what you are given.'},inv:{ro:'Alege azi răspunsul, nu reacția.',en:'Choose the response, not the reaction.'}},
+    {el:'wind',kw:{ro:'Schimbarea',en:'Change'},t:{ro:'Vântul nu poate fi ținut în pumn. Nici clipa. Dă drumul.',en:'The wind cannot be held in a fist. Nor the moment. Let go.'},inv:{ro:'De ce te agăți, deși a trecut?',en:'What do you clutch, though it has passed?'}},
+    {el:'wind',kw:{ro:'Cuvântul',en:'The Word'},t:{ro:'Un cuvânt poate zidi sau surpa o lume. Cântărește-l.',en:'A word can build or topple a world. Weigh it.'},inv:{ro:'Spune azi un cuvânt care zidește.',en:'Speak a word that builds today.'}},
+    {el:'wind',kw:{ro:'Tăcerea',en:'Silence'},t:{ro:'În pauza dintre cuvinte locuiește înțelesul.',en:'In the pause between words, meaning dwells.'},inv:{ro:'Taci azi o clipă mai mult.',en:'Stay silent a moment longer today.'}},
+
+    {el:'voidx',kw:{ro:'Golul',en:'The Void'},t:{ro:'Din gol se naște totul. Nu-l umple de frică.',en:'From emptiness, all is born. Do not fill it out of fear.'},inv:{ro:'Stai o clipă fără să faci nimic.',en:'Sit a moment doing nothing.'}},
+    {el:'voidx',kw:{ro:'Misterul',en:'The Mystery'},t:{ro:'Ce e mai adânc nu se explică; se trăiește.',en:'What is deepest is not explained; it is lived.'},inv:{ro:'Lasă azi o întrebare fără răspuns.',en:'Leave one question unanswered today.'}},
+    {el:'voidx',kw:{ro:'Unitatea',en:'Oneness'},t:{ro:'Valul se crede singur până își amintește că e mare.',en:'The wave thinks itself alone until it remembers it is the sea.'},inv:{ro:'Ce te desparte cu adevărat de tot?',en:'What truly separates you from all?'}},
+    {el:'voidx',kw:{ro:'Prezența',en:'Presence'},t:{ro:'Veșnicia nu e timp lung; e adâncimea lui acum.',en:'Eternity is not long time; it is the depth of now.'},inv:{ro:'Fii de față. Aici. Acum.',en:'Be present. Here. Now.'}},
+    {el:'voidx',kw:{ro:'Tăcerea Cerului',en:'Heaven\u2019s Silence'},t:{ro:'Uneori tăcerea Cerului e cea mai deplină vorbire.',en:'Sometimes Heaven\u2019s silence is the fullest speech.'},inv:{ro:'Ascultă azi liniștea.',en:'Listen to the silence today.'}},
+    {el:'voidx',kw:{ro:'Lumina neapusă',en:'Unfading Light'},t:{ro:'Sub toate e o lumină care nu se stinge. Ești făcut din ea.',en:'Beneath all is a light that never goes out. You are made of it.'},inv:{ro:'Ce în tine nu s-a stins niciodată?',en:'What in you has never been extinguished?'}},
+
+    {el:'key',kw:{ro:'Atenția',en:'Attention'},t:{ro:'Atenția e cea mai rară formă de iubire. Ce privești, prinde viață.',en:'Attention is the rarest form of love. What you behold comes alive.'},inv:{ro:'Dăruiește cuiva atenția ta întreagă.',en:'Give someone your whole attention.'}},
+    {el:'key',kw:{ro:'Respirația',en:'The Breath'},t:{ro:'Suflarea e puntea dintre trup și duh. Traversează-o des.',en:'Breath is the bridge between body and spirit. Cross it often.'},inv:{ro:'Respiră ca și cum ar fi prima oară.',en:'Breathe as if for the first time.'}},
+    {el:'key',kw:{ro:'Prezența',en:'Presence'},t:{ro:'Nu ai unde ajunge. Ești deja aici. Sosește.',en:'There is nowhere to arrive. You are already here. Arrive.'},inv:{ro:'Oprește-te din alergat. Ai ajuns.',en:'Stop running. You have arrived.'}}
+  ];
+
+  // ---------- i18n (UI) ----------
+  var UI = {
+    ro:{title:'Focul care cunoaște',sub:'Oracle Deck · 33 de cărți de înțelepciune',
+      desc:'Cele Cinci Cercuri și cele Trei Chei. Distilarea cărților noastre într-un singur oracol: trage o carte și ascultă ce știe focul.',
+      btnDraw:'Trage o carte',btnSpread:'Desfășurare · 3 cărți',btnGallery:'Toate cărțile',
+      drawEyebrow:'Cartea ta',drawTitle:'Ce știe focul pentru tine',
+      spreadEyebrow:'Desfășurare',spreadTitle:'Trup · Minte · Duh',
+      galleryEyebrow:'Colecția completă',galleryTitle:'Cele 33 de cărți',
+      tapHint:'Atinge cartea pentru a o întoarce',btnAgain:'Trage din nou',btnHome:'← Acasă',
+      footerLine:'33 de cărți · Cele Cinci Cercuri + Trei Chei · pentru Etsy, Amazon și retail',
+      pos:['Trup','Minte','Duh']},
+    en:{title:'The Fire That Knows',sub:'Oracle Deck · 33 wisdom cards',
+      desc:'The Five Circles and the Three Keys. Our books distilled into a single oracle: draw a card and hear what the fire knows.',
+      btnDraw:'Draw a card',btnSpread:'Spread · 3 cards',btnGallery:'All cards',
+      drawEyebrow:'Your card',drawTitle:'What the fire knows for you',
+      spreadEyebrow:'The spread',spreadTitle:'Body · Mind · Spirit',
+      galleryEyebrow:'The full collection',galleryTitle:'The 33 cards',
+      tapHint:'Tap the card to turn it',btnAgain:'Draw again',btnHome:'← Home',
+      footerLine:'33 cards · Five Circles + Three Keys · for Etsy, Amazon & retail',
+      pos:['Body','Mind','Spirit']}
+  };
+  var lang='ro';
+  function applyLang(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.dataset.i18n; if(UI[lang][k]!==undefined) el.textContent=UI[lang][k];});
+    document.querySelectorAll('.lang-switch button').forEach(function(b){b.classList.toggle('active',b.dataset.lang===lang);});
+    document.documentElement.lang=lang;
+    // re-render any open view to refresh card language
+    if(current) renderView(current, false);
+  }
+  document.querySelectorAll('.lang-switch button').forEach(function(b){b.addEventListener('click',function(){lang=b.dataset.lang;applyLang();});});
+
+  // ---------- SVG sigil for card back ----------
+  var BACK = '<svg class="back-sigil" viewBox="0 0 100 100" aria-hidden="true">'+
+    '<circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2" opacity=".9"/>'+
+    '<circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/>'+
+    '<g stroke="#F5B847" stroke-width="1" opacity=".85">'+
+    '<line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/>'+
+    '<line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/>'+
+    '<line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/>'+
+    '<line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g>'+
+    '<circle cx="50" cy="50" r="36" fill="none" stroke="#F5B847" stroke-width=".4" opacity=".45"/></svg>';
+
+  // ---------- card element ----------
+  function cardEl(card, small){
+    var meta = EL[card.el], idx = CARDS.indexOf(card)+1;
+    var d = document.createElement('div');
+    d.className = 'card' + (small?' sm':'');
+    d.style.setProperty('--accent', meta.color);
+    d.innerHTML =
+      '<div class="card-inner">'+
+        '<div class="card-face card-back">'+BACK+'</div>'+
+        '<div class="card-face card-front">'+
+          '<div class="c-top"><span class="c-num">'+(idx<10?'0':'')+idx+' / 33</span>'+
+            '<span class="c-el">'+meta[lang]+' · '+(card.el==='key'?(lang==='ro'?'Cheie':'Key'):meta.glyph)+'</span></div>'+
+          '<div class="c-glyph">'+meta.glyph+'</div>'+
+          '<div class="c-body">'+
+            '<div class="c-kw">'+card.kw[lang]+'</div>'+
+            '<div class="c-text">'+card.t[lang]+'</div>'+
+            '<div class="c-inv">'+card.inv[lang]+'</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    d.addEventListener('click', function(){ d.classList.toggle('flipped'); });
+    return d;
+  }
+
+  // ---------- deck logic ----------
+  function pick(n){
+    var pool = CARDS.slice(), out=[];
+    for(var i=0;i<n;i++){ out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]); }
+    return out;
+  }
+  var current=null, lastDraw=null, lastSpread=null;
+
+  function renderView(view, fresh){
+    current=view;
+    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+    document.getElementById('cover').style.display='none';
+    if(view==='draw'){
+      document.getElementById('view-draw').classList.add('active');
+      var stage=document.getElementById('drawStage'); stage.innerHTML='';
+      if(fresh||!lastDraw) lastDraw=pick(1)[0];
+      var c=cardEl(lastDraw,false); stage.appendChild(c);
+      if(fresh){ setTimeout(function(){ c.classList.add('flipped'); }, 550); }
+    }
+    else if(view==='spread'){
+      document.getElementById('view-spread').classList.add('active');
+      var s=document.getElementById('spreadStage'); s.innerHTML='';
+      if(fresh||!lastSpread) lastSpread=pick(3);
+      lastSpread.forEach(function(card,i){
+        var slot=document.createElement('div'); slot.className='slot';
+        var pos=document.createElement('div'); pos.className='pos'; pos.textContent=UI[lang].pos[i];
+        var c=cardEl(card,false); c.style.setProperty('--accent', EL[card.el].color);
+        slot.appendChild(pos); slot.appendChild(c); s.appendChild(slot);
+        if(fresh){ setTimeout(function(){ c.classList.add('flipped'); }, 500 + i*450); }
+      });
+    }
+    else if(view==='gallery'){
+      document.getElementById('view-gallery').classList.add('active');
+      var g=document.getElementById('galleryStage'); g.innerHTML='';
+      CARDS.forEach(function(card){ var c=cardEl(card,true); c.classList.add('flipped'); g.appendChild(c); });
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function goHome(){
+    current=null;
+    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+    document.getElementById('cover').style.display='flex';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  document.body.addEventListener('click', function(e){
+    var btn=e.target.closest('[data-act]'); if(!btn) return;
+    var act=btn.dataset.act;
+    if(act==='draw') renderView('draw', true);
+    else if(act==='spread') renderView('spread', true);
+    else if(act==='gallery') renderView('gallery', true);
+    else if(act==='home') goHome();
+  });
+
+  applyLang();
+</script>
+</body>
+</html>

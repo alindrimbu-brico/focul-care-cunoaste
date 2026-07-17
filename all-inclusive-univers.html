@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aether Nomad · Flight Console — All Inclusive in the Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#161029;--void-2:#1f1739;--panel:#241b42;
+    --gold:#F5B847;--coral:#FF8763;--lilac:#C6A6F2;--teal:#54D6C2;
+    --cream:#F3EBDC;--muted:#9D93B8;
+    --line:rgba(243,235,220,.12);--line-2:rgba(243,235,220,.07);
+    --bpm:65;--beat:calc(60s / 65);   /* one beat at 65 BPM ≈ 0.923s */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:var(--void);color:var(--cream);line-height:1.6;overflow-x:hidden;position:relative}
+
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .sun{position:absolute;top:-280px;left:50%;transform:translateX(-50%);width:900px;height:900px;border-radius:50%;
+    background:radial-gradient(circle, rgba(245,184,71,.30) 0%, rgba(255,135,99,.16) 32%, rgba(198,166,242,.06) 55%, transparent 70%);
+    filter:blur(8px);animation:breathe calc(var(--beat) * 16) ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:translateX(-50%) scale(1);opacity:.9}50%{transform:translateX(-50%) scale(1.08);opacity:1}}
+  .stars{position:absolute;inset:0}
+  .star{position:absolute;background:var(--cream);border-radius:50%;opacity:.5;animation:twinkle 5s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.8}}
+
+  /* top controls: sound + language */
+  .top-controls{position:fixed;top:16px;right:16px;z-index:60;display:flex;align-items:center;gap:8px}
+  .sound-toggle{font-size:.95rem;line-height:1;display:flex;align-items:center;justify-content:center;
+    width:38px;height:38px;color:var(--cream);background:rgba(20,14,38,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:999px;cursor:pointer;transition:.2s}
+  .sound-toggle:hover{border-color:var(--gold);transform:scale(1.06)}
+  .sound-toggle.off{opacity:.5}
+  .lang-switch{display:flex;align-items:center;gap:4px;background:rgba(20,14,38,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:999px;padding:6px 8px 6px 12px}
+  .lang-switch .globe{font-size:.82rem;opacity:.7;margin-right:3px}
+  .lang-switch button{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--muted);
+    background:transparent;border:none;padding:6px 10px;border-radius:999px;cursor:pointer;transition:.2s}
+  .lang-switch button:hover{color:var(--cream)}
+  .lang-switch button.active{background:var(--gold);color:#1a1228;font-weight:700}
+  .sound-hint{position:fixed;top:62px;right:16px;z-index:59;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.03em;
+    color:var(--muted);background:rgba(20,14,38,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:10px;padding:7px 11px;max-width:240px;line-height:1.4;
+    transition:opacity .5s;pointer-events:none}
+
+  .wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 22px}
+
+  /* ---------- HERO ---------- */
+  header.hero{position:relative;padding:80px 0 56px;text-align:center;overflow:hidden;perspective:1100px}
+  .hero>*{position:relative;z-index:2}
+  .hero-aura{position:absolute;z-index:0;top:-12%;left:50%;transform:translateX(-50%);width:130%;height:130%;pointer-events:none;
+    background:radial-gradient(38% 38% at 28% 30%, rgba(198,166,242,.18), transparent 70%),
+               radial-gradient(42% 42% at 74% 36%, rgba(84,214,194,.14), transparent 70%),
+               radial-gradient(48% 48% at 50% 82%, rgba(255,135,99,.14), transparent 70%);
+    filter:blur(22px);animation:auraDrift calc(var(--beat) * 16) ease-in-out infinite, hueSpin calc(var(--beat) * 32) linear infinite}
+  @keyframes auraDrift{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-46%) scale(1.09)}}
+  @keyframes hueSpin{to{filter:blur(22px) hue-rotate(360deg)}}
+
+  .mark{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:24px;display:inline-flex;align-items:center;gap:12px;animation:riseIn .9s both .05s}
+  .mark::before,.mark::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .mark::after{background:linear-gradient(90deg,var(--gold),transparent)}
+
+  .hero-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.6rem,8vw,5.4rem);line-height:.95;letter-spacing:-.025em;
+    background:linear-gradient(100deg,var(--cream) 0%,var(--lilac) 28%,var(--gold) 52%,var(--coral) 70%,var(--cream) 100%);
+    background-size:280% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+    animation:riseIn .9s both .18s, shimmer calc(var(--beat) * 8) linear infinite 1s}
+  .hero-title em{font-style:normal;-webkit-text-fill-color:var(--gold);color:var(--gold)}
+  @keyframes shimmer{to{background-position:280% 0}}
+
+  .hero-cycle{font-family:'Space Mono',monospace;font-size:clamp(.82rem,2.4vw,1.05rem);letter-spacing:.03em;color:var(--gold);
+    margin-top:18px;min-height:1.6em;animation:riseIn .9s both .5s}
+  .hero-cycle .caret{color:var(--coral);margin-left:1px;animation:blink var(--beat) steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* orrery — the six destinations orbiting */
+  .orrery{position:relative;width:min(440px,86vw);height:min(440px,86vw);margin:30px auto 4px;
+    transform-style:preserve-3d;transition:transform .25s ease-out;animation:riseIn 1s both .7s}
+  .orrery .sun{position:absolute;inset:0;margin:auto;width:58px;height:58px;border-radius:50%;
+    background:radial-gradient(circle at 38% 34%, #fff, var(--gold) 52%, var(--coral) 92%);
+    box-shadow:0 0 36px var(--gold),0 0 80px rgba(255,135,99,.55);animation:sunPulse var(--beat) ease-in-out infinite}
+  @keyframes sunPulse{0%,100%{transform:scale(1);box-shadow:0 0 28px var(--gold),0 0 64px rgba(255,135,99,.42)}50%{transform:scale(1.08);box-shadow:0 0 48px var(--gold),0 0 100px rgba(255,135,99,.72)}}
+  .ring{position:absolute;inset:0;margin:auto;border:1px dashed var(--line-2);border-radius:50%;animation:spin var(--d,24s) linear infinite}
+  .ring.rev{animation-direction:reverse}
+  .orrery:hover .ring{animation-play-state:paused}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .node{position:absolute;left:50%;top:0;transform:translate(-50%,-50%);background:none;border:none;padding:0;cursor:pointer}
+  .spin-fix{display:flex;flex-direction:column;align-items:center;gap:5px;animation:spin var(--d,24s) linear infinite reverse}
+  .ring.rev .spin-fix{animation-direction:normal}
+  .orrery:hover .spin-fix{animation-play-state:paused}
+  .planet{width:14px;height:14px;border-radius:50%;background:var(--c,var(--lilac));box-shadow:0 0 12px var(--c,var(--lilac));transition:transform .2s}
+  .nlbl{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    white-space:nowrap;opacity:0;transform:translateY(2px);transition:.2s}
+  .node:hover .planet,.node:focus-visible .planet{transform:scale(1.55)}
+  .node:hover .nlbl,.node:focus-visible .nlbl{opacity:1;transform:none;color:var(--cream)}
+  .orrery-hint{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    margin-top:6px;animation:riseIn .9s both .9s}
+
+  .hero-lead{margin:26px auto 0;max-width:600px;color:var(--cream);font-size:1.06rem;line-height:1.75;animation:riseIn .9s both 1.05s}
+  .scroll-cue{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    margin-top:30px;animation:riseIn .9s both 1.3s, bob calc(var(--beat) * 2) ease-in-out infinite 1.7s}
+  @keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+  /* shooting stars */
+  .shoot{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;box-shadow:0 0 6px #fff;opacity:0;z-index:1}
+  .shoot::after{content:"";position:absolute;right:0;top:50%;width:90px;height:1px;transform:translateY(-50%);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.85))}
+  @keyframes shootAcross{0%{opacity:0;transform:translate(0,0)}12%{opacity:1}100%{opacity:0;transform:translate(-360px,200px)}}
+
+  /* ---------- STORY ---------- */
+  .story{max-width:760px;margin:26px auto 6px}
+  .story-eyebrow{text-align:center;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+  .story-h{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.8rem,5vw,2.9rem);text-align:center;line-height:1.04;letter-spacing:-.02em;margin-bottom:20px;
+    background:linear-gradient(180deg,var(--cream),var(--lilac) 140%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .story-intro{color:var(--muted);font-size:1.05rem;line-height:1.85;text-align:center;margin:0 auto 36px;max-width:690px}
+  .triad{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:44px}
+  .tri{background:linear-gradient(160deg,var(--void-2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:20px;transition:transform .25s,border-color .25s,box-shadow .25s}
+  .tri:hover{transform:translateY(-7px);border-color:var(--gold);box-shadow:0 20px 50px -28px rgba(245,184,71,.5)}
+  .tri-k{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .tri-v{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold);display:block;margin:2px 0 9px}
+  .tri p{font-size:.9rem;color:var(--cream);line-height:1.6}
+  a.tri{text-decoration:none;color:inherit;display:block}
+  .tri-link{cursor:pointer}
+  .tri-go{display:inline-block;margin-top:13px;font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);opacity:.72;transition:.25s}
+  .tri-link:hover .tri-go{opacity:1;transform:translateX(4px)}
+  .tri-soon{display:inline-block;margin-top:13px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);opacity:.6}
+  .stops{display:flex;flex-direction:column;gap:14px}
+  .stop-card{position:relative;background:linear-gradient(150deg,var(--void-2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:22px 24px 22px 72px;overflow:hidden;transition:border-color .25s}
+  .stop-card:hover{border-color:var(--lilac)}
+  .stop-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--gold),var(--coral));opacity:0;transition:opacity .3s}
+  .stop-card:hover::before{opacity:1}
+  .stop-num{position:absolute;left:18px;top:20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.55rem;
+    color:transparent;-webkit-text-stroke:1.4px var(--gold);opacity:.85}
+  .stop-card h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.25rem;margin-bottom:6px;color:var(--cream)}
+  .stop-card p{color:var(--muted);font-size:.96rem;line-height:1.65}
+  .stop-card.pulse{animation:cardPulse 1.1s ease}
+  @keyframes cardPulse{0%{box-shadow:0 0 0 0 rgba(245,184,71,.55)}100%{box-shadow:0 0 0 24px rgba(245,184,71,0)}}
+  .story-finale{margin:38px auto 8px;max-width:700px;text-align:center;font-size:1.12rem;line-height:1.85;color:var(--cream);border-top:1px solid var(--line);padding-top:30px}
+  .story-finale b{color:var(--gold);font-weight:700}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.show{opacity:1;transform:none}
+
+  .manifest-lead{margin:-4px 0 18px;color:var(--muted);font-size:.96rem;line-height:1.65}
+
+  .manifest{margin:46px 0 18px;background:linear-gradient(160deg,var(--void-2),var(--panel));border:1px solid var(--line);border-radius:20px;
+    padding:26px 26px 22px;box-shadow:0 20px 60px -30px rgba(0,0,0,.8)}
+  .manifest h2{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--teal);
+    margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .manifest h2 .rule{flex:1;height:1px;background:var(--line)}
+  .specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+  .spec{padding:14px 16px;background:rgba(0,0,0,.18);border:1px solid var(--line-2);border-radius:12px}
+  .spec .k{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .spec .v{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.18rem;color:var(--cream);margin-top:3px}
+  .spec .v small{font-size:.7rem;color:var(--gold);font-weight:500;display:block;letter-spacing:.02em}
+  .arc{margin-top:16px;font-size:.92rem;color:var(--muted);line-height:1.7}
+  .arc b{color:var(--lilac);font-weight:600}
+
+  .board-eyebrow{text-align:center;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--muted);margin:38px 0 14px}
+  .board{display:flex;gap:8px;margin:0 0 22px;flex-wrap:wrap;justify-content:center}
+  .tab{font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:.1em;color:var(--muted);background:var(--void-2);
+    border:1px solid var(--line);padding:13px 22px;border-radius:11px;cursor:pointer;transition:.22s;display:flex;align-items:center;gap:9px}
+  .tab .flag{font-size:1.05rem;line-height:1}
+  .tab:hover{color:var(--cream);border-color:var(--lilac)}
+  .tab.active{background:var(--gold);color:#1a1228;border-color:var(--gold);font-weight:700}
+
+  .pass{display:none;animation:fade .5s ease}
+  .pass.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* floating drift + unified 65 BPM heartbeat glow on every section */
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes floaty-soft{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes pulse65{0%,100%{filter:drop-shadow(0 0 0 rgba(198,166,242,0))}45%{filter:drop-shadow(0 0 16px rgba(198,166,242,.22))}}
+  .manifest{animation:floaty calc(var(--beat) * 8) ease-in-out infinite, pulse65 var(--beat) ease-in-out infinite}
+  .ticket{animation:floaty calc(var(--beat) * 8) ease-in-out infinite calc(var(--beat) * 2), pulse65 var(--beat) ease-in-out infinite}
+  .notes{animation:floaty-soft calc(var(--beat) * 8) ease-in-out infinite calc(var(--beat) * 4), pulse65 var(--beat) ease-in-out infinite}
+  .tri,.stop-card{animation:pulse65 var(--beat) ease-in-out infinite}
+
+  .ticket{background:linear-gradient(155deg,var(--void-2),var(--panel));border:1px solid var(--line);border-radius:20px;overflow:hidden;
+    box-shadow:0 30px 80px -40px rgba(0,0,0,.9)}
+  .stub{padding:24px 26px;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;
+    background:radial-gradient(circle at -8px 50%, var(--void) 12px, transparent 13px) left,
+      radial-gradient(circle at calc(100% + 8px) 50%, var(--void) 12px, transparent 13px) right;
+    background-repeat:no-repeat;background-size:50% 100%}
+  .stub .flight{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.24em;color:var(--gold);text-transform:uppercase}
+  .stub h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.7rem;letter-spacing:-.01em;margin-top:4px;line-height:1.05}
+  .stub .class{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--teal);text-transform:uppercase;margin-top:8px}
+  .stub .seal{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);
+    border:1px solid var(--coral);border-radius:50%;width:74px;height:74px;display:flex;align-items:center;justify-content:center;
+    text-align:center;line-height:1.25;flex-shrink:0;opacity:.85;transform:rotate(-9deg)}
+
+  .route{padding:18px 26px;border-bottom:1px solid var(--line-2);font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.06em;
+    color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center}
+  .route .stop{color:var(--cream)}
+  .route .arr{color:var(--gold);margin:0 2px}
+
+  .field{padding:22px 26px;border-bottom:1px solid var(--line-2)}
+  .field:last-child{border-bottom:none}
+  .field-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:13px;flex-wrap:wrap}
+  .field-label{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lilac);
+    display:flex;align-items:center;gap:9px}
+  .field-label .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal)}
+  .field-label.lyr .dot{background:var(--coral);box-shadow:0 0 10px var(--coral)}
+  .hint{font-size:.74rem;color:var(--muted);font-style:italic}
+  .copy{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--gold);
+    border:1px solid var(--gold);padding:8px 16px;border-radius:8px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .copy:hover{background:var(--gold);color:#1a1228}
+  .copy.done{background:var(--teal);border-color:var(--teal);color:#10261f}
+
+  pre.block{font-family:'Space Mono',monospace;font-size:.84rem;line-height:1.72;background:rgba(0,0,0,.26);border:1px solid var(--line-2);
+    border-radius:12px;padding:18px;color:var(--cream);white-space:pre-wrap;word-wrap:break-word;max-height:340px;overflow-y:auto}
+  pre.block.tall{max-height:520px}
+  pre.block::-webkit-scrollbar{width:9px}
+  pre.block::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+
+  .notes{margin:48px 0 20px;background:linear-gradient(160deg,var(--void-2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:30px 28px}
+  .notes h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.45rem;margin-bottom:6px}
+  .notes .sub{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+  .note{display:flex;gap:16px;padding:15px 0;border-top:1px solid var(--line-2)}
+  .note:first-of-type{border-top:none}
+  .note .num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem;color:var(--coral);flex-shrink:0;width:30px}
+  .note p{font-size:.96rem;color:var(--cream)}
+  .note p b{color:var(--gold);font-weight:600}
+  .note code{font-family:'Space Mono',monospace;font-size:.84rem;background:rgba(0,0,0,.3);padding:2px 7px;border-radius:5px;color:var(--teal)}
+
+  footer{text-align:center;padding:40px 0 64px;color:var(--muted);font-size:.82rem}
+  footer .sig{font-family:'Bricolage Grotesque',sans-serif;color:var(--gold);font-weight:700;letter-spacing:.02em}
+
+  @media (max-width:560px){
+    header.hero{padding:72px 0 26px}
+    .stub .seal{display:none}
+    .field{padding:20px 18px}
+    .stub,.route,.manifest,.notes{padding-left:20px;padding-right:20px}
+    .top-controls{top:12px;right:12px;gap:6px}
+    .sound-hint{top:58px;right:12px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="top-controls">
+  <button class="sound-toggle" id="soundToggle" aria-label="Sound on / off">🔊</button>
+  <div class="lang-switch" role="group" aria-label="Interface language">
+    <span class="globe" aria-hidden="true">🌐</span>
+    <button data-lang="ro" class="active">RO</button>
+    <button data-lang="en">EN</button>
+    <button data-lang="pt">PT</button>
+  </div>
+</div>
+<div class="sound-hint" id="soundHint" data-i18n="soundHint">Apasă oriunde pentru a activa sunetul 🔊</div>
+
+<div class="sky" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="stars" id="stars"></div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-aura" aria-hidden="true"></div>
+    <div class="mark" data-i18n="heroMark">Aether Nomad · Consolă de Zbor</div>
+    <h1 class="hero-title" data-i18n="heroTitle">All Inclusive<br>în <em>Univers</em></h1>
+    <div class="hero-cycle"><span id="cycleText"></span><span class="caret">▍</span></div>
+
+    <div class="orrery" id="orrery" aria-label="Cele șase opriri ale călătoriei">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="ring" style="width:30%;height:30%;--d:16s">
+        <button class="node" data-stop="0" style="--c:var(--coral)"><span class="spin-fix"><span class="planet"></span><span class="nlbl" data-i18n="stop0t">Luna de miere</span></span></button>
+      </div>
+      <div class="ring rev" style="width:45%;height:45%;--d:24s">
+        <button class="node" data-stop="1" style="--c:var(--teal)"><span class="spin-fix"><span class="planet"></span><span class="nlbl" data-i18n="stop1t">Universul</span></span></button>
+      </div>
+      <div class="ring" style="width:60%;height:60%;--d:20s">
+        <button class="node" data-stop="2" style="--c:var(--lilac)"><span class="spin-fix"><span class="planet"></span><span class="nlbl" data-i18n="stop2t">Planetele</span></span></button>
+      </div>
+      <div class="ring rev" style="width:74%;height:74%;--d:30s">
+        <button class="node" data-stop="3" style="--c:#7fb4ff"><span class="spin-fix"><span class="planet"></span><span class="nlbl" data-i18n="stop3t">Pământul</span></span></button>
+      </div>
+      <div class="ring" style="width:88%;height:88%;--d:26s">
+        <button class="node" data-stop="4" style="--c:var(--gold)"><span class="spin-fix"><span class="planet"></span><span class="nlbl" data-i18n="stop4t">Sufletul</span></span></button>
+      </div>
+      <div class="ring rev" style="width:100%;height:100%;--d:38s">
+        <button class="node" data-stop="5" style="--c:#ff9ecf"><span class="spin-fix"><span class="planet"></span><span class="nlbl" data-i18n="stop5t">Poveștile oamenilor</span></span></button>
+      </div>
+    </div>
+    <div class="orrery-hint" data-i18n="orreryHint">Oprește-te pe o planetă</div>
+
+    <p class="hero-lead" data-i18n="heroLead">Bun venit la singura agenție de turism unde nu pleci nicăieri — fiindcă destinația te conține deja. Cea mai lungă călătorie din univers se face stând pe loc.</p>
+    <div class="scroll-cue" data-i18n="scrollCue">Coboară în călătorie ↓</div>
+  </header>
+
+  <section class="story">
+    <div class="story-eyebrow reveal" data-i18n="storyEyebrow">Conceptul</div>
+    <h2 class="story-h reveal" data-i18n="storyH">Confortul călătoriei spirituale</h2>
+    <p class="story-intro reveal" data-i18n="storyIntro">Toată călătoria obișnuită e un chin elegant: bagaje, cozi, fusuri orare, frica de necunoscut. Călătoria spirituală răstoarnă regula.</p>
+
+    <div class="triad">
+      <a class="tri reveal tri-link" href="atentia.html"><span class="tri-k" data-i18n="triTicketK">Biletul</span><span class="tri-v" data-i18n="triTicketV">atenția</span><p data-i18n="triTicketD">Plătești cu prezență.</p><span class="tri-go" data-i18n="triGo">Citește eseul →</span></a>
+      <a class="tri reveal tri-link" href="respiratia.html"><span class="tri-k" data-i18n="triVehicleK">Vehiculul</span><span class="tri-v" data-i18n="triVehicleV">respirația</span><p data-i18n="triVehicleD">Motorul nu e afară.</p><span class="tri-go" data-i18n="triGo">Citește eseul →</span></a>
+      <div class="tri reveal"><span class="tri-k" data-i18n="triPassK">Pașaportul</span><span class="tri-v" data-i18n="triPassV">prezența</span><p data-i18n="triPassD">Nicio vamă.</p><span class="tri-soon" data-i18n="triSoon">În curând</span></div>
+    </div>
+
+    <div class="stops">
+      <article class="stop-card reveal" id="stop-0"><span class="stop-num">01</span><h3 data-i18n="stop0t">Luna de miere</h3><p data-i18n="stop0d">—</p></article>
+      <article class="stop-card reveal" id="stop-1"><span class="stop-num">02</span><h3 data-i18n="stop1t">Universul</h3><p data-i18n="stop1d">—</p></article>
+      <article class="stop-card reveal" id="stop-2"><span class="stop-num">03</span><h3 data-i18n="stop2t">Planetele</h3><p data-i18n="stop2d">—</p></article>
+      <article class="stop-card reveal" id="stop-3"><span class="stop-num">04</span><h3 data-i18n="stop3t">Pământul</h3><p data-i18n="stop3d">—</p></article>
+      <article class="stop-card reveal" id="stop-4"><span class="stop-num">05</span><h3 data-i18n="stop4t">Sufletul</h3><p data-i18n="stop4d">—</p></article>
+      <article class="stop-card reveal" id="stop-5"><span class="stop-num">06</span><h3 data-i18n="stop5t">Poveștile oamenilor</h3><p data-i18n="stop5d">—</p></article>
+    </div>
+
+    <p class="story-finale reveal" data-i18n="storyFinale">—</p>
+  </section>
+
+  <section class="manifest">
+    <h2><span data-i18n="manifestH2">Manifest de zbor · ADN muzical comun</span><span class="rule"></span></h2>
+    <p class="manifest-lead" data-i18n="manifestLead">Trei melodii, o singură inimă care bate. Iată pulsul comun pe care îl moștenesc toate:</p>
+    <div class="specs">
+      <div class="spec"><div class="k" data-i18n="specTempoK">Tempo</div><div class="v">112 BPM <small data-i18n="tempoSmall">4/4 · swing ușor</small></div></div>
+      <div class="spec"><div class="k" data-i18n="specKeyK">Tonalitate</div><div class="v"><span data-i18n="keyValue">Re → Mi</span> <small data-i18n="keySmall">modulație înainte de refrenul final</small></div></div>
+      <div class="spec"><div class="k" data-i18n="specLenK">Durată-țintă</div><div class="v">~4:15 <small data-i18n="lengthSmall">3–5 min, arc complet</small></div></div>
+      <div class="spec"><div class="k" data-i18n="specVoiceK">Voce</div><div class="v"><span data-i18n="voiceValue">Cald, intim</span> <small data-i18n="voiceSmall">belt jucăuș + cor gospel</small></div></div>
+    </div>
+    <p class="arc" data-i18n="arc"><b>Arc dinamic:</b> intro șoptit → strofe pufoase → pre-refren care urcă → refren-explozie de cor → post-refren cu fluierat, „oh-oh" și „plus unu" → bridge dezbrăcat care reconstruiește → schimbare de ton → dublu refren final cu cor → outro tandru, vorbit.</p>
+  </section>
+
+  <div class="board-eyebrow" data-i18n="boardEyebrow">Selectează biletul</div>
+  <nav class="board" role="tablist" aria-label="Song package">
+    <button class="tab active" data-tab="ro" role="tab"><span class="flag">🇷🇴</span><span data-i18n="tabRo">Română</span></button>
+    <button class="tab" data-tab="en" role="tab"><span class="flag">🇬🇧</span><span data-i18n="tabEn">Engleză</span></button>
+    <button class="tab" data-tab="br" role="tab"><span class="flag">🇧🇷</span><span data-i18n="tabBr">Portugheză · BR</span></button>
+  </nav>
+
+  <!-- ===================== RO ===================== -->
+  <article class="pass show" id="pass-ro">
+    <div class="ticket">
+      <div class="stub">
+        <div>
+          <div class="flight" data-i18n="flightRoLabel">Zbor AN·RO — 001</div>
+          <h3>All Inclusive în Univers</h3>
+          <div class="class" data-i18n="classLine">Clasă: All Inclusive · Bagaj: niciunul</div>
+        </div>
+        <div class="seal">God's<br>Favorite<br>Show</div>
+      </div>
+      <div class="route">
+        <span class="stop">Luna de miere</span><span class="arr">→</span>
+        <span class="stop">Universul</span><span class="arr">→</span>
+        <span class="stop">Planetele</span><span class="arr">→</span>
+        <span class="stop">Pământul</span><span class="arr">→</span>
+        <span class="stop">Sufletul</span><span class="arr">→</span>
+        <span class="stop">Poveștile oamenilor</span>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <span class="field-label"><span class="dot"></span><span data-i18n="fieldStyle">Câmp 1 · Style of Music</span></span>
+          <button class="copy" data-copy="ro-style" data-i18n="copyStyle">Copiază stilul</button>
+        </div>
+        <div class="hint" data-i18n="hintStyle">Lipește în câmpul „Style of Music" din Suno (Custom Mode).</div>
+        <pre class="block" id="ro-style">Euphoric sunshine travel-pop with a metaphysical wink. Genre fusion: breezy indie-folk-pop foundation meets a bright tropical-house lift and a funky disco-pop bassline, dressed with warm brass stabs, plucky synth-marimba and layered hand percussion, plus a faint Balkan-Romanian folk lilt — a hint of accordion and a doina-tinged fiddle counter-melody. 112 BPM, 4/4 with light verse swing; D major modulating to E major for the final chorus. Lead: warm, intimate male voice, conversational and smiling, sliding into a joyful belt on the choruses; airy female harmonies stacked in thirds; big gang-vocal "all inclusive!" shouts and a gospel-tinged choir swelling at the end. Prominent whistled topline hook, clap groove, call-and-response. Polished, wide, radio-ready mix; sunlit, wanderlust, tear-of-joy energy.</pre>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <span class="field-label lyr"><span class="dot"></span><span data-i18n="fieldLyrics">Câmp 2 · Lyrics</span></span>
+          <button class="copy" data-copy="ro-lyrics" data-i18n="copyLyrics">Copiază versurile</button>
+        </div>
+        <div class="hint" data-i18n="hintLyrics">Lipește în câmpul „Lyrics". Păstrează meta-tag-urile [...] și (...) — ele dau durata și cârligele.</div>
+        <pre class="block tall" id="ro-lyrics">[Intro - spoken, intimate, warm]
+Bine-ai venit la singura agenție
+Unde destinația ești chiar tu... ce ironie
+
+[Verse 1 - light, bouncy, fingerpicked guitar]
+Mi-am luat bilet de lună de miere
+Dar n-am plecat, am rămas în plăcere
+M-am îndrăgostit de tot ce există
+Și gata — sunt turist și sunt artist
+
+[Pre-Chorus - rising, claps enter]
+Fără valiză, fără cozi, fără gară
+Cel mai lung drum se face-n fotoliu...
+și-afară-i doar decor!
+
+[Chorus - explosive, gang vocals, four-on-the-floor]
+All inclusive în Univers!
+Stau pe loc și totuși zbor — e invers!
+Biletul e o respirație,
+Pașaportul — pură atenție
+All inclusive, gratis, infinit,
+Dumnezeu zâmbește c-am venit
+Plus unu pentru drumul din mine —
+Cel mai frumos confort din lume!
+
+[Post-Chorus - whistle hook + oh-oh + chant]
+(whistled melody)
+Oh-oh-oh, oh-oh-oh-oh!
+La-la-la, drumul e-n mine
+Plus unu! (plus unu!) Plus unu! (plus unu!)
+Oh-oh-oh — confortul din lume!
+
+[Verse 2 - groove deepens, brass stabs]
+Check-in în galaxii, fără rezervare
+Universul nu-i afară — e-o cameră mai mare
+Planetele-s rătăcitori ca mine
+Hoinari prin stările ce vin și se-mbină
+
+[Pre-Chorus]
+Fără jet-lag, fără frică, fără hartă
+Eu sunt și harta, și drumul...
+și hangiul la poartă!
+
+[Chorus]
+All inclusive în Univers!
+Stau pe loc și totuși zbor — e invers!
+Biletul e o respirație,
+Pașaportul — pură atenție
+All inclusive, gratis, infinit,
+Dumnezeu zâmbește c-am venit
+Plus unu pentru drumul din mine —
+Cel mai frumos confort din lume!
+
+[Post-Chorus]
+(whistled melody)
+Oh-oh-oh, oh-oh-oh-oh!
+Plus unu! (plus unu!) Plus unu! (plus unu!)
+
+[Bridge - stripped, intimate, just guitar + voice, then build]
+Aterizez pe Pământ, bilă albastră
+Cosmicul și cana de cafea — aceeași fereastră
+Ultima stație? Sufletul, vezi tu —
+Era și gara de plecare, n-am plecat nicicum...
+
+(build - percussion creeps back in)
+Și-apoi cel mai tare tur:
+nu locurile — oamenii din jur!
+Fiecare-i un univers cu storie,
+o galaxie care merge la birou
+Te ascult... și călătoresc prin tine —
+tu ești cea mai frumoasă destinație, anume!
+
+[Key Change - modulation up, drums drop then BOOM]
+
+[Final Chorus - double, full choir, hands in the air]
+All inclusive în Univers!
+Toți suntem turiști în același vers!
+Dumnezeu stă-n primul rând și râde,
+show-ul Lui preferat suntem noi — toate fețele!
+All inclusive, gratis, infinit —
+Plus unu, plus unu, am reușit!
+Cel mai lung drum, făcut stând pe loc:
+acasă, în mine... în tot!
+
+[Outro - spoken, tender, fading]
+Mulțumim că ați călătorit cu noi.
+Vă rugăm să nu coborâți...
+nu există „afară".</pre>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===================== EN ===================== -->
+  <article class="pass" id="pass-en">
+    <div class="ticket">
+      <div class="stub">
+        <div>
+          <div class="flight" data-i18n="flightEnLabel">Zbor AN·EN — 002</div>
+          <h3>All Inclusive in the Universe</h3>
+          <div class="class" data-i18n="classLine">Clasă: All Inclusive · Bagaj: niciunul</div>
+        </div>
+        <div class="seal">God's<br>Favorite<br>Show</div>
+      </div>
+      <div class="route">
+        <span class="stop">Honeymoon</span><span class="arr">→</span>
+        <span class="stop">The Universe</span><span class="arr">→</span>
+        <span class="stop">The Planets</span><span class="arr">→</span>
+        <span class="stop">Earth</span><span class="arr">→</span>
+        <span class="stop">The Soul</span><span class="arr">→</span>
+        <span class="stop">People's stories</span>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <span class="field-label"><span class="dot"></span><span data-i18n="fieldStyle">Câmp 1 · Style of Music</span></span>
+          <button class="copy" data-copy="en-style" data-i18n="copyStyle">Copiază stilul</button>
+        </div>
+        <div class="hint" data-i18n="hintStyle">Lipește în câmpul „Style of Music" din Suno (Custom Mode).</div>
+        <pre class="block" id="en-style">Euphoric sunshine travel-pop with a metaphysical wink. Genre fusion: breezy indie-folk-pop foundation meets bright tropical-house lift and a funky disco-pop bassline, with warm brass stabs, plucky synth-marimba, layered hand percussion and a sunny steel-pan accent for international festival-pop polish. 112 BPM, 4/4 with light verse swing; D major modulating to E major for the final chorus. Lead: warm, intimate male voice, conversational and smiling, sliding into a joyful belt on the choruses; airy female harmonies in thirds; big gang-vocal "all inclusive!" shouts and a gospel choir swelling at the climax. Prominent whistled topline hook, handclap groove, "plus one" call-and-response, la-la-la singalong tag. Polished, wide, radio-ready; sunlit, wanderlust, tear-of-joy energy.</pre>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <span class="field-label lyr"><span class="dot"></span><span data-i18n="fieldLyrics">Câmp 2 · Lyrics</span></span>
+          <button class="copy" data-copy="en-lyrics" data-i18n="copyLyrics">Copiază versurile</button>
+        </div>
+        <div class="hint" data-i18n="hintLyrics">Lipește în câmpul „Lyrics". Păstrează meta-tag-urile [...] și (...) — ele dau durata și cârligele.</div>
+        <pre class="block tall" id="en-lyrics">[Intro - spoken, intimate, warm]
+Welcome to the only travel agency
+Where the destination is you... oh, the irony
+
+[Verse 1 - light, bouncy, fingerpicked guitar]
+Booked myself a honeymoon flight
+But I never left — just stayed in delight
+Fell head over heels for all that exists
+And boom — I'm a tourist and an artist
+
+[Pre-Chorus - rising, claps enter]
+No suitcase, no queues, no terminal gate
+The longest trip's from your armchair...
+and outside's just a painted set!
+
+[Chorus - explosive, gang vocals, four-on-the-floor]
+All inclusive in the Universe!
+Standing still and flying — it's all reversed!
+Your ticket is a single breath,
+Your passport — pure attentiveness
+All inclusive, free, and infinite,
+God's just smiling 'cause I made it
+Plus one for the road inside of me —
+The comfiest journey there could be!
+
+[Post-Chorus - whistle hook + oh-oh + chant]
+(whistled melody)
+Oh-oh-oh, oh-oh-oh-oh!
+La-la-la, the road's inside me
+Plus one! (plus one!) Plus one! (plus one!)
+Oh-oh-oh — the comfiest journey!
+
+[Verse 2 - groove deepens, brass stabs]
+Check in to the galaxies, no reservation
+The Universe ain't out there — it's an inner location
+The planets are wanderers, same as me
+Roaming through the moods that come and break free
+
+[Pre-Chorus]
+No jet lag, no fear, no map to obey
+I'm the map and the road...
+and the innkeeper on the way!
+
+[Chorus]
+All inclusive in the Universe!
+Standing still and flying — it's all reversed!
+Your ticket is a single breath,
+Your passport — pure attentiveness
+All inclusive, free, and infinite,
+God's just smiling 'cause I made it
+Plus one for the road inside of me —
+The comfiest journey there could be!
+
+[Post-Chorus]
+(whistled melody)
+Oh-oh-oh, oh-oh-oh-oh!
+Plus one! (plus one!) Plus one! (plus one!)
+
+[Bridge - stripped, intimate, then build]
+Touchdown on Earth, that little blue sphere
+The cosmos and my coffee cup — same window, right here
+Final station? The Soul, you'll find —
+It was the gate of departure too, never left it behind...
+
+(build - percussion creeps back)
+And then the greatest tour of all:
+not the places — the people, big and small!
+Every one's a universe with a tale,
+a galaxy that rides the morning rail
+I listen... and I travel right through you —
+you're the most extraordinary view!
+
+[Key Change - modulation up, drop then BOOM]
+
+[Final Chorus - double, full choir, hands up]
+All inclusive in the Universe!
+We're all tourists in the very same verse!
+God's in the front row, laughing loud,
+His favorite show is us — the whole crowd!
+All inclusive, free, and infinite —
+Plus one, plus one, we're all in it!
+The longest trip, done standing still:
+home, inside me... in it all!
+
+[Outro - spoken, tender, fading]
+Thank you for traveling with us.
+Please don't get off...
+there is no "outside."</pre>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===================== BR ===================== -->
+  <article class="pass" id="pass-br">
+    <div class="ticket">
+      <div class="stub">
+        <div>
+          <div class="flight" data-i18n="flightBrLabel">Zbor AN·BR — 003</div>
+          <h3>Tudo Incluído no Universo</h3>
+          <div class="class" data-i18n="classLine">Clasă: All Inclusive · Bagaj: niciunul</div>
+        </div>
+        <div class="seal">O Show<br>Favorito<br>de Deus</div>
+      </div>
+      <div class="route">
+        <span class="stop">Lua de mel</span><span class="arr">→</span>
+        <span class="stop">O Universo</span><span class="arr">→</span>
+        <span class="stop">Os Planetas</span><span class="arr">→</span>
+        <span class="stop">A Terra</span><span class="arr">→</span>
+        <span class="stop">A Alma</span><span class="arr">→</span>
+        <span class="stop">Histórias das pessoas</span>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <span class="field-label"><span class="dot"></span><span data-i18n="fieldStyle">Câmp 1 · Style of Music</span></span>
+          <button class="copy" data-copy="br-style" data-i18n="copyStyle">Copiază stilul</button>
+        </div>
+        <div class="hint" data-i18n="hintStyle">Lipește în câmpul „Style of Music" din Suno (Custom Mode).</div>
+        <pre class="block" id="br-style">Euphoric sunshine travel-pop with a Brazilian heart and a metaphysical wink. Genre fusion: breezy indie-folk-pop meets bright tropical-house lift, a sun-warm bossa-nova lilt and a soft samba groove — nylon-string violão, surdo and shaker, light cuíca and agogô accents, warm brass stabs and plucky synth-marimba. 112 BPM, 4/4 with a malandro swing in the verses; D major modulating to E major for the final chorus. Lead: warm, intimate male voice, smiling and conversational, sliding into a joyful belt; airy female harmonies in thirds; big gang-vocal "tudo incluído!" shouts and a gospel-tinged choir swelling at the climax. Prominent whistled topline hook, handclap-and-pandeiro groove, "mais um" call-and-response, la-la-la singalong tag. Polished, wide, radio-ready; sunlit, saudade-turned-joy energy.</pre>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <span class="field-label lyr"><span class="dot"></span><span data-i18n="fieldLyrics">Câmp 2 · Lyrics</span></span>
+          <button class="copy" data-copy="br-lyrics" data-i18n="copyLyrics">Copiază versurile</button>
+        </div>
+        <div class="hint" data-i18n="hintLyrics">Lipește în câmpul „Lyrics". Păstrează meta-tag-urile [...] și (...) — ele dau durata și cârligele.</div>
+        <pre class="block tall" id="br-lyrics">[Intro - spoken, intimate, warm]
+Bem-vindo à única agência de viagem
+Onde o destino é você... que viagem!
+
+[Verse 1 - light, bouncy, nylon-string guitar]
+Comprei passagem de lua de mel
+Mas não viajei — fiquei no que é bem
+Me apaixonei por tudo que existe
+E pronto — sou turista e sou artista
+
+[Pre-Chorus - rising, claps + pandeiro]
+Sem mala, sem fila, sem portão de embarque
+A viagem mais longa é da poltrona...
+lá fora é só cenário, parque!
+
+[Chorus - explosive, gang vocals, samba-house groove]
+Tudo incluído no Universo!
+Fico parado e voo — é tudo às avessas!
+A passagem é uma respiração,
+O passaporte — pura atenção
+Tudo incluído, de graça, sem fim,
+Deus sorrindo só porque eu vim
+Mais um pra estrada dentro de mim —
+O conforto mais lindo do mundo, enfim!
+
+[Post-Chorus - whistle hook + oh-oh + chant]
+(whistled melody)
+Oh-oh-oh, oh-oh-oh-oh!
+La-la-la, a estrada é dentro de mim
+Mais um! (mais um!) Mais um! (mais um!)
+Oh-oh-oh — o conforto sem fim!
+
+[Verse 2 - groove deepens, brass + cuíca]
+Check-in nas galáxias, sem reserva
+O Universo não é lá fora — é uma sala interna
+Os planetas são andarilhos, igual a mim
+Vagando pelos climas que vêm e vão sem fim
+
+[Pre-Chorus]
+Sem jet lag, sem medo, sem mapa pra seguir
+Eu sou o mapa e a estrada...
+e quem te recebe pra dormir!
+
+[Chorus]
+Tudo incluído no Universo!
+Fico parado e voo — é tudo às avessas!
+A passagem é uma respiração,
+O passaporte — pura atenção
+Tudo incluído, de graça, sem fim,
+Deus sorrindo só porque eu vim
+Mais um pra estrada dentro de mim —
+O conforto mais lindo do mundo, enfim!
+
+[Post-Chorus]
+(whistled melody)
+Oh-oh-oh, oh-oh-oh-oh!
+Mais um! (mais um!) Mais um! (mais um!)
+
+[Bridge - stripped, intimate violão, then build]
+Pouso na Terra, bolinha azul
+O cosmos e meu cafezinho — mesma janela, do sul
+Última estação? A Alma, vê só —
+Era o portão de partida também, nunca saí dali, ó...
+
+(build - surdo and shaker creep back)
+E aí o maior passeio que há:
+não os lugares — a gente, cá e lá!
+Cada um é um universo com história,
+uma galáxia que pega o busão da memória
+Eu te escuto... e viajo por dentro de ti —
+você é o destino mais lindo que eu vi!
+
+[Key Change - modulation up, drop then BOOM]
+
+[Final Chorus - double, full choir, mãos pro alto]
+Tudo incluído no Universo!
+Somos turistas no mesmo verso!
+Deus na primeira fila, gargalhando,
+o show favorito d'Ele é a gente brilhando!
+Tudo incluído, de graça, sem fim —
+Mais um, mais um, chegamos, sim!
+A viagem mais longa, parado no chão:
+em casa, em mim... em tudo então!
+
+[Outro - spoken, tender, fading]
+Obrigado por viajar com a gente.
+Por favor, não desça...
+não existe "lá fora".</pre>
+      </div>
+    </div>
+  </article>
+
+  <section class="notes">
+    <h2 data-i18n="notesH2">Note de inginer la bordul Suno</h2>
+    <div class="sub" data-i18n="notesSub">Checklist de pre-îmbarcare</div>
+    <div class="note"><div class="num">1</div><p data-i18n="note1"><b>Două câmpuri, niciodată amestecate.</b> Suno Custom Mode are „Style of Music" și „Lyrics" separat. Câmpul 1 merge la stil, Câmpul 2 la versuri. Dacă le combini, vocea va „citi" descriptorii de producție.</p></div>
+    <div class="note"><div class="num">2</div><p data-i18n="note2"><b>Nu șterge meta-tag-urile.</b> <code>[Post-Chorus]</code>, <code>[Key Change]</code> și <code>(whistled melody)</code> sunt cele care îți dau durata de 4+ minute și cârligele. Fără ele, Suno scurtează la 2 minute plate.</p></div>
+    <div class="note"><div class="num">3</div><p data-i18n="note3"><b>Dacă tot iese scurt:</b> dublează manual blocul <code>[Final Chorus]</code> (lipește-l de două ori) și păstrează <code>[Outro]</code> la final. Așa forțezi climaxul lung.</p></div>
+    <div class="note"><div class="num">4</div><p data-i18n="note4"><b>Fluieratul.</b> Promptul cere deja <code>prominent whistled topline hook</code>. Generează 2–3 variante și alege-o pe cea care prinde fluieratul curat — e semnătura melodică a piesei.</p></div>
+    <div class="note"><div class="num">5</div><p data-i18n="note5"><b>Aceeași sămânță sonoră.</b> Toate trei împart 112 BPM, Re→Mi major și același arc. Generează-le în aceeași sesiune ca să sune ca o familie, nu ca trei piese străine.</p></div>
+    <div class="note"><div class="num">6</div><p data-i18n="note6"><b>Versiune scurtă pentru reels.</b> Pentru un „radio edit" de ~2:30, păstrează Intro → Verse 1 → Chorus → Post-Chorus → Bridge → Final Chorus → Outro și scoate Verse 2 + al doilea Pre-Chorus.</p></div>
+  </section>
+
+  <footer>
+    <p data-i18n="footerMain">Produs pentru <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</p>
+    <p style="margin-top:6px;opacity:.7" data-i18n="footerSub">Mulțumim că ați călătorit cu noi. Vă rugăm să nu coborâți — nu există „afară".</p>
+  </footer>
+
+</div>
+
+<script>
+  // ---------- starfield ----------
+  (function(){
+    var box=document.getElementById('stars'),frag=document.createDocumentFragment();
+    for(var i=0;i<70;i++){var s=document.createElement('div');s.className='star';
+      var sz=Math.random()*2+1;s.style.width=sz+'px';s.style.height=sz+'px';
+      s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(Math.random()*5)+'s';frag.appendChild(s);}
+    box.appendChild(frag);
+  })();
+
+  // ---------- translations ----------
+  var dict={
+    ro:{
+      heroMark:"Aether Nomad · Consolă de Zbor",
+      heroTitle:'All Inclusive<br>în <em>Univers</em>',
+      tag:'Cel mai lung drum, făcut stând pe loc. Trei bilete, o singură destinație: <b>tu</b>. Pură metafizică pe ritm de stradă, gata de îmbarcare în Suno.',
+      manifestH2:"Manifest de zbor · ADN muzical comun",
+      specTempoK:"Tempo",specKeyK:"Tonalitate",specLenK:"Durată-țintă",specVoiceK:"Voce",
+      keyValue:"Re → Mi",voiceValue:"Cald, intim",
+      tempoSmall:"4/4 · swing ușor",keySmall:"modulație înainte de refrenul final",
+      lengthSmall:"3–5 min, arc complet",voiceSmall:"belt jucăuș + cor gospel",
+      arc:'<b>Arc dinamic:</b> intro șoptit → strofe pufoase → pre-refren care urcă → refren-explozie de cor → post-refren cu fluierat, „oh-oh" și „plus unu" → bridge dezbrăcat care reconstruiește → schimbare de ton → dublu refren final cu cor → outro tandru, vorbit.',
+      boardEyebrow:"Selectează biletul",
+      tabRo:"Română",tabEn:"Engleză",tabBr:"Portugheză · BR",
+      flightRoLabel:"Zbor AN·RO — 001",flightEnLabel:"Zbor AN·EN — 002",flightBrLabel:"Zbor AN·BR — 003",
+      classLine:"Clasă: All Inclusive · Bagaj: niciunul",
+      fieldStyle:"Câmp 1 · Style of Music",fieldLyrics:"Câmp 2 · Lyrics",
+      hintStyle:'Lipește în câmpul „Style of Music" din Suno (Custom Mode).',
+      hintLyrics:'Lipește în câmpul „Lyrics". Păstrează meta-tag-urile [...] și (...) — ele dau durata și cârligele.',
+      copyStyle:"Copiază stilul",copyLyrics:"Copiază versurile",copied:"✓ Copiat",
+      notesH2:"Note de inginer la bordul Suno",notesSub:"Checklist de pre-îmbarcare",
+      note1:'<b>Două câmpuri, niciodată amestecate.</b> Suno Custom Mode are „Style of Music" și „Lyrics" separat. Câmpul 1 merge la stil, Câmpul 2 la versuri. Dacă le combini, vocea va „citi" descriptorii de producție.',
+      note2:'<b>Nu șterge meta-tag-urile.</b> <code>[Post-Chorus]</code>, <code>[Key Change]</code> și <code>(whistled melody)</code> sunt cele care îți dau durata de 4+ minute și cârligele. Fără ele, Suno scurtează la 2 minute plate.',
+      note3:'<b>Dacă tot iese scurt:</b> dublează manual blocul <code>[Final Chorus]</code> (lipește-l de două ori) și păstrează <code>[Outro]</code> la final. Așa forțezi climaxul lung.',
+      note4:'<b>Fluieratul.</b> Promptul cere deja <code>prominent whistled topline hook</code>. Generează 2–3 variante și alege-o pe cea care prinde fluieratul curat — e semnătura melodică a piesei.',
+      note5:'<b>Aceeași sămânță sonoră.</b> Toate trei împart 112 BPM, Re→Mi major și același arc. Generează-le în aceeași sesiune ca să sune ca o familie, nu ca trei piese străine.',
+      note6:'<b>Versiune scurtă pentru reels.</b> Pentru un „radio edit" de ~2:30, păstrează Intro → Verse 1 → Chorus → Post-Chorus → Bridge → Final Chorus → Outro și scoate Verse 2 + al doilea Pre-Chorus.',
+      footerMain:'Produs pentru <span class="sig">Aether Nomad</span> · „Focul care cunoaște"',
+      footerSub:'Mulțumim că ați călătorit cu noi. Vă rugăm să nu coborâți — nu există „afară".',
+      soundHint:'Apasă oriunde pentru a activa sunetul 🔊',
+      heroLead:'Bun venit la singura agenție de turism unde nu pleci nicăieri — fiindcă destinația te conține deja. Cea mai lungă călătorie din univers se face stând pe loc.',
+      scrollCue:'Coboară în călătorie ↓',
+      orreryHint:'Oprește-te pe o planetă',
+      cycleLines:['Stai pe loc și totuși zbori.','Nu există „afară".','Tu ești destinația.','Biletul e o respirație.','Show-ul preferat al lui Dumnezeu.'],
+      storyEyebrow:'Conceptul',
+      storyH:'Confortul călătoriei spirituale',
+      storyIntro:'Toată călătoria obișnuită e un chin elegant: bagaje, cozi, fusuri orare, frica de necunoscut. Călătoria spirituală răstoarnă regula. E cea mai lungă excursie posibilă, făcută stând pe loc — singura din care nu te întorci niciodată obosit, fiindcă nu pleci nicăieri. Confortul ei nu e lene, ci recunoașterea că nu trebuie să te miști ca să ajungi: ce e sus e și jos, iar universul nu e un loc în care intri, ci o hartă desenată pe dinăuntrul tău.',
+      triTicketK:'Biletul',triTicketV:'atenția',triTicketD:'Plătești cu prezență. Cât de treaz ești, atât de departe ajungi.',
+      triVehicleK:'Vehiculul',triVehicleV:'respirația',triVehicleD:'Motorul nu e afară. Inspiri — și galaxia se mișcă.',
+      triPassK:'Pașaportul',triPassV:'prezența',triPassD:'Nicio vamă. Singura graniță e atenția care adoarme.',
+      stop0t:'Luna de miere',stop0d:'Plecarea: clipa în care te îndrăgostești de existență. Nu mai e un voiaj de cuplu, ci romanța sufletului cu Tot-ul. Aici se cumpără biletul.',
+      stop1t:'Universul',stop1d:'Imensitatea în care te pierzi ca să te găsești. Surpriza turistică: nu e afară, e o cameră interioară mai mare decât cerul.',
+      stop2t:'Planetele',stop2d:'Rătăcitorii — chiar asta înseamnă cuvântul. Sunt stările tale, dispozițiile, anotimpurile interioare care dansează pe orbite proprii.',
+      stop3t:'Pământul',stop3d:'Întoarcerea acasă, bila albastră. Dovada că tot ce e cosmic și tot ce e cotidian sunt același loc, privit de la altitudini diferite.',
+      stop4t:'Sufletul',stop4d:'Stația finală care era și stația de plecare. Aici descoperi că tot itinerariul a încăput dintotdeauna într-un singur punct.',
+      stop5t:'Poveștile oamenilor',stop5d:'Marea revelație: fiecare om e un univers complet, fiecare viață o galaxie. Turismul suprem nu sunt locurile, ci experiențele celorlalți — extraordinare fiindcă irepetabile.',
+      storyFinale:'Iar acum intersecția care face spectacolul: toate șase sunt o singură călătorie. Dumnezeu e și spectatorul, și actorul, și scena, și aplauzele — <b>show-ul Lui preferat</b> e exact acesta: conștiința care pleacă în vacanță prin sine ca să-și vadă frumusețea reflectată în milioane de povești.',
+      manifestLead:'Trei melodii, o singură inimă care bate. Iată pulsul comun pe care îl moștenesc toate:',
+      triGo:'Citește eseul →',triSoon:'În curând'
+    },
+    en:{
+      heroMark:"Aether Nomad · Flight Console",
+      heroTitle:'All Inclusive<br>in the <em>Universe</em>',
+      tag:'The longest trip, taken standing still. Three tickets, one destination: <b>you</b>. Pure metaphysics over a street beat — ready to board in Suno.',
+      manifestH2:"Flight manifest · Shared musical DNA",
+      specTempoK:"Tempo",specKeyK:"Key",specLenK:"Target length",specVoiceK:"Vocals",
+      keyValue:"D → E",voiceValue:"Warm, intimate",
+      tempoSmall:"4/4 · light swing",keySmall:"modulates before the final chorus",
+      lengthSmall:"3–5 min, full arc",voiceSmall:"playful belt + gospel choir",
+      arc:'<b>Dynamic arc:</b> whispered intro → fluffy verses → a rising pre-chorus → an explosive choir chorus → a post-chorus with whistle, „oh-oh" and „plus one" → a stripped bridge that rebuilds → key change → double final chorus with choir → a tender, spoken outro.',
+      boardEyebrow:"Select your ticket",
+      tabRo:"Romanian",tabEn:"English",tabBr:"Portuguese · BR",
+      flightRoLabel:"Flight AN·RO — 001",flightEnLabel:"Flight AN·EN — 002",flightBrLabel:"Flight AN·BR — 003",
+      classLine:"Class: All Inclusive · Luggage: none",
+      fieldStyle:"Field 1 · Style of Music",fieldLyrics:"Field 2 · Lyrics",
+      hintStyle:'Paste into Suno\u2019s „Style of Music" field (Custom Mode).',
+      hintLyrics:'Paste into the „Lyrics" field. Keep the [...] and (...) meta-tags — they drive the length and the hooks.',
+      copyStyle:"Copy style",copyLyrics:"Copy lyrics",copied:"✓ Copied",
+      notesH2:"Engineer\u2019s notes for boarding Suno",notesSub:"Pre-boarding checklist",
+      note1:'<b>Two fields, never mixed.</b> Suno Custom Mode keeps „Style of Music" and „Lyrics" separate. Field 1 goes to style, Field 2 to lyrics. Mix them and the voice will „read out" the production descriptors.',
+      note2:'<b>Don\u2019t delete the meta-tags.</b> <code>[Post-Chorus]</code>, <code>[Key Change]</code> and <code>(whistled melody)</code> are what give you the 4+ minute length and the hooks. Without them, Suno trims to a flat 2 minutes.',
+      note3:'<b>If it still comes out short:</b> manually double the <code>[Final Chorus]</code> block (paste it twice) and keep <code>[Outro]</code> at the end. That forces the long climax.',
+      note4:'<b>The whistle.</b> The prompt already asks for <code>prominent whistled topline hook</code>. Generate 2–3 takes and pick the one that nails a clean whistle — it\u2019s the song\u2019s melodic signature.',
+      note5:'<b>Same sonic seed.</b> All three share 112 BPM, D→E major and the same arc. Generate them in one session so they sound like a family, not three strangers.',
+      note6:'<b>Short version for reels.</b> For a ~2:30 „radio edit", keep Intro → Verse 1 → Chorus → Post-Chorus → Bridge → Final Chorus → Outro and drop Verse 2 + the second Pre-Chorus.',
+      footerMain:'Produced for <span class="sig">Aether Nomad</span> · „The Fire That Knows"',
+      footerSub:'Thank you for traveling with us. Please don\u2019t get off — there is no „outside".',
+      soundHint:'Click anywhere to enable sound 🔊',
+      heroLead:'Welcome to the only travel agency where you go nowhere — because the destination already contains you. The longest trip in the universe is taken standing still.',
+      scrollCue:'Descend into the journey ↓',
+      orreryHint:'Hover a planet',
+      cycleLines:['You stand still, yet you fly.','There is no „outside".','You are the destination.','Your ticket is a breath.','God\u2019s favorite show.'],
+      storyEyebrow:'The concept',
+      storyH:'The comfort of spiritual travel',
+      storyIntro:'Ordinary travel is an elegant ordeal: luggage, queues, time zones, fear of the unknown. Spiritual travel flips the rule. It\u2019s the longest trip possible, taken standing still — the only one you never come back from tired, because you go nowhere. Its comfort isn\u2019t laziness, but the realization that you don\u2019t need to move to arrive: as above, so below, and the universe isn\u2019t a place you enter but a map drawn on your inside.',
+      triTicketK:'The ticket',triTicketV:'attention',triTicketD:'You pay with presence. The more awake you are, the further you go.',
+      triVehicleK:'The vehicle',triVehicleV:'breath',triVehicleD:'The engine isn\u2019t outside. You inhale — and the galaxy moves.',
+      triPassK:'The passport',triPassV:'presence',triPassD:'No customs. The only border is attention falling asleep.',
+      stop0t:'Honeymoon',stop0d:'Departure: the moment you fall in love with existence. No longer a couple\u2019s trip, but the soul\u2019s romance with the All. This is where the ticket is bought.',
+      stop1t:'The Universe',stop1d:'The vastness where you lose yourself to find yourself. The tourist\u2019s surprise: it isn\u2019t out there — it\u2019s an inner room bigger than the sky.',
+      stop2t:'The Planets',stop2d:'The wanderers — that\u2019s literally what the word means. They are your moods, your states, your inner seasons dancing on their own orbits.',
+      stop3t:'Earth',stop3d:'The return home, the little blue marble. Proof that the cosmic and the everyday are the same place, seen from different altitudes.',
+      stop4t:'The Soul',stop4d:'The final station that was also the departure gate. Here you discover the whole itinerary always fit inside a single point.',
+      stop5t:'People\u2019s stories',stop5d:'The great revelation: every person is a complete universe, every life a galaxy. The ultimate tourism isn\u2019t places, but other people\u2019s experiences — extraordinary because unrepeatable.',
+      storyFinale:'And now the intersection that makes the show: all six are a single journey. God is the audience, the actor, the stage and the applause — <b>His favorite show</b> is exactly this: consciousness going on vacation through itself to see its beauty reflected in millions of stories.',
+      manifestLead:'Three songs, one beating heart. Here\u2019s the shared pulse they all inherit:',
+      triGo:'Read the essay →',triSoon:'Coming soon'
+    },
+    pt:{
+      heroMark:"Aether Nomad · Console de Voo",
+      heroTitle:'Tudo Incluído<br>no <em>Universo</em>',
+      tag:'A viagem mais longa, feita parado. Três bilhetes, um só destino: <b>você</b>. Pura metafísica sobre batida de rua — pronto pra embarcar no Suno.',
+      manifestH2:"Manifesto de voo · DNA musical comum",
+      specTempoK:"Andamento",specKeyK:"Tonalidade",specLenK:"Duração-alvo",specVoiceK:"Voz",
+      keyValue:"Ré → Mi",voiceValue:"Quente, íntimo",
+      tempoSmall:"4/4 · swing leve",keySmall:"modula antes do refrão final",
+      lengthSmall:"3–5 min, arco completo",voiceSmall:"belt brincalhão + coral gospel",
+      arc:'<b>Arco dinâmico:</b> intro sussurrado → versos leves → pré-refrão em ascensão → refrão explosivo com coral → pós-refrão com assobio, „oh-oh" e „mais um" → ponte despida que reconstrói → mudança de tom → refrão final duplo com coral → outro suave, falado.',
+      boardEyebrow:"Selecione o bilhete",
+      tabRo:"Romeno",tabEn:"Inglês",tabBr:"Português · BR",
+      flightRoLabel:"Voo AN·RO — 001",flightEnLabel:"Voo AN·EN — 002",flightBrLabel:"Voo AN·BR — 003",
+      classLine:"Classe: Tudo Incluído · Bagagem: nenhuma",
+      fieldStyle:"Campo 1 · Style of Music",fieldLyrics:"Campo 2 · Lyrics",
+      hintStyle:'Cole no campo „Style of Music" do Suno (Custom Mode).',
+      hintLyrics:'Cole no campo „Lyrics". Mantenha as meta-tags [...] e (...) — elas dão a duração e os ganchos.',
+      copyStyle:"Copiar estilo",copyLyrics:"Copiar letra",copied:"✓ Copiado",
+      notesH2:"Notas do engenheiro a bordo do Suno",notesSub:"Checklist de pré-embarque",
+      note1:'<b>Dois campos, nunca misturados.</b> O Custom Mode do Suno mantém „Style of Music" e „Lyrics" separados. Campo 1 vai pro estilo, Campo 2 pra letra. Se misturar, a voz vai „ler" os descritores de produção.',
+      note2:'<b>Não apague as meta-tags.</b> <code>[Post-Chorus]</code>, <code>[Key Change]</code> e <code>(whistled melody)</code> são o que dá a duração de 4+ minutos e os ganchos. Sem elas, o Suno corta pra dois minutos sem graça.',
+      note3:'<b>Se ainda sair curto:</b> duplique manualmente o bloco <code>[Final Chorus]</code> (cole duas vezes) e mantenha o <code>[Outro]</code> no fim. Assim você força o clímax longo.',
+      note4:'<b>O assobio.</b> O prompt já pede <code>prominent whistled topline hook</code>. Gere 2–3 versões e escolha a que pega o assobio limpo — é a assinatura melódica da música.',
+      note5:'<b>Mesma semente sonora.</b> As três compartilham 112 BPM, Ré→Mi maior e o mesmo arco. Gere-as na mesma sessão pra soarem como família, não como três estranhas.',
+      note6:'<b>Versão curta pra reels.</b> Pra um „radio edit" de ~2:30, mantenha Intro → Verse 1 → Chorus → Post-Chorus → Bridge → Final Chorus → Outro e tire o Verse 2 + o segundo Pre-Chorus.',
+      footerMain:'Produzido para <span class="sig">Aether Nomad</span> · „O Fogo que Conhece"',
+      footerSub:'Obrigado por viajar com a gente. Por favor, não desça — não existe „lá fora".',
+      soundHint:'Clique em qualquer lugar para ativar o som 🔊',
+      heroLead:'Bem-vindo à única agência de viagens onde você não vai a lugar nenhum — porque o destino já contém você. A viagem mais longa do universo se faz parado.',
+      scrollCue:'Desça na viagem ↓',
+      orreryHint:'Pare sobre um planeta',
+      cycleLines:['Você fica parado e mesmo assim voa.','Não existe „lá fora".','Você é o destino.','O bilhete é uma respiração.','O show favorito de Deus.'],
+      storyEyebrow:'O conceito',
+      storyH:'O conforto da viagem espiritual',
+      storyIntro:'Toda viagem comum é um tormento elegante: malas, filas, fusos, medo do desconhecido. A viagem espiritual inverte a regra. É a viagem mais longa possível, feita parado — a única da qual você nunca volta cansado, porque não vai a lugar nenhum. O conforto dela não é preguiça, e sim perceber que você não precisa se mover para chegar: assim como é em cima é embaixo, e o universo não é um lugar onde você entra, mas um mapa desenhado por dentro de você.',
+      triTicketK:'O bilhete',triTicketV:'atenção',triTicketD:'Você paga com presença. Quanto mais desperto, mais longe chega.',
+      triVehicleK:'O veículo',triVehicleV:'respiração',triVehicleD:'O motor não está fora. Você inspira — e a galáxia se move.',
+      triPassK:'O passaporte',triPassV:'presença',triPassD:'Sem alfândega. A única fronteira é a atenção que adormece.',
+      stop0t:'Lua de mel',stop0d:'A partida: o instante em que você se apaixona pela existência. Não é mais uma viagem de casal, e sim o romance da alma com o Todo. É aqui que se compra o bilhete.',
+      stop1t:'O Universo',stop1d:'A imensidão onde você se perde para se encontrar. A surpresa turística: não está lá fora — é uma sala interna maior que o céu.',
+      stop2t:'Os Planetas',stop2d:'Os andarilhos — é exatamente o que a palavra significa. São os seus humores, os seus estados, as suas estações internas dançando em órbitas próprias.',
+      stop3t:'A Terra',stop3d:'O retorno pra casa, a bolinha azul. A prova de que o cósmico e o cotidiano são o mesmo lugar, vistos de altitudes diferentes.',
+      stop4t:'A Alma',stop4d:'A estação final que também era o portão de partida. Aqui você descobre que todo o itinerário sempre coube em um único ponto.',
+      stop5t:'Histórias das pessoas',stop5d:'A grande revelação: cada pessoa é um universo completo, cada vida uma galáxia. O turismo supremo não são os lugares, mas as experiências dos outros — extraordinárias porque irrepetíveis.',
+      storyFinale:'E agora a interseção que faz o espetáculo: as seis são uma só viagem. Deus é a plateia, o ator, o palco e os aplausos — <b>o show favorito d\u2019Ele</b> é exatamente este: a consciência saindo de férias através de si mesma para ver a própria beleza refletida em milhões de histórias.',
+      manifestLead:'Três músicas, um só coração batendo. Eis o pulso comum que todas herdam:',
+      triGo:'Leia o ensaio →',triSoon:'Em breve'
+    }
+  };
+
+  var currentLang='ro';
+  function setLang(lang){
+    currentLang=lang;
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key=el.dataset.i18n;
+      if(dict[lang][key]!==undefined) el.innerHTML=dict[lang][key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.lang===lang);
+    });
+  }
+  document.querySelectorAll('.lang-switch button').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.dataset.lang); });
+  });
+
+  // ---------- song tabs ----------
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+      document.querySelectorAll('.pass').forEach(function(p){p.classList.remove('show')});
+      tab.classList.add('active');
+      document.getElementById('pass-'+tab.dataset.tab).classList.add('show');
+    });
+  });
+
+  // ---------- copy ----------
+  function fallback(text){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);}
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var src=document.getElementById(btn.dataset.copy),text=src.textContent,key=btn.dataset.i18n;
+      var restore=function(){btn.innerHTML=dict[currentLang][key];btn.classList.remove('done');};
+      var done=function(){btn.textContent=dict[currentLang].copied;btn.classList.add('done');setTimeout(restore,1900);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text);done();});
+      }else{fallback(text);done();}
+    });
+  });
+
+  setLang('ro');
+
+  /* ============================================================
+     WEB AUDIO SOUND ENGINE — all cues synthesized live, no files
+     ============================================================ */
+  var SFX = (function(){
+    var ctx, master, delay, fb, on = true;
+    function ensure(){
+      if(ctx) return;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC){ on = false; return; }
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0.5; master.connect(ctx.destination);
+      delay = ctx.createDelay(2.0); delay.delayTime.value = 0.42;
+      fb = ctx.createGain(); fb.gain.value = 0.45;
+      var wet = ctx.createGain(); wet.gain.value = 0.6;
+      delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);   // long ambient tail
+    }
+    function unlock(){ ensure(); if(ctx && ctx.state === 'suspended'){ ctx.resume(); } }
+    function voice(o){
+      if(!on || !ctx) return;
+      var t = ctx.currentTime, osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.type = o.type || 'sine';
+      osc.frequency.setValueAtTime(o.f, t);
+      if(o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t + (o.dur || 0.2));
+      if(o.detune) osc.detune.value = o.detune;
+      var peak = o.peak || 0.16, dur = o.dur || 0.2;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(peak, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(g); g.connect(master);
+      if(o.space) g.connect(delay);
+      osc.start(t); osc.stop(t + dur + 0.05);
+    }
+    function chord(freqs, o){
+      o = o || {};
+      freqs.forEach(function(f, i){
+        voice({ f:f, type:o.type, dur:o.dur, peak:(o.peak||0.13)/(1+i*0.18), space:o.space, detune:i?5:-5 });
+      });
+    }
+    function arp(freqs, step, o){
+      o = o || {};
+      if(!on || !ctx) return;
+      freqs.forEach(function(f, i){
+        setTimeout(function(){ voice({ f:f, type:o.type||'sine', dur:o.dur||0.3, peak:o.peak||0.15, space:true }); }, i*step);
+      });
+    }
+    function sweep(o){
+      if(!on || !ctx) return;
+      o = o || {};
+      var t = ctx.currentTime, dur = o.dur || 0.42, len = Math.floor(ctx.sampleRate*dur);
+      var buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+      for(var i=0;i<len;i++){ d[i] = (Math.random()*2-1) * (1 - i/len); }
+      var src = ctx.createBufferSource(); src.buffer = buf;
+      var bp = ctx.createBiquadFilter(); bp.type='bandpass'; bp.Q.value=7;
+      bp.frequency.setValueAtTime(o.from||320, t);
+      bp.frequency.exponentialRampToValueAtTime(o.toF||2800, t+dur);
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(o.peak||0.10, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+      src.connect(bp); bp.connect(g); g.connect(master); g.connect(delay);
+      src.start(t); src.stop(t+dur);
+    }
+    // ---------- sustained ambient pads ----------
+    var pads = {}, droneWanted = false;
+    function makePad(freqs, opt){
+      ensure(); if(!ctx) return null; opt = opt || {};
+      var t = ctx.currentTime;
+      var amp = ctx.createGain();  amp.gain.value = 0.0001;          // envelope
+      var trem = ctx.createGain(); trem.gain.value = 0.88;           // tremolo base
+      var lp = ctx.createBiquadFilter(); lp.type = 'lowpass';
+      lp.frequency.value = opt.cutoff || 950; lp.Q.value = 0.7;
+      lp.connect(amp); amp.connect(trem); trem.connect(master);
+      var send = ctx.createGain(); send.gain.value = 0.6; trem.connect(send); send.connect(delay);
+      var nodes = [];
+      freqs.forEach(function(f, i){
+        var o = ctx.createOscillator(); o.type = opt.type || 'triangle'; o.frequency.value = f;
+        o.detune.value = (i - (freqs.length - 1) / 2) * (opt.detune || 7);   // gentle chorus
+        var og = ctx.createGain(); og.gain.value = 1 / (freqs.length + 0.5);
+        o.connect(og); og.connect(lp); o.start(t); nodes.push(o);
+      });
+      // very slow filter sweep — the "movement" of the pad
+      var flfo = ctx.createOscillator(); flfo.frequency.value = opt.lfo || 0.07;
+      var flfoG = ctx.createGain(); flfoG.gain.value = opt.lfoDepth || 260;
+      flfo.connect(flfoG); flfoG.connect(lp.frequency); flfo.start(t); nodes.push(flfo);
+      // slow tremolo (breathing)
+      var tlfo = ctx.createOscillator(); tlfo.frequency.value = opt.trem || 0.15;
+      var tlfoG = ctx.createGain(); tlfoG.gain.value = 0.12;
+      tlfo.connect(tlfoG); tlfoG.connect(trem.gain); tlfo.start(t); nodes.push(tlfo);
+      var peak = opt.peak || 0.12;
+      amp.gain.setValueAtTime(0.0001, t);
+      amp.gain.exponentialRampToValueAtTime(peak, t + (opt.attack || 1.8));   // slow fade-in
+      return { stop: function(rel){
+        if(!ctx) return; var tt = ctx.currentTime, r = rel || 1.6;
+        amp.gain.cancelScheduledValues(tt);
+        amp.gain.setValueAtTime(Math.max(amp.gain.value, 0.0001), tt);
+        amp.gain.exponentialRampToValueAtTime(0.0001, tt + r);              // slow fade-out
+        nodes.forEach(function(n){ try{ n.stop(tt + r + 0.15); }catch(e){} });
+      }};
+    }
+    function startPad(key, freqs, opt){ unlock(); if(!on || !ctx) return; if(pads[key]) return; var p = makePad(freqs, opt); if(p) pads[key] = p; }
+    function stopPad(key, rel){ var p = pads[key]; if(p){ p.stop(rel); delete pads[key]; } }
+    function stopAll(){ for(var k in pads){ if(pads[k]) pads[k].stop(0.4); } pads = {}; }
+    function startDrone(){ droneWanted = true; unlock(); if(!on || !ctx) return; startPad('drone', [55.00, 82.41, 110.00], { type:'sine', cutoff:420, peak:0.045, lfo:0.03, lfoDepth:120, trem:0.08, attack:5.5 }); }
+
+    // ---------- gentle one-shots (clicks only) ----------
+    function soft(o){
+      if(!on || !ctx) return;
+      var t = ctx.currentTime, osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.type = o.type || 'sine'; osc.frequency.setValueAtTime(o.f, t);
+      if(o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t + (o.dur || 0.8));
+      var peak = o.peak || 0.09, dur = o.dur || 0.8;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(peak, t + (o.atk || 0.08));
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(g); g.connect(master); g.connect(delay);
+      osc.start(t); osc.stop(t + dur + 0.05);
+    }
+
+    return {
+      unlock: unlock,
+      isOn: function(){ return on; },
+      setOn: function(v){ on = v; if(v){ unlock(); if(droneWanted) startDrone(); } else { stopAll(); } },
+      startPad: startPad,
+      stopPad: stopPad,
+      stopAll: stopAll,
+      startDrone: startDrone,
+      swell: function(){ unlock(); soft({ f:174.61, to:261.63, type:'triangle', dur:1.2, peak:0.09, atk:0.25 }); },
+      warp:  function(){ unlock(); soft({ f:329.63, to:196.00, type:'sine', dur:1.0, peak:0.08, atk:0.06 }); },
+      chime: function(){ unlock(); soft({ f:523.25, type:'sine', dur:1.3, peak:0.09, atk:0.05 }); setTimeout(function(){ soft({ f:783.99, type:'sine', dur:1.4, peak:0.075, atk:0.05 }); }, 160); }
+    };
+  })();
+
+  /* ---------- wiring ---------- */
+  // unlock audio on first gesture (browser autoplay policy)
+  window.addEventListener('pointerdown', function once(){ SFX.unlock(); SFX.startDrone(); hideHint(); window.removeEventListener('pointerdown', once); });
+
+  // sound on/off toggle
+  var soundBtn = document.getElementById('soundToggle');
+  soundBtn.addEventListener('click', function(){
+    var now = !SFX.isOn();
+    SFX.setOn(now);
+    soundBtn.textContent = now ? '🔊' : '🔇';
+    soundBtn.classList.toggle('off', !now);
+    hideHint();
+  });
+
+  // hint auto-dismiss
+  var hintEl = document.getElementById('soundHint');
+  function hideHint(){ if(hintEl){ hintEl.style.opacity = '0'; setTimeout(function(){ if(hintEl && hintEl.parentNode){ hintEl.parentNode.removeChild(hintEl); hintEl = null; } }, 600); } }
+  setTimeout(hideHint, 7000);
+
+  // ---------- sustained ambient pads per section ----------
+  var PADS = {
+    hero:     { f:[110.00, 164.81, 220.00], o:{ type:'sine',     cutoff:900,  peak:0.085, lfo:0.045, attack:3.4 } },  // A E A
+    manifest: { f:[82.41,  110.00, 164.81], o:{ type:'sine',     cutoff:640,  peak:0.10,  lfo:0.05,  attack:3.2 } },  // E A E
+    ro:       { f:[110.00, 164.81, 220.00], o:{ type:'triangle', cutoff:780,  peak:0.10,  lfo:0.045, attack:3.2 } },  // A E A
+    en:       { f:[123.47, 164.81, 246.94], o:{ type:'sine',     cutoff:900,  peak:0.095, lfo:0.05,  attack:3.2 } },  // B E B
+    br:       { f:[73.42,  110.00, 146.83], o:{ type:'triangle', cutoff:600,  peak:0.11,  lfo:0.04,  attack:3.6 } },  // D A D
+    story:    { f:[98.00,  146.83, 196.00], o:{ type:'sine',     cutoff:1000, peak:0.09,  lfo:0.055, attack:3.2 } },  // G D G
+    notes:    { f:[73.42,  110.00, 146.83], o:{ type:'triangle', cutoff:560,  peak:0.10,  lfo:0.045, attack:3.6 } }   // D A D
+  };
+  function bindPad(sel, key, def){
+    document.querySelectorAll(sel).forEach(function(el){
+      el.addEventListener('pointerenter', function(){ SFX.startPad(key, def.f, def.o); });
+      el.addEventListener('pointerleave', function(){ SFX.stopPad(key, 2.6); });
+    });
+  }
+  bindPad('.hero',            'hero',     PADS.hero);
+  bindPad('.manifest',        'manifest', PADS.manifest);
+  bindPad('#pass-ro .ticket', 'ro',       PADS.ro);
+  bindPad('#pass-en .ticket', 'en',       PADS.en);
+  bindPad('#pass-br .ticket', 'br',       PADS.br);
+  bindPad('.story',           'story',    PADS.story);
+  bindPad('.notes',           'notes',    PADS.notes);
+
+  // tabs / language / copy — gentle one-shot cues on click only
+  document.querySelectorAll('.tab').forEach(function(tab){ tab.addEventListener('click', function(){ SFX.swell(); }); });
+  document.querySelectorAll('.lang-switch button').forEach(function(b){ b.addEventListener('click', function(){ SFX.warp(); }); });
+  document.querySelectorAll('.copy').forEach(function(b){ b.addEventListener('click', function(){ SFX.chime(); }); });
+
+  /* ---------- typewriter cycler (hero) ---------- */
+  (function(){
+    var el = document.getElementById('cycleText'); if(!el) return;
+    var li = 0, ci = 0, deleting = false;
+    function lines(){ return (dict[currentLang] && dict[currentLang].cycleLines) || ['']; }
+    function tick(){
+      var arr = lines(), full = arr[li % arr.length];
+      if(!deleting){
+        ci++; el.textContent = full.slice(0, ci);
+        if(ci >= full.length){ deleting = true; return setTimeout(tick, 1700); }
+      } else {
+        ci--; el.textContent = full.slice(0, ci);
+        if(ci <= 0){ deleting = false; li++; return setTimeout(tick, 320); }
+      }
+      setTimeout(tick, deleting ? 36 : 60);
+    }
+    tick();
+  })();
+
+  /* ---------- shooting stars ---------- */
+  (function(){
+    var sky = document.getElementById('stars'); if(!sky) return;
+    function shoot(){
+      var s = document.createElement('div'); s.className = 'shoot';
+      s.style.left = (Math.random()*55 + 30) + '%';
+      s.style.top  = (Math.random()*40) + '%';
+      s.style.animation = 'shootAcross ' + (900 + Math.random()*500) + 'ms ease-out forwards';
+      sky.appendChild(s);
+      setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 1700);
+      setTimeout(shoot, 3500 + Math.random()*5500);
+    }
+    setTimeout(shoot, 2600);
+  })();
+
+  /* ---------- orrery → story (planets sustain while hovered) ---------- */
+  var NOTE = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; // C D E G A C
+  document.querySelectorAll('.node').forEach(function(node){
+    var i = +node.dataset.stop;
+    node.addEventListener('pointerenter', function(){
+      SFX.startPad('node' + i, [NOTE[i], NOTE[i] * 1.5], { type:'sine', cutoff:1500, peak:0.06, attack:1.1, lfo:0.1, trem:0.18 });
+    });
+    node.addEventListener('pointerleave', function(){ SFX.stopPad('node' + i, 1.4); });
+    node.addEventListener('click', function(){
+      var card = document.getElementById('stop-' + i);
+      if(card){
+        card.scrollIntoView({ behavior:'smooth', block:'center' });
+        card.classList.add('pulse');
+        setTimeout(function(){ card.classList.remove('pulse'); }, 1200);
+      }
+      SFX.swell();
+    });
+  });
+
+  /* ---------- scroll reveal ---------- */
+  (function(){
+    if(!('IntersectionObserver' in window)){ document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('show'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+    }, { threshold:0.16 });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+
+  /* ---------- pointer parallax (hero) ---------- */
+  (function(){
+    var hero = document.querySelector('.hero'),
+        stars = document.getElementById('stars'),
+        orr = document.getElementById('orrery');
+    if(!hero) return;
+    hero.addEventListener('pointermove', function(e){
+      var r = hero.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5,
+          y = (e.clientY - r.top) / r.height - 0.5;
+      if(stars) stars.style.transform = 'translate(' + (x*-14) + 'px,' + (y*-14) + 'px)';
+      if(orr)   orr.style.transform = 'rotateX(' + (y*-8) + 'deg) rotateY(' + (x*10) + 'deg)';
+    });
+    hero.addEventListener('pointerleave', function(){
+      if(stars) stars.style.transform = '';
+      if(orr)   orr.style.transform = '';
+    });
+  })();
+</script>
+</body>
+</html>

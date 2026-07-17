@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prezența — un eseu academic și spiritual | Aether Nomad</title>
+<meta name="description" content="Tot ce se poate spune despre prezență: de la prezentul aparent al lui William James și Dasein-ul lui Heidegger la nunc stans, hudur, sat și practica prezenței lui Dumnezeu. Un eseu academic și spiritual.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#161029;--void-2:#1f1739;--panel:#241b42;
+    --gold:#F5B847;--coral:#FF8763;--lilac:#C6A6F2;--teal:#54D6C2;
+    --cream:#F3EBDC;--muted:#9D93B8;
+    --line:rgba(243,235,220,.12);--line-2:rgba(243,235,220,.07);
+    --measure:64ch;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Spectral',Georgia,serif;background:var(--void);color:var(--cream);line-height:1.78;
+    font-size:1.15rem;font-weight:400;overflow-x:hidden;position:relative;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(198,166,242,.30);color:#fff}
+
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .glow{position:absolute;top:-30vh;left:50%;transform:translateX(-50%);width:80vw;height:80vw;border-radius:50%;
+    background:radial-gradient(circle, rgba(198,166,242,.11) 0%, rgba(84,214,194,.04) 42%, transparent 68%);filter:blur(10px);
+    animation:breathe 13s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.72;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.06)}}
+  .star{position:absolute;background:var(--cream);border-radius:50%;opacity:.5;animation:tw 6s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.12}50%{opacity:.7}}
+
+  .progress{position:fixed;top:0;left:0;height:2px;width:0%;z-index:50;
+    background:linear-gradient(90deg,var(--lilac),var(--coral));box-shadow:0 0 10px var(--lilac)}
+
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 26px}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+
+  /* HERO */
+  .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 70px;z-index:1}
+  .hero .eyebrow{margin-bottom:26px;display:flex;align-items:center;gap:12px;animation:rise .9s both .1s}
+  .hero .eyebrow::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .hero-word{position:relative;animation:rise 1s both .2s}
+  .hero-word h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(3.6rem,17vw,12rem);
+    line-height:.86;letter-spacing:-.03em;color:var(--cream)}
+  .hero-word .echo{position:absolute;inset:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(3.6rem,17vw,12rem);line-height:.86;letter-spacing:-.03em;color:var(--lilac);
+    filter:blur(24px);opacity:.4;z-index:-1;animation:pulseEcho 10s ease-in-out infinite}
+  @keyframes pulseEcho{0%,100%{transform:scale(1);opacity:.32}50%{transform:scale(1.02);opacity:.5}}
+  .hero-lead{font-size:clamp(1.25rem,3.4vw,1.7rem);line-height:1.6;font-weight:300;color:var(--cream);
+    max-width:34ch;margin-top:34px;animation:rise .9s both .5s}
+  .hero-cite{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.12em;color:var(--muted);margin-top:18px;animation:rise .9s both .7s}
+  .hero-cue{margin-top:54px;font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--muted);animation:rise .9s both .95s, bob 2s ease-in-out infinite 1.4s}
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+  /* CHAPTERS */
+  .chapter{padding:64px 0;position:relative}
+  .chapter + .chapter{border-top:1px solid var(--line-2)}
+  .ch-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .ch-eyebrow .num{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);letter-spacing:.1em}
+  .ch-eyebrow .rule{flex:1;height:1px;background:var(--line)}
+  .chapter h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.9rem,5.5vw,3rem);
+    line-height:1.05;letter-spacing:-.02em;margin-bottom:26px;color:var(--cream)}
+  .chapter h2 em{font-style:italic;color:var(--lilac);font-family:'Spectral',serif;font-weight:500}
+  .chapter p{margin-bottom:22px;max-width:var(--measure)}
+  .chapter p:last-child{margin-bottom:0}
+  .chapter .lead-cap::first-letter{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:3.6em;
+    float:left;line-height:.72;margin:.06em .12em 0 0;color:var(--lilac)}
+  .chapter h3{font-family:'Space Mono',monospace;font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);margin:34px 0 14px}
+  .chapter strong{color:var(--cream);font-weight:600}
+  .term{color:var(--lilac);font-weight:500;font-style:italic}
+  .foreign{font-weight:500;color:var(--gold)}
+
+  .pull{margin:20px auto;padding:48px 0;text-align:center;max-width:820px}
+  .pull blockquote{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(1.6rem,4.6vw,2.5rem);
+    line-height:1.24;letter-spacing:-.01em;color:var(--cream)}
+  .pull blockquote .q{color:var(--lilac)}
+  .pull cite{display:block;margin-top:22px;font-family:'Space Mono',monospace;font-style:normal;font-size:.72rem;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+  /* NOW BAND (signature) */
+  .nowband{padding:76px 0 60px;text-align:center}
+  .nowband .row{display:flex;align-items:center;justify-content:center;gap:clamp(14px,5vw,54px);flex-wrap:nowrap}
+  .nowband .t{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .nowband .dim{font-size:clamp(1rem,3.4vw,1.9rem);color:var(--muted);opacity:.4;filter:blur(2px)}
+  .nowband .now{font-size:clamp(2.8rem,12vw,6rem);color:var(--lilac);text-shadow:0 0 44px rgba(198,166,242,.5);
+    animation:nowPulse 4.4s ease-in-out infinite}
+  @keyframes nowPulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+  .nowband .cap{margin:28px auto 0;color:var(--muted);max-width:48ch}
+
+  /* CONSTELLATION */
+  .constellation-sec{padding:70px 0 40px}
+  .constellation{position:relative;width:min(680px,92vw);height:min(680px,92vw);margin:26px auto 10px}
+  .cx-center{position:absolute;inset:0;margin:auto;width:150px;height:150px;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    background:radial-gradient(circle,rgba(198,166,242,.18),transparent 70%);z-index:2}
+  .cx-center .cx-k{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  .cx-center .cx-v{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.7rem;color:var(--lilac);margin-top:4px}
+  .cx-lines{position:absolute;inset:0;z-index:1}
+  .cx-node{position:absolute;transform:translate(-50%,-50%);z-index:3;width:150px;text-align:center;cursor:default}
+  .cx-node .dot{width:11px;height:11px;border-radius:50%;background:var(--c,var(--lilac));margin:0 auto 8px;
+    box-shadow:0 0 12px var(--c,var(--lilac));animation:tw 5s ease-in-out infinite}
+  .cx-node .foreignw{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.05rem;color:var(--cream);line-height:1.1}
+  .cx-node .trad{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .cx-node .mean{font-size:.82rem;color:var(--lilac);line-height:1.4;max-height:0;opacity:0;overflow:hidden;transition:.35s;font-style:italic}
+  .cx-node:hover .mean{max-height:64px;opacity:1;margin-top:5px}
+  .cx-node:hover .dot{transform:scale(1.5)}
+
+  /* REFERENCES */
+  .refs{padding:60px 0}
+  .refs ol{list-style:none;counter-reset:r;max-width:var(--measure)}
+  .refs li{counter-increment:r;position:relative;padding:12px 0 12px 46px;border-top:1px solid var(--line-2);font-size:.96rem;color:var(--muted);line-height:1.6}
+  .refs li::before{content:counter(r,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:'Space Mono',monospace;
+    font-size:.72rem;color:var(--lilac);letter-spacing:.05em}
+  .refs li b{color:var(--cream);font-weight:600;font-style:italic}
+
+  /* FINALE */
+  .finale{padding:90px 0 40px;text-align:center}
+  .finale .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,6vw,3.4rem);
+    line-height:1.08;letter-spacing:-.02em;margin-bottom:26px;
+    background:linear-gradient(180deg,var(--cream),var(--lilac) 150%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .finale p{max-width:52ch;margin:0 auto 30px;color:var(--muted)}
+  .finale a.cta{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:.74rem;
+    letter-spacing:.14em;text-transform:uppercase;color:#20143a;background:var(--lilac);text-decoration:none;
+    padding:15px 26px;border-radius:999px;transition:.25s}
+  .finale a.cta:hover{transform:translateY(-3px);box-shadow:0 16px 40px -18px var(--lilac)}
+
+  footer{text-align:center;padding:50px 0 70px;color:var(--muted);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em}
+  footer .sig{color:var(--lilac);font-weight:700}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.show{opacity:1;transform:none}
+  a{color:var(--lilac)}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px}
+
+  @media (max-width:560px){
+    body{font-size:1.08rem}
+    .hero{min-height:86vh;padding:100px 0 50px}
+    .cx-node{width:118px}
+    .cx-node .foreignw{font-size:.92rem}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="sky" aria-hidden="true">
+  <div class="glow"></div>
+  <div class="stars" id="stars"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="eyebrow">Aether Nomad · Focul care cunoaște</div>
+    <div class="hero-word">
+      <span class="echo" aria-hidden="true">Prezența</span>
+      <h1>Prezența</h1>
+    </div>
+    <p class="hero-lead">„Oriunde te-ai duce, acolo ești."</p>
+    <div class="hero-cite">— Jon Kabat-Zinn</div>
+    <div class="hero-cue">Sosește exact acolo unde ești deja ↓</div>
+  </header>
+
+  <!-- 1 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">I</span><span class="rule"></span><span class="eyebrow">Singurul loc</span></div>
+    <h2>Trecutul e amintire, viitorul e <em>închipuire</em></h2>
+    <p class="lead-cap">Gândește-te o clipă: n-ai trăit niciodată în trecut. Nici măcar o secundă. Când s-a petrecut, era prezent. Și n-ai să trăiești vreodată în viitor — când va veni, va fi tot prezent. Întreaga ta viață, fără nicio excepție, s-a desfășurat și se va desfășura într-un singur loc: <strong>acum</strong>. Trecutul e o amintire pe care o ai acum; viitorul, o închipuire pe care o faci acum. Singura clipă reală e mereu aceasta.</p>
+    <p>Și totuși, mintea trăiește aproape oriunde altundeva. Rumegă ce-a fost, repetă ce-ar fi trebuit spus, plănuiește, se teme, aleargă. Rareori e acasă. Prezența e simplă de descris și greu de locuit: e arta de a fi de față acolo unde ești, cu tot ce ești — nici o clipă mai devreme, nici una mai târziu.</p>
+    <p>Acest eseu urmărește prezența pe două drumuri care se dovedesc a fi unul: drumul <em>academic</em> — al filozofiei și al științei minții — și drumul <em>spiritual</em> — al tradițiilor care au numit clipa prezentă singura poartă către veșnicie.</p>
+  </section>
+
+  <!-- NOW BAND (signature) -->
+  <section class="nowband reveal">
+    <div class="row"><span class="t dim">Trecut</span><span class="t now">ACUM</span><span class="t dim">Viitor</span></div>
+    <p class="cap">Doar clipa din mijloc e vie. Numai în ea te poți întâlni cu viața, cu tine — și, spun misticii, cu Dumnezeu.</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">II</span><span class="rule"></span><span class="eyebrow">Știința</span></div>
+    <h2>Anatomia lui <em>acum</em></h2>
+    <p class="lead-cap">Ciudat, dar „prezentul" nu e un punct fără grosime. William James a numit-o <strong>prezentul aparent</strong>: clipa pe care o trăim ca „acum" are de fapt o mică durată — o fereastră de câteva secunde în care creierul leagă senzațiile într-un întreg. Nu percepem instantul matematic; percepem un prezent care respiră.</p>
+    <p>Iar problema e că rareori suntem în el. Un studiu al lui Killingsworth și Gilbert (2010) a arătat că mintea ne rătăcește aproape jumătate din timpul de veghe — și că, atunci când o face, suntem mai puțin fericiți. Prezența e antidotul: <em>mindfulness</em>, în definiția lui Jon Kabat-Zinn, e atenția îndreptată anume asupra clipei prezente, fără a o judeca.</p>
+    <h3>Ancorarea în corp</h3>
+    <p>Cum te întorci în prezent? Cel mai scurt drum trece prin trup. Interocepția — simțirea semnalelor interne, a respirației, a bătăilor inimii, a tălpilor pe podea — te readuce instantaneu aici, fiindcă trupul e mereu în prezent; doar mintea călătorește în timp. De aceea aproape toate practicile de calmare încep cu „simte-ți respirația" sau „simte-ți picioarele".</p>
+    <h3>Prezența care vindecă</h3>
+    <p>Psihoterapia a descoperit că prezența e ea însăși terapeutică. Carl Rogers vorbea despre prezența autentică a terapeutului — congruența, a fi pe deplin acolo — ca despre condiția vindecării. Daniel Stern a numit „momentele prezente" acele clipe de întâlnire adevărată în care două ființe sunt, pentru o secundă, complet unele cu altele. Prezența nu e pasivă; e cea mai activă formă de a fi cu cineva.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">III</span><span class="rule"></span><span class="eyebrow">Filosofia</span></div>
+    <h2>A fi <em>aici</em></h2>
+    <p class="lead-cap">Martin Heidegger a numit ființa umană <span class="foreign">Dasein</span> — literal, „a-fi-aici". Nu suntem niște obiecte care se întâmplă să ocupe un loc; existența noastră <em>este</em> o prezență în lume, o deschidere prin care lumea se arată. A exista, pentru om, înseamnă a fi mereu situat, mereu aici, aruncat într-un acum concret.</p>
+    <p>Gabriel Marcel a distins două feluri de a fi de față. Poți fi lângă cineva ca un obiect lângă altul — și totuși absent. Sau poți fi <span class="foreign">présence</span>: pe deplin disponibil, deschis, dăruit clipei și celuilalt. Martin Buber a numit aceeași diferență <span class="term">Eu–Tu</span> față de <span class="term">Eu–Aceasta</span>: putem trata lumea ca pe un obiect de folosit, sau o putem întâlni. Iar toată viața reală, scria el, este întâlnire — și întâlnirea se petrece doar în prezent.</p>
+    <p>Emmanuel Levinas a dus prezența până la etică: chipul celuilalt, aici, în fața mea, mă cheamă și mă face răspunzător. Iar Jacques Derrida a avertizat că prezența nu trebuie confundată cu posesia — nu o putem „prinde" ca pe un temei fix. Prezența nu e ceva ce ai; e ceva ce ești, mereu doar acum.</p>
+  </section>
+
+  <!-- CONSTELLATION -->
+  <section class="constellation-sec reveal">
+    <div class="ch-eyebrow"><span class="num">IV</span><span class="rule"></span><span class="eyebrow">Tradițiile</span></div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:14px;">Un cuvânt, opt limbi, un singur Acum</h2>
+    <p style="max-width:var(--measure);color:var(--muted);margin-bottom:10px;">Fiecare mare tradiție a căutat prezența — și i-a dat un nume, adesea același cu numele divinului. Trece cu privirea peste fiecare stea. Toate se întorc spre același centru: clipa de față.</p>
+
+    <div class="constellation" id="constellation">
+      <svg class="cx-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g stroke="rgba(198,166,242,.24)" stroke-width=".25">
+          <line x1="50" y1="50" x2="50" y2="9"></line>
+          <line x1="50" y1="50" x2="79" y2="21"></line>
+          <line x1="50" y1="50" x2="91" y2="50"></line>
+          <line x1="50" y1="50" x2="79" y2="79"></line>
+          <line x1="50" y1="50" x2="50" y2="91"></line>
+          <line x1="50" y1="50" x2="21" y2="79"></line>
+          <line x1="50" y1="50" x2="9" y2="50"></line>
+          <line x1="50" y1="50" x2="21" y2="21"></line>
+        </g>
+      </svg>
+
+      <div class="cx-center"><span class="cx-k">Convergența</span><span class="cx-v">Acum</span></div>
+
+      <div class="cx-node" style="left:50%;top:9%;--c:var(--lilac)"><span class="dot"></span><span class="foreignw">Parousia</span><span class="trad">Greacă · Creștinism</span><span class="mean">prezența, venirea care e mereu aproape</span></div>
+      <div class="cx-node" style="left:79%;top:21%;--c:var(--gold)"><span class="dot"></span><span class="foreignw">Shekhinah</span><span class="trad">Iudaism</span><span class="mean">prezența lui Dumnezeu care sălășluiește</span></div>
+      <div class="cx-node" style="left:91%;top:50%;--c:var(--teal)"><span class="dot"></span><span class="foreignw">Hudur</span><span class="trad">Sufism</span><span class="mean">prezența inimii înaintea lui Dumnezeu</span></div>
+      <div class="cx-node" style="left:79%;top:79%;--c:var(--coral)"><span class="dot"></span><span class="foreignw">Sat · Eu Sunt</span><span class="trad">Advaita Vedanta</span><span class="mean">Ființa pură, conștiența dintotdeauna aici</span></div>
+      <div class="cx-node" style="left:50%;top:91%;--c:var(--lilac)"><span class="dot"></span><span class="foreignw">Nunc stans</span><span class="trad">Mistica creștină</span><span class="mean">acum-ul care stă, veșnicia în prezent</span></div>
+      <div class="cx-node" style="left:21%;top:79%;--c:var(--gold)"><span class="dot"></span><span class="foreignw">Dasein</span><span class="trad">Fenomenologie</span><span class="mean">a-fi-aici, existența ca prezență</span></div>
+      <div class="cx-node" style="left:9%;top:50%;--c:var(--teal)"><span class="dot"></span><span class="foreignw">Nowness</span><span class="trad">Budism</span><span class="mean">prezentul deschis, proaspăt, nemijlocit</span></div>
+      <div class="cx-node" style="left:21%;top:21%;--c:var(--coral)"><span class="dot"></span><span class="foreignw">Waqt</span><span class="trad">Sufism</span><span class="mean">clipa; sufitul e „fiul clipei"</span></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">V</span><span class="rule"></span><span class="eyebrow">Calea</span></div>
+    <h2>Practica <em>prezenței</em></h2>
+    <p class="lead-cap">În secolul al XVII-lea, un bucătar de mănăstire pe nume Frate Laurentie a lăsat o învățătură simplă și uluitoare: nu e nevoie de extaze sau de tehnici înalte, ci doar de a-L ține pe Dumnezeu de față în fiecare clipă — și la rugăciune, și spălând vasele. A numit-o <strong>practica prezenței lui Dumnezeu</strong>. Cam în aceeași vreme, Jean-Pierre de Caussade vorbea despre <span class="term">sacramentul clipei prezente</span>: voia lui Dumnezeu nu e ascunsă departe, ci în exact ce ți se cere acum.</p>
+    <p>Răsăritul spune același lucru altfel. Psalmul 46 poruncește: „Opriți-vă și cunoașteți". În Advaita, Ramana Maharshi întorcea căutătorul spre singura întrebare — „Cine sunt eu?" — până când rămânea doar prezența tăcută a lui <span class="term">Eu Sunt</span>; Nisargadatta a rezumat-o în trei cuvinte: „Eu sunt Acela". În sufism, cel ce trăiește pe deplin în clipă e numit <span class="foreign">ibn al-waqt</span>, fiul clipei.</p>
+    <p>Iar în vremea noastră, aceeași veste veche a fost spusă din nou pentru milioane: Ram Dass — „Fii aici, acum"; Eckhart Tolle — „puterea lui acum". Vocabularul se schimbă, poarta rămâne una singură: clipa aceasta, primită întreagă.</p>
+  </section>
+
+  <!-- pull -->
+  <div class="pull reveal">
+    <blockquote>Clipa de față <span class="q">e mereu plină</span> de comori nesfârșite.</blockquote>
+    <cite>Jean-Pierre de Caussade</cite>
+  </div>
+
+  <!-- 6 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">VI</span><span class="rule"></span><span class="eyebrow">Întâlnirea</span></div>
+    <h2>Să fii cu adevărat cu cineva</h2>
+    <p class="lead-cap">A dărui cuiva prezența ta întreagă e, poate, cel mai rar lucru din lume. Nu jumătate de atenție cu ochii pe ecran, ci întreaga ta ființă, aici, cu el. Buber spunea că numai în întâlnirea Eu–Tu devenim cu adevărat persoane; Marcel, că a fi disponibil pentru altul e o formă de iubire. Prezența neîmpărțită spune, fără cuvinte: <em>ești real pentru mine, nimic altceva nu e mai important acum decât tine</em>.</p>
+    <p>De aceea prezența vindecă. Cei mai mulți dintre noi nu ducem lipsă de sfaturi, ci de a fi cu adevărat văzuți. Un om pe deplin prezent pentru altul îi oferă cel mai vechi leac: să nu fie singur în clipa aceasta. Iar clipa aceasta e tot ce avem vreodată de dăruit.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">VII</span><span class="rule"></span><span class="eyebrow">Veșnicia</span></div>
+    <h2>Acum-ul care nu <em>trece</em></h2>
+    <p class="lead-cap">Iată răsturnarea pe care o fac toți misticii: veșnicia nu e timp nesfârșit, ci adâncimea prezentului. Boethius și Meister Eckhart au numit-o <span class="foreign">nunc stans</span> — acum-ul care stă, care nu curge. Eckhart spunea că acum-ul în care Dumnezeu a făcut lumea e la fel de aproape ca acest acum în care respiri. Nu trebuie să aștepți veșnicia; ea nu vine mâine, fiindcă mâine nu sosește niciodată — sosește doar acum.</p>
+    <p>Aici cele două drumuri se contopesc definitiv. Numele lui Dumnezeu descoperit lui Moise nu a fost „Am fost" sau „Voi fi", ci „Eu Sunt" — un prezent etern. Iar numele lui Iisus, Emmanuel, înseamnă „Dumnezeu cu noi": nu deasupra, nu cândva, ci de față, acum. Prezența nu e o tehnică spirituală printre altele. E locul unde totul se atinge.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="chapter reveal">
+    <div class="ch-eyebrow"><span class="num">VIII</span><span class="rule"></span><span class="eyebrow">Sosirea</span></div>
+    <h2>Ai ajuns deja</h2>
+    <p class="lead-cap">Toată căutarea spirituală are un secret ciudat la capăt: nu e nimic de dobândit, fiindcă locul căutat e chiar aici, iar clipa e chiar aceasta. Nu poți deveni prezent în viitor — prezența se poate întâmpla doar acum, sau niciodată. Oriunde te-ai duce, acolo vei fi. Nu există o altă ușă, un alt moment, un alt loc mai bun care te așteaptă. Există doar acesta, primit întreg.</p>
+    <p>Aceasta e sosirea: nu la capătul drumului, ci în renunțarea la drum. Te oprești din alergat, respiri o dată, privești în jur — și descoperi că ai fost dintotdeauna acasă. N-ai plecat niciodată cu adevărat. Doar atenția ta rătăcise.</p>
+  </section>
+
+  <!-- FINALE -->
+  <section class="finale reveal">
+    <div class="big">Prezența este pașaportul.</div>
+    <p>Nicio vamă, nicio graniță — decât atenția care adoarme. Prezența e actul care te lasă să intri în singurul loc din care n-ai plecat niciodată: aici, acum. Cel mai lung drum din univers se sfârșește în clipa în care încetezi să mai pleci și ești, pur și simplu, de față.</p>
+    <a class="cta" href="all-inclusive-univers.html">Urcă la bord — All Inclusive în Univers →</a>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="refs reveal">
+    <div class="ch-eyebrow"><span class="num">≡</span><span class="rule"></span><span class="eyebrow">Lectură & surse</span></div>
+    <ol>
+      <li>William James, <b>The Principles of Psychology</b> (1890) — prezentul aparent.</li>
+      <li>Killingsworth & Gilbert (2010) — mintea rătăcitoare și fericirea.</li>
+      <li>Jon Kabat-Zinn, <b>Wherever You Go, There You Are</b> (1994) — atenția la clipa prezentă.</li>
+      <li>Carl Rogers — prezența și congruența terapeutului.</li>
+      <li>Daniel Stern, <b>The Present Moment in Psychotherapy</b> (2004) — momentele prezente.</li>
+      <li>Martin Heidegger, <b>Ființă și timp</b> (1927) — Dasein, a-fi-aici.</li>
+      <li>Gabriel Marcel — <b>présence</b> și disponibilitatea.</li>
+      <li>Martin Buber, <b>Eu și Tu</b> (1923) — întâlnirea Eu–Tu.</li>
+      <li>Frate Laurentie, <b>Practica prezenței lui Dumnezeu</b>.</li>
+      <li>Jean-Pierre de Caussade, <b>Abandonarea în mâinile Providenței</b> — sacramentul clipei prezente.</li>
+      <li>Ramana Maharshi — cercetarea „Cine sunt eu?" · Nisargadatta, <b>Eu sunt Acela</b>.</li>
+      <li>Eckhart Tolle, <b>Puterea lui acum</b> (1997) · Ram Dass, <b>Be Here Now</b> (1971).</li>
+      <li>Meister Eckhart & Boethius — <b>nunc stans</b>, acum-ul veșnic.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <div>Un eseu <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</div>
+    <div style="margin-top:8px;opacity:.7">Ești deja aici. Ești deja acasă.</div>
+  </footer>
+
+</div>
+
+<script>
+  // starfield
+  (function(){
+    var box=document.getElementById('stars'),frag=document.createDocumentFragment();
+    for(var i=0;i<60;i++){var s=document.createElement('div');s.className='star';
+      var sz=Math.random()*2+1;s.style.width=sz+'px';s.style.height=sz+'px';
+      s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(Math.random()*6)+'s';frag.appendChild(s);}
+    box.appendChild(frag);
+  })();
+
+  // reading progress
+  var prog=document.getElementById('progress');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement,b=document.body;
+    var st=h.scrollTop||b.scrollTop, sh=(h.scrollHeight||b.scrollHeight)-h.clientHeight;
+    prog.style.width=(sh>0?(st/sh*100):0)+'%';
+  },{passive:true});
+
+  // scroll reveal
+  (function(){
+    if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('show');});return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target);}});},{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(function(e){io.observe(e);});
+  })();
+</script>
+</body>
+</html>
