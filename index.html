@@ -57,6 +57,52 @@
   footer{text-align:center;padding:56px 0 20px;color:var(--muted);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em}
   footer .sig{color:var(--gold);font-weight:700}
 
+  /* ---------- ORACLE HERO (de sine stătătoare) ---------- */
+  .oracle-hero{position:relative;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;
+    margin:14px 0 46px;padding:44px 40px;border-radius:26px;overflow:hidden;
+    background:linear-gradient(150deg,#2a2050 0%,var(--panel) 55%,#1b1335 100%);border:1px solid rgba(255,135,99,.35)}
+  .oracle-hero::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;
+    background:linear-gradient(90deg,transparent,var(--coral),var(--gold),transparent);opacity:.9}
+  .oracle-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(90% 70% at 78% 10%,rgba(255,135,99,.16),transparent 60%)}
+  .oh-cards{position:relative;width:210px;height:190px;flex-shrink:0}
+  .oh-card{position:absolute;top:12px;width:104px;height:164px;border-radius:11px;
+    background:linear-gradient(155deg,#2a2050,#191233);border:1px solid rgba(245,184,71,.45);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 18px 44px -18px rgba(0,0,0,.85);
+    transition:transform .35s ease}
+  .oh-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(245,184,71,.25);border-radius:7px}
+  .oh-card svg{width:56%;opacity:.92}
+  .oh-card:nth-child(1){left:0;transform:rotate(-11deg);animation:ohfloat 7s ease-in-out infinite}
+  .oh-card:nth-child(2){left:53px;top:0;z-index:2;transform:rotate(1deg);animation:ohfloat 7s ease-in-out infinite 1.1s}
+  .oh-card:nth-child(3){left:106px;transform:rotate(12deg);animation:ohfloat 7s ease-in-out infinite 2.2s}
+  .oracle-hero:hover .oh-card:nth-child(1){transform:rotate(-15deg) translateY(-7px)}
+  .oracle-hero:hover .oh-card:nth-child(2){transform:rotate(0) translateY(-11px)}
+  .oracle-hero:hover .oh-card:nth-child(3){transform:rotate(16deg) translateY(-7px)}
+  @keyframes ohfloat{0%,100%{margin-top:0}50%{margin-top:-7px}}
+  .oh-body{position:relative;z-index:2}
+  .oh-body .kicker{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--coral)}
+  .oh-body h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,4.4vw,2.6rem);
+    line-height:1.04;letter-spacing:-.015em;margin:12px 0 14px;
+    background:linear-gradient(150deg,var(--cream),var(--coral) 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .oh-lead{color:var(--cream);font-size:1.02rem;line-height:1.7;max-width:56ch}
+  .oh-lead b{color:var(--gold);font-weight:600}
+  .oh-blessing{margin-top:16px;padding:12px 18px;border-left:2px solid var(--gold);border-radius:0 12px 12px 0;
+    background:rgba(245,184,71,.07);color:var(--gold);font-style:italic;font-size:.95rem;line-height:1.6;max-width:52ch}
+  .oh-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+  .oh-btn{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
+    padding:13px 22px;border-radius:999px;transition:.22s;border:1px solid var(--coral);color:var(--coral)}
+  .oh-btn.primary{background:var(--coral);color:#1a1228;font-weight:700}
+  .oh-btn.primary:hover{box-shadow:0 16px 40px -16px var(--coral);transform:translateY(-2px)}
+  .oh-btn.ghost{border-color:var(--line);color:var(--muted)}
+  .oh-btn.ghost:hover{color:var(--cream);border-color:var(--lilac)}
+  @media (max-width:720px){
+    .oracle-hero{grid-template-columns:1fr;padding:32px 24px;gap:26px;text-align:center}
+    .oh-cards{margin:0 auto}
+    .oh-lead,.oh-blessing{margin-left:auto;margin-right:auto}
+    .oh-blessing{border-left:none;border-top:2px solid var(--gold);border-radius:0 0 12px 12px}
+    .oh-actions{justify-content:center}
+  }
+
   @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
@@ -64,23 +110,38 @@
 <div class="sky" aria-hidden="true"><div class="glow"></div><div class="stars" id="stars"></div></div>
 
 <div class="wrap">
-  <header class="hero">
+  <header class="hero" data-freq="432">
     <div class="brandmark">Aether Nomad</div>
     <h1>Focul care cunoaște</h1>
     <p class="lead">Un univers de experiențe: muzică, filozofie și înțelepciune. Alege o poartă.</p>
   </header>
 
-  <main class="grid">
+  <!-- ORACLE DECK — hero de sine stătătoare -->
+  <section class="oracle-hero" data-freq="528">
+    <div class="oh-cards" aria-hidden="true">
+      <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/><line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/></g></svg></div>
+      <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/><line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
+      <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
+    </div>
+    <div class="oh-body">
+      <span class="kicker">Jocul zilei · Oracle Deck</span>
+      <h2>Trage o carte.<br>Ia-ți scurtătura zilei.</h2>
+      <p class="oh-lead">Un joc de înțelepciune pentru viața de zi cu zi: <b>scurtături</b> care te ajută
+        <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea —
+        și ia cu tine un singur gest bun pentru ceasul care urmează.</p>
+      <p class="oh-blessing">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
+      <div class="oh-actions">
+        <a class="oh-btn primary" href="oracle-deck.html">Intră în joc →</a>
+        <a class="oh-btn ghost" href="oracle-deck.html">Toate cele 33 de cărți</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="grid" data-freq="639">
     <a class="card" href="all-inclusive-univers.html" style="--ac:var(--gold)">
       <span class="kicker">Consolă muzicală</span>
       <h2>All Inclusive în Univers</h2>
       <p>Consolă de zbor cosmică pentru proiectul Aether Nomad: prompturi Suno, versuri în RO/EN/PT, sunet ambiental generativ și ritm de 65 BPM.</p>
-      <span class="go">Deschide →</span>
-    </a>
-    <a class="card" href="oracle-deck.html" style="--ac:var(--coral)">
-      <span class="kicker">Produs · Oracle</span>
-      <h2>Oracle Deck</h2>
-      <p>33 de cărți de înțelepciune — Cele Cinci Cercuri și cele Trei Chei. Trage o carte, desfășoară Trup·Minte·Duh, sau vezi întreaga colecție.</p>
       <span class="go">Deschide →</span>
     </a>
     <a class="card" href="atentia.html" style="--ac:var(--gold)">
@@ -103,7 +164,7 @@
     </a>
   </main>
 
-  <footer>
+  <footer data-freq="852">
     <div>© <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</div>
     <div style="margin-top:8px;opacity:.7">Fii treaz. Respiră. Fii de față.</div>
   </footer>
@@ -115,5 +176,6 @@
       s.style.width=z+'px';s.style.height=z+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
       s.style.animationDelay=(Math.random()*6)+'s';f.appendChild(s);}b.appendChild(f);})();
 </script>
+<script src="aether-ambient.js" defer></script>
 </body>
 </html>
