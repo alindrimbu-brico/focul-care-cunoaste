@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Focul care cunoaște · Oracle Deck — Aether Nomad</title>
-<meta name="description" content="Oracle Deck de 33 de cărți de înțelepciune — Cele Cinci Cercuri și cele Trei Chei. Un produs Aether Nomad, „Focul care cunoaște".">
+<meta name="description" content="Oracle Deck de peste 165 de cărți de înțelepciune — Cercurile Focului: Pământ, Apă, Foc, Vânt, Vid, Inimă, Putere, Minte, Drum. Un produs Aether Nomad, „Focul care cunoaște".">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -121,6 +121,9 @@
     color:var(--muted);margin-top:26px;transition:opacity .4s}
 
   /* gallery */
+  .gal-head{grid-column:1/-1;margin:26px 0 2px;padding-bottom:8px;border-bottom:1px solid var(--line);
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.15rem;color:var(--accent,var(--gold))}
+  .gallery .gal-head:first-child{margin-top:0}
   .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px;margin-top:10px}
   .gallery .card{width:100%;height:auto;aspect-ratio:150/236}
 
@@ -223,6 +226,7 @@
 
 </div>
 
+<script src="oracle-cards.js"></script>
 <script>
   // ---------- starfield ----------
   (function(){var b=document.getElementById('stars'),f=document.createDocumentFragment();
@@ -230,86 +234,38 @@
       s.style.width=z+'px';s.style.height=z+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
       s.style.animationDelay=(Math.random()*6)+'s';f.appendChild(s);}b.appendChild(f);})();
 
-  // ---------- elements meta ----------
-  var EL = {
-    earth:{ro:'Pământ',en:'Earth',glyph:'地',color:'#F5B847'},
-    water:{ro:'Apă',   en:'Water',glyph:'水',color:'#54D6C2'},
-    fire: {ro:'Foc',   en:'Fire', glyph:'火',color:'#FF8763'},
-    wind: {ro:'Vânt',  en:'Wind', glyph:'風',color:'#C6A6F2'},
-    voidx:{ro:'Vid',   en:'Void', glyph:'空',color:'#E7DCF6'},
-    key:  {ro:'Cheie', en:'Key',  glyph:'✦',color:'#F5B847'}
-  };
-
-  // ---------- 33 cards ----------
-  var CARDS = [
-    {el:'earth',kw:{ro:'Rădăcina',en:'The Root'},t:{ro:'Nimic înalt nu crește fără rădăcini adânci. Coboară înainte să urci.',en:'Nothing tall grows without deep roots. Descend before you rise.'},inv:{ro:'Așază-te. Simte-ți greutatea.',en:'Sit. Feel your own weight.'}},
-    {el:'earth',kw:{ro:'Răbdarea',en:'Patience'},t:{ro:'Piatra nu se grăbește să devină munte. Ce e temeinic se face încet.',en:'The stone does not rush to become a mountain. What is lasting is made slowly.'},inv:{ro:'Nu forța azi ce se coace mâine.',en:'Don\u2019t force today what ripens tomorrow.'}},
-    {el:'earth',kw:{ro:'Trupul',en:'The Body'},t:{ro:'Sufletul locuiește undeva anume. Cinstește casa în care stai.',en:'The soul dwells somewhere. Honor the house you live in.'},inv:{ro:'Mulțumește azi trupului tău.',en:'Thank your body today.'}},
-    {el:'earth',kw:{ro:'Disciplina',en:'Discipline'},t:{ro:'Libertatea nu e lipsa formei, ci forma stăpânită.',en:'Freedom is not the absence of form, but form mastered.'},inv:{ro:'Alege un singur lucru și ține-te de el.',en:'Choose one thing and keep to it.'}},
-    {el:'earth',kw:{ro:'Smerenia',en:'Humility'},t:{ro:'Spicul plin se pleacă și nu e frânt de vânt.',en:'The full ear of wheat bends and is not broken by the wind.'},inv:{ro:'Recunoaște azi un lucru pe care nu-l știi.',en:'Admit one thing you do not know today.'}},
-    {el:'earth',kw:{ro:'Temelia',en:'The Foundation'},t:{ro:'Zidește pe ce nu se clatină. Restul e nisip frumos.',en:'Build on what does not shift. The rest is beautiful sand.'},inv:{ro:'Ce rămâne când pierzi totul? Acolo zidește.',en:'What remains when all is lost? Build there.'}},
-
-    {el:'water',kw:{ro:'Curgerea',en:'The Flow'},t:{ro:'Apa nu se luptă cu piatra; o ocolește și ajunge la mare.',en:'Water does not fight the stone; it goes around and reaches the sea.'},inv:{ro:'Unde te lupți degeaba? Curge pe lângă.',en:'Where do you struggle in vain? Flow past it.'}},
-    {el:'water',kw:{ro:'Golirea',en:'Emptying'},t:{ro:'Doar cupa goală poate fi umplută. Fă loc.',en:'Only the empty cup can be filled. Make room.'},inv:{ro:'Lasă azi ceva să plece.',en:'Let something leave today.'}},
-    {el:'water',kw:{ro:'Forma',en:'The Form'},t:{ro:'Apa ia forma vasului, dar rămâne apă. Adaptează-te fără să te pierzi.',en:'Water takes the vessel\u2019s shape yet stays water. Adapt without losing yourself.'},inv:{ro:'Îndoaie-te, nu te rupe.',en:'Bend, do not break.'}},
-    {el:'water',kw:{ro:'Blândețea',en:'Gentleness'},t:{ro:'Ce e moale învinge ce e tare. Picătura sapă stânca.',en:'The soft overcomes the hard. The drop carves the rock.'},inv:{ro:'Fii blând azi, mai ales cu tine.',en:'Be gentle today, above all with yourself.'}},
-    {el:'water',kw:{ro:'Adâncul',en:'The Deep'},t:{ro:'La suprafață e furtună; în adânc, tăcere. Coboară.',en:'On the surface, storm; in the deep, silence. Descend.'},inv:{ro:'Sub emoție, ce e liniștit?',en:'Beneath the emotion, what is still?'}},
-    {el:'water',kw:{ro:'Oglinda',en:'The Mirror'},t:{ro:'Apa liniștită oglindește cerul; mintea liniștită, adevărul.',en:'Still water mirrors the sky; a still mind, the truth.'},inv:{ro:'Liniștește-te ca să vezi limpede.',en:'Grow still, to see clearly.'}},
-
-    {el:'fire',kw:{ro:'Scânteia',en:'The Spark'},t:{ro:'Tot ce arde a pornit dintr-o scânteie. Nu o disprețui pe a ta.',en:'All that blazes began as a spark. Do not despise yours.'},inv:{ro:'Ce mic pas aprinzi azi?',en:'What small step will you light today?'}},
-    {el:'fire',kw:{ro:'Arderea',en:'The Burning'},t:{ro:'Focul nu distruge aurul; îi arde zgura. Lasă-te curățat.',en:'Fire does not destroy gold; it burns away the dross. Let yourself be purified.'},inv:{ro:'Ce trebuie să lași să ardă?',en:'What must you let burn?'}},
-    {el:'fire',kw:{ro:'Curajul',en:'Courage'},t:{ro:'Curajul nu e lipsa fricii, ci mersul înainte cu ea de mână.',en:'Courage is not the absence of fear, but walking on with it by the hand.'},inv:{ro:'Fă azi lucrul de care ți-e teamă.',en:'Do the thing you fear today.'}},
-    {el:'fire',kw:{ro:'Voința',en:'The Will'},t:{ro:'Un scop clar arde prin o mie de scuze.',en:'A clear aim burns through a thousand excuses.'},inv:{ro:'Ce vrei cu adevărat? Spune-o.',en:'What do you truly want? Say it.'}},
-    {el:'fire',kw:{ro:'Lumina',en:'The Light'},t:{ro:'O singură lumânare risipește o beznă veche de o mie de ani.',en:'A single candle scatters a darkness a thousand years old.'},inv:{ro:'Aprinde, nu blestema întunericul.',en:'Kindle a light; do not curse the dark.'}},
-    {el:'fire',kw:{ro:'Pasiunea',en:'Passion'},t:{ro:'Fă din ceea ce iubești rug, nu cenușă.',en:'Make of what you love a fire, not ashes.'},inv:{ro:'Ce te aprinde? Mergi spre asta.',en:'What sets you alight? Move toward it.'}},
-
-    {el:'wind',kw:{ro:'Suflarea',en:'The Breath'},t:{ro:'Între inspir și expir încape toată viața. Ești la o suflare de pace.',en:'Between in-breath and out-breath fits a whole life. You are one breath from peace.'},inv:{ro:'Respiră o dată, adânc, acum.',en:'Take one deep breath, now.'}},
-    {el:'wind',kw:{ro:'Gândul',en:'The Thought'},t:{ro:'Nu ești gândurile tale; ești cerul prin care trec norii.',en:'You are not your thoughts; you are the sky the clouds pass through.'},inv:{ro:'Privește un gând fără să-l crezi.',en:'Watch a thought without believing it.'}},
-    {el:'wind',kw:{ro:'Libertatea',en:'Freedom'},t:{ro:'Nimeni nu-ți poate lua felul în care întâmpini ce ți se dă.',en:'No one can take the way you meet what you are given.'},inv:{ro:'Alege azi răspunsul, nu reacția.',en:'Choose the response, not the reaction.'}},
-    {el:'wind',kw:{ro:'Schimbarea',en:'Change'},t:{ro:'Vântul nu poate fi ținut în pumn. Nici clipa. Dă drumul.',en:'The wind cannot be held in a fist. Nor the moment. Let go.'},inv:{ro:'De ce te agăți, deși a trecut?',en:'What do you clutch, though it has passed?'}},
-    {el:'wind',kw:{ro:'Cuvântul',en:'The Word'},t:{ro:'Un cuvânt poate zidi sau surpa o lume. Cântărește-l.',en:'A word can build or topple a world. Weigh it.'},inv:{ro:'Spune azi un cuvânt care zidește.',en:'Speak a word that builds today.'}},
-    {el:'wind',kw:{ro:'Tăcerea',en:'Silence'},t:{ro:'În pauza dintre cuvinte locuiește înțelesul.',en:'In the pause between words, meaning dwells.'},inv:{ro:'Taci azi o clipă mai mult.',en:'Stay silent a moment longer today.'}},
-
-    {el:'voidx',kw:{ro:'Golul',en:'The Void'},t:{ro:'Din gol se naște totul. Nu-l umple de frică.',en:'From emptiness, all is born. Do not fill it out of fear.'},inv:{ro:'Stai o clipă fără să faci nimic.',en:'Sit a moment doing nothing.'}},
-    {el:'voidx',kw:{ro:'Misterul',en:'The Mystery'},t:{ro:'Ce e mai adânc nu se explică; se trăiește.',en:'What is deepest is not explained; it is lived.'},inv:{ro:'Lasă azi o întrebare fără răspuns.',en:'Leave one question unanswered today.'}},
-    {el:'voidx',kw:{ro:'Unitatea',en:'Oneness'},t:{ro:'Valul se crede singur până își amintește că e mare.',en:'The wave thinks itself alone until it remembers it is the sea.'},inv:{ro:'Ce te desparte cu adevărat de tot?',en:'What truly separates you from all?'}},
-    {el:'voidx',kw:{ro:'Prezența',en:'Presence'},t:{ro:'Veșnicia nu e timp lung; e adâncimea lui acum.',en:'Eternity is not long time; it is the depth of now.'},inv:{ro:'Fii de față. Aici. Acum.',en:'Be present. Here. Now.'}},
-    {el:'voidx',kw:{ro:'Tăcerea Cerului',en:'Heaven\u2019s Silence'},t:{ro:'Uneori tăcerea Cerului e cea mai deplină vorbire.',en:'Sometimes Heaven\u2019s silence is the fullest speech.'},inv:{ro:'Ascultă azi liniștea.',en:'Listen to the silence today.'}},
-    {el:'voidx',kw:{ro:'Lumina neapusă',en:'Unfading Light'},t:{ro:'Sub toate e o lumină care nu se stinge. Ești făcut din ea.',en:'Beneath all is a light that never goes out. You are made of it.'},inv:{ro:'Ce în tine nu s-a stins niciodată?',en:'What in you has never been extinguished?'}},
-
-    {el:'key',kw:{ro:'Atenția',en:'Attention'},t:{ro:'Atenția e cea mai rară formă de iubire. Ce privești, prinde viață.',en:'Attention is the rarest form of love. What you behold comes alive.'},inv:{ro:'Dăruiește cuiva atenția ta întreagă.',en:'Give someone your whole attention.'}},
-    {el:'key',kw:{ro:'Respirația',en:'The Breath'},t:{ro:'Suflarea e puntea dintre trup și duh. Traversează-o des.',en:'Breath is the bridge between body and spirit. Cross it often.'},inv:{ro:'Respiră ca și cum ar fi prima oară.',en:'Breathe as if for the first time.'}},
-    {el:'key',kw:{ro:'Prezența',en:'Presence'},t:{ro:'Nu ai unde ajunge. Ești deja aici. Sosește.',en:'There is nowhere to arrive. You are already here. Arrive.'},inv:{ro:'Oprește-te din alergat. Ai ajuns.',en:'Stop running. You have arrived.'}}
-  ];
+  // ---------- date partajate (oracle-cards.js) ----------
+  var EL = window.ORACLE_EL;
+  var CARDS = window.ORACLE_CARDS;
 
   // ---------- i18n (UI) ----------
   var UI = {
-    ro:{title:'Focul care cunoaște',sub:'Oracle Deck · 33 de cărți de înțelepciune',
+    ro:{title:'Focul care cunoaște',sub:'Oracle Deck · {n} de cărți de înțelepciune',
       desc:'Cele Cinci Cercuri și cele Trei Chei. Distilarea cărților noastre într-un singur oracol: trage o carte și ascultă ce știe focul.',
       invite:'Un <b>joc de înțelepciune</b> pentru viața de zi cu zi: scurtături care te ajută <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea.',
       blessing:'Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.',
       btnDraw:'Trage o carte',btnSpread:'Desfășurare · 3 cărți',btnGallery:'Toate cărțile',
       drawEyebrow:'Cartea ta',drawTitle:'Ce știe focul pentru tine',
       spreadEyebrow:'Desfășurare',spreadTitle:'Trup · Minte · Duh',
-      galleryEyebrow:'Colecția completă',galleryTitle:'Cele 33 de cărți',
+      galleryEyebrow:'Colecția completă',galleryTitle:'Cele {n} de cărți',
       tapHint:'Atinge cartea pentru a o întoarce',btnAgain:'Trage din nou',btnHome:'← Acasă',
-      footerLine:'33 de cărți · Cele Cinci Cercuri + Trei Chei · pentru Etsy, Amazon și retail',
+      footerLine:'{n} de cărți · Cercurile Focului · pentru Etsy, Amazon și retail',
       pos:['Trup','Minte','Duh']},
-    en:{title:'The Fire That Knows',sub:'Oracle Deck · 33 wisdom cards',
+    en:{title:'The Fire That Knows',sub:'Oracle Deck · {n} wisdom cards',
       desc:'The Five Circles and the Three Keys. Our books distilled into a single oracle: draw a card and hear what the fire knows.',
       invite:'A <b>game of wisdom</b> for everyday life: shortcuts that help you <b>step by step, hour by hour, clock by clock</b>. Pause a moment, ask your question, turn the card.',
       blessing:'Blessed be the Name of God for all the good He brings into the world.',
       btnDraw:'Draw a card',btnSpread:'Spread · 3 cards',btnGallery:'All cards',
       drawEyebrow:'Your card',drawTitle:'What the fire knows for you',
       spreadEyebrow:'The spread',spreadTitle:'Body · Mind · Spirit',
-      galleryEyebrow:'The full collection',galleryTitle:'The 33 cards',
+      galleryEyebrow:'The full collection',galleryTitle:'The {n} cards',
       tapHint:'Tap the card to turn it',btnAgain:'Draw again',btnHome:'← Home',
-      footerLine:'33 cards · Five Circles + Three Keys · for Etsy, Amazon & retail',
+      footerLine:'{n} cards · The Circles of the Fire · for Etsy, Amazon & retail',
       pos:['Body','Mind','Spirit']}
   };
   var lang='ro';
   function applyLang(){
-    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.dataset.i18n; if(UI[lang][k]!==undefined) el.textContent=UI[lang][k];});
+    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.dataset.i18n; if(UI[lang][k]!==undefined) el.textContent=UI[lang][k].replace('{n}', CARDS.length);});
     document.querySelectorAll('[data-i18n-html]').forEach(function(el){var k=el.dataset.i18nHtml; if(UI[lang][k]!==undefined) el.innerHTML=UI[lang][k];});
     document.querySelectorAll('.lang-switch button').forEach(function(b){b.classList.toggle('active',b.dataset.lang===lang);});
     document.documentElement.lang=lang;
@@ -339,7 +295,7 @@
       '<div class="card-inner">'+
         '<div class="card-face card-back">'+BACK+'</div>'+
         '<div class="card-face card-front">'+
-          '<div class="c-top"><span class="c-num">'+(idx<10?'0':'')+idx+' / 33</span>'+
+          '<div class="c-top"><span class="c-num">'+(idx<10?'0':'')+idx+' / '+CARDS.length+'</span>'+
             '<span class="c-el">'+meta[lang]+' · '+(card.el==='key'?(lang==='ro'?'Cheie':'Key'):meta.glyph)+'</span></div>'+
           '<div class="c-glyph">'+meta.glyph+'</div>'+
           '<div class="c-body">'+
@@ -387,7 +343,17 @@
     else if(view==='gallery'){
       document.getElementById('view-gallery').classList.add('active');
       var g=document.getElementById('galleryStage'); g.innerHTML='';
-      CARDS.forEach(function(card){ var c=cardEl(card,true); c.classList.add('flipped'); g.appendChild(c); });
+      var lastEl=null;
+      CARDS.forEach(function(card){
+        if(card.el!==lastEl){
+          lastEl=card.el;
+          var h=document.createElement('div'); h.className='gal-head';
+          h.style.setProperty('--accent', EL[card.el].color);
+          h.textContent=EL[card.el].circle[lang];
+          g.appendChild(h);
+        }
+        var c=cardEl(card,true); c.classList.add('flipped'); g.appendChild(c);
+      });
     }
     window.scrollTo({top:0,behavior:'smooth'});
   }
