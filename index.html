@@ -90,50 +90,66 @@
   .f-copy{margin-top:18px;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em}
   footer .sig{color:var(--gold);font-weight:700}
 
-  /* ---------- ORACLE HERO (de sine stătătoare) ---------- */
-  .oracle-hero{position:relative;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;
-    margin:14px 0 46px;padding:44px 40px;border-radius:26px;overflow:hidden;
-    background:linear-gradient(150deg,#2a2050 0%,var(--panel) 55%,#1b1335 100%);border:1px solid rgba(255,135,99,.35)}
+  /* ---------- ORACLE HERO — Poarta întâi ---------- */
+  .oracle-hero{position:relative;margin:8px 0 52px;padding:54px 44px 50px;border-radius:28px;overflow:hidden;
+    background:linear-gradient(150deg,#2a2050 0%,var(--panel) 55%,#1b1335 100%);border:1px solid rgba(255,135,99,.32)}
   .oracle-hero::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;
     background:linear-gradient(90deg,transparent,var(--coral),var(--gold),transparent);opacity:.9}
   .oracle-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:radial-gradient(90% 70% at 78% 10%,rgba(255,135,99,.16),transparent 60%)}
-  .oh-cards{position:relative;width:210px;height:190px;flex-shrink:0}
-  .oh-card{position:absolute;top:12px;width:104px;height:164px;border-radius:11px;
-    background:linear-gradient(155deg,#2a2050,#191233);border:1px solid rgba(245,184,71,.45);
-    display:flex;align-items:center;justify-content:center;box-shadow:0 18px 44px -18px rgba(0,0,0,.85);
-    transition:transform .35s ease}
-  .oh-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(245,184,71,.25);border-radius:7px}
-  .oh-card svg{width:56%;opacity:.92}
-  .oh-card:nth-child(1){left:0;transform:rotate(-11deg);animation:ohfloat 7s ease-in-out infinite}
-  .oh-card:nth-child(2){left:53px;top:0;z-index:2;transform:rotate(1deg);animation:ohfloat 7s ease-in-out infinite 1.1s}
-  .oh-card:nth-child(3){left:106px;transform:rotate(12deg);animation:ohfloat 7s ease-in-out infinite 2.2s}
-  .oracle-hero:hover .oh-card:nth-child(1){transform:rotate(-15deg) translateY(-7px)}
-  .oracle-hero:hover .oh-card:nth-child(2){transform:rotate(0) translateY(-11px)}
-  .oracle-hero:hover .oh-card:nth-child(3){transform:rotate(16deg) translateY(-7px)}
-  @keyframes ohfloat{0%,100%{margin-top:0}50%{margin-top:-7px}}
-  .oh-body{position:relative;z-index:2}
-  .oh-body .kicker{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--coral)}
-  .oh-body h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,4.4vw,2.6rem);
-    line-height:1.04;letter-spacing:-.015em;margin:12px 0 14px;
-    background:linear-gradient(150deg,var(--cream),var(--coral) 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .oh-lead{color:var(--cream);font-size:1.02rem;line-height:1.7;max-width:56ch}
-  .oh-lead b{color:var(--gold);font-weight:600}
-  .oh-blessing{margin-top:16px;padding:12px 18px;border-left:2px solid var(--gold);border-radius:0 12px 12px 0;
+    background:radial-gradient(80% 60% at 20% 6%,rgba(255,135,99,.14),transparent 60%),
+               radial-gradient(70% 60% at 90% 92%,rgba(198,166,242,.10),transparent 62%)}
+  .oh-head{position:relative;z-index:2;text-align:center;margin-bottom:40px}
+  .oh-head .kicker{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--coral)}
+  .oh-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,5.4vw,3.1rem);letter-spacing:-.02em;line-height:1.02;margin-top:12px;
+    background:linear-gradient(150deg,var(--cream),var(--coral) 62%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .oh-sub{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+  .oh-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(290px,400px) 1fr;gap:48px;align-items:center}
+  .oh-visual{position:relative;height:340px}
+  .oh-card{position:absolute;width:118px;height:186px;border-radius:12px;background:linear-gradient(155deg,#2a2050,#191233);
+    border:1px solid rgba(245,184,71,.45);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 20px 48px -18px rgba(0,0,0,.9);transition:transform .4s ease}
+  .oh-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(245,184,71,.22);border-radius:8px}
+  .oh-card svg{width:54%;opacity:.9}
+  .oh-card:nth-child(1){left:2%;top:64px;transform:rotate(-15deg)}
+  .oh-card:nth-child(2){left:22%;top:34px;transform:rotate(-6deg)}
+  .oh-front{position:absolute;right:2%;top:8px;width:196px;height:308px;border-radius:14px;z-index:3;transform:rotate(7deg);
+    background:linear-gradient(160deg,var(--void-2),var(--panel));border:1px solid var(--line);
+    box-shadow:0 30px 70px -28px rgba(0,0,0,.95);display:flex;flex-direction:column;padding:17px 16px;transition:transform .4s ease}
+  .oh-front::after{content:"";position:absolute;left:0;top:0;width:100%;height:4px;
+    background:linear-gradient(90deg,transparent,#DFA45B,transparent);opacity:.85;border-radius:14px 14px 0 0}
+  .oh-front .fg{position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);font-size:5.4rem;color:#DFA45B;opacity:.1;font-family:'Spectral',serif;line-height:1}
+  .oh-front .fk{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:#DFA45B;position:relative}
+  .oh-front .fkw{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;color:var(--cream);margin-top:auto;position:relative}
+  .oh-front .ft{font-size:.76rem;font-style:italic;line-height:1.5;color:var(--cream);opacity:.94;margin-top:8px;position:relative}
+  .oh-front .fi{font-family:'Space Mono',monospace;font-size:.55rem;color:#DFA45B;margin-top:11px;line-height:1.45;position:relative}
+  .oh-front .fi::before{content:"↳ ";opacity:.7}
+  .oracle-hero:hover .oh-front{transform:rotate(4deg) translateY(-9px)}
+  .oracle-hero:hover .oh-card:nth-child(1){transform:rotate(-18deg) translateY(-6px)}
+  .oracle-hero:hover .oh-card:nth-child(2){transform:rotate(-9deg) translateY(-11px)}
+  .oh-lead{color:var(--cream);font-size:1.04rem;line-height:1.78;max-width:56ch}
+  .oh-circles{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:22px}
+  .oh-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:.62rem;font-style:normal;background:rgba(255,255,255,.035);border:1px solid var(--line);transition:transform .2s}
+  .oh-dot:hover{transform:scale(1.25)}
+  .oh-circ-label{display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+  .oh-blessing{margin-top:20px;padding:12px 18px;border-left:2px solid var(--gold);border-radius:0 12px 12px 0;
     background:rgba(245,184,71,.07);color:var(--gold);font-style:italic;font-size:.95rem;line-height:1.6;max-width:52ch}
-  .oh-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+  .oh-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
   .oh-btn{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
     padding:13px 22px;border-radius:999px;transition:.22s;border:1px solid var(--coral);color:var(--coral)}
   .oh-btn.primary{background:var(--coral);color:#1a1228;font-weight:700}
   .oh-btn.primary:hover{box-shadow:0 16px 40px -16px var(--coral);transform:translateY(-2px)}
   .oh-btn.ghost{border-color:var(--line);color:var(--muted)}
-  .oh-btn.ghost:hover{color:var(--cream);border-color:var(--lilac)}
-  @media (max-width:720px){
-    .oracle-hero{grid-template-columns:1fr;padding:32px 24px;gap:26px;text-align:center}
-    .oh-cards{margin:0 auto}
+  .oh-btn.ghost:hover{color:var(--cream);border-color:var(--lilac);transform:translateY(-2px)}
+  @media (max-width:860px){
+    .oracle-hero{padding:40px 24px}
+    .oh-grid{grid-template-columns:1fr;gap:30px}
+    .oh-visual{height:300px;max-width:380px;margin:0 auto;width:100%}
+    .oh-front{right:0;width:172px;height:272px}
     .oh-lead,.oh-blessing{margin-left:auto;margin-right:auto}
+    .oh-text{text-align:center}
+    .oh-circles,.oh-actions{justify-content:center}
     .oh-blessing{border-left:none;border-top:2px solid var(--gold);border-radius:0 0 12px 12px}
-    .oh-actions{justify-content:center}
   }
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -172,21 +188,34 @@
     </div>
   </header>
 
-  <!-- ORACLE DECK — hero de sine stătătoare -->
+  <!-- ORACLE DECK — Poarta întâi -->
   <section class="oracle-hero" id="porti" data-freq="528">
-    <div class="oh-cards" aria-hidden="true">
-      <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/><line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/></g></svg></div>
-      <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/><line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
-      <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
+    <div class="oh-head">
+      <span class="kicker" data-i18n="ohKicker">Poarta întâi · Jocul înțelepciunii</span>
+      <h2 data-i18n="ohTitle">Oracolul Focului</h2>
+      <p class="oh-sub" data-i18n="ohSub">Trage o carte · Ia-ți scurtătura zilei</p>
     </div>
-    <div class="oh-body">
-      <span class="kicker" data-i18n="ohKicker">Jocul zilei · Oracle Deck</span>
-      <h2 data-i18n-html="ohTitle">Trage o carte.<br>Ia-ți scurtătura zilei.</h2>
-      <p class="oh-lead" data-i18n-html="ohLead">Un joc de înțelepciune pentru viața de zi cu zi: <b>scurtături</b> care te ajută <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea — și ia cu tine un singur gest bun pentru ceasul care urmează.</p>
-      <p class="oh-blessing" data-i18n="ohBless">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
-      <div class="oh-actions">
-        <a class="oh-btn primary" href="oracle-deck.html" data-i18n="ohPlay">Intră în joc →</a>
-        <a class="oh-btn ghost" href="oracle-deck.html" data-i18n="ohAll">Vezi toate cărțile</a>
+    <div class="oh-grid">
+      <div class="oh-visual" aria-hidden="true">
+        <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/><line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
+        <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="50" y1="10" x2="50" y2="26"/><line x1="50" y1="74" x2="50" y2="90"/><line x1="10" y1="50" x2="26" y2="50"/><line x1="74" y1="50" x2="90" y2="50"/><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
+        <div class="oh-front">
+          <span class="fk" data-i18n="sampleEl">Cercul Timpului</span>
+          <span class="fg">時</span>
+          <span class="fkw" data-i18n="sampleKw">Clipa</span>
+          <span class="ft" data-i18n="sampleT">„Ai o singură avere care nu se poate fura decât cu voia ta: clipa de față."</span>
+          <span class="fi" data-i18n="sampleInv">Fii întreg aici, un minut întreg.</span>
+        </div>
+      </div>
+      <div class="oh-text">
+        <p class="oh-lead" data-i18n="ohLead">Un oracol nu îți ghicește viitorul — ți-l încredințează. Fiecare carte e o scurtătură către ce știi deja și uiți zilnic: un gând limpede, o invitație de un minut, un gest bun pentru ceasul care vine. Pas cu pas, oră de oră, ceas de ceas.</p>
+        <div class="oh-circles" aria-hidden="true"><i class="oh-dot" style="color:#F5B847;border-color:#F5B84755">地</i><i class="oh-dot" style="color:#54D6C2;border-color:#54D6C255">水</i><i class="oh-dot" style="color:#FF8763;border-color:#FF876355">火</i><i class="oh-dot" style="color:#C6A6F2;border-color:#C6A6F255">風</i><i class="oh-dot" style="color:#E7DCF6;border-color:#E7DCF655">空</i><i class="oh-dot" style="color:#F5B847;border-color:#F5B84755">✦</i><i class="oh-dot" style="color:#F2789F;border-color:#F2789F55">心</i><i class="oh-dot" style="color:#F6D365;border-color:#F6D36555">光</i><i class="oh-dot" style="color:#8FB8FF;border-color:#8FB8FF55">意</i><i class="oh-dot" style="color:#9BD08B;border-color:#9BD08B55">道</i><i class="oh-dot" style="color:#DFA45B;border-color:#DFA45B55">時</i><i class="oh-dot" style="color:#E85D75;border-color:#E85D7555">愛</i><i class="oh-dot" style="color:#D95757;border-color:#D9575755">勇</i><i class="oh-dot" style="color:#6F7BD9;border-color:#6F7BD955">夜</i><i class="oh-dot" style="color:#B98A56;border-color:#B98A5655">工</i><i class="oh-dot" style="color:#E8A08A;border-color:#E8A08A55">身</i><i class="oh-dot" style="color:#5E9E62;border-color:#5E9E6255">森</i><i class="oh-dot" style="color:#AEB8D6;border-color:#AEB8D655">靜</i></div>
+        <span class="oh-circ-label" data-i18n="ohCircles">18 Cercuri, de la Pământ la Tăcere · sute de cărți în trei limbi</span>
+        <p class="oh-blessing" data-i18n="ohBless">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
+        <div class="oh-actions">
+          <a class="oh-btn primary" href="oracle-deck.html" data-i18n="ohPlay">Intră în joc →</a>
+          <a class="oh-btn ghost" href="oracle-deck.html" data-i18n="ohAll">Vezi toate cărțile</a>
+        </div>
       </div>
     </div>
   </section>
@@ -255,9 +284,14 @@
       pillars:'<span><b>Oracol</b> · sute de cărți</span><span><b>Eseuri</b> · triada trezirii</span><span><b>Muzică</b> · puls 65 bpm</span>',
       heroCta1:'Deschide Oracolul →', heroCta2:'Explorează atelierul ↓',
       motto:'Fii treaz · Respiră · Fii de față',
-      ohKicker:'Jocul zilei · Oracle Deck',
-      ohTitle:'Trage o carte.<br>Ia-ți scurtătura zilei.',
-      ohLead:'Un joc de înțelepciune pentru viața de zi cu zi: <b>scurtături</b> care te ajută <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea — și ia cu tine un singur gest bun pentru ceasul care urmează.',
+      ohKicker:'Poarta întâi · Jocul înțelepciunii',
+      ohTitle:'Oracolul Focului',
+      ohSub:'Trage o carte · Ia-ți scurtătura zilei',
+      ohLead:'Un oracol nu îți ghicește viitorul — ți-l încredințează. Fiecare carte e o scurtătură către ce știi deja și uiți zilnic: un gând limpede, o invitație de un minut, un gest bun pentru ceasul care vine. Pas cu pas, oră de oră, ceas de ceas.',
+      ohCircles:'18 Cercuri, de la Pământ la Tăcere · sute de cărți în trei limbi',
+      sampleEl:'Cercul Timpului', sampleKw:'Clipa',
+      sampleT:'„Ai o singură avere care nu se poate fura decât cu voia ta: clipa de față."',
+      sampleInv:'Fii întreg aici, un minut întreg.',
       ohBless:'Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.',
       ohPlay:'Intră în joc →', ohAll:'Vezi toate cărțile',
       c1k:'Consolă muzicală', c1t:'All Inclusive în Univers',
@@ -276,9 +310,14 @@
       pillars:'<span><b>Oracle</b> · hundreds of cards</span><span><b>Essays</b> · the triad of awakening</span><span><b>Music</b> · a 65 bpm pulse</span>',
       heroCta1:'Open the Oracle →', heroCta2:'Explore the workshop ↓',
       motto:'Be awake · Breathe · Be present',
-      ohKicker:'The daily game · Oracle Deck',
-      ohTitle:'Draw a card.<br>Take the day’s shortcut.',
-      ohLead:'A game of wisdom for everyday life: <b>shortcuts</b> that help you <b>step by step, hour by hour, clock by clock</b>. Pause for a moment, ask your question, turn the card — and carry one good gesture into the hour ahead.',
+      ohKicker:'The first gate · The game of wisdom',
+      ohTitle:'The Oracle of Fire',
+      ohSub:'Draw a card · Take the day’s shortcut',
+      ohLead:'An oracle does not foretell your future — it entrusts it to you. Every card is a shortcut to what you already know and daily forget: one clear thought, a one-minute invitation, a good gesture for the hour to come. Step by step, hour by hour, clock by clock.',
+      ohCircles:'18 Circles, from Earth to Silence · hundreds of cards in three languages',
+      sampleEl:'Circle of Time', sampleKw:'The Moment',
+      sampleT:'“You own one treasure that can be stolen only with your consent: this moment.”',
+      sampleInv:'Be wholly here, for one whole minute.',
       ohBless:'Blessed be the Name of God for all the good He brings into the world.',
       ohPlay:'Enter the game →', ohAll:'See all the cards',
       c1k:'Music console', c1t:'All Inclusive in the Universe',
@@ -297,9 +336,14 @@
       pillars:'<span><b>Oráculo</b> · centenas de cartas</span><span><b>Ensaios</b> · a tríade do despertar</span><span><b>Música</b> · pulso de 65 bpm</span>',
       heroCta1:'Abre o Oráculo →', heroCta2:'Explora a oficina ↓',
       motto:'Está desperto · Respira · Está presente',
-      ohKicker:'O jogo do dia · Oracle Deck',
-      ohTitle:'Tira uma carta.<br>Leva o atalho do dia.',
-      ohLead:'Um jogo de sabedoria para o dia a dia: <b>atalhos</b> que ajudam <b>passo a passo, hora a hora</b>. Para um instante, faz a tua pergunta, vira a carta — e leva contigo um gesto bom para a hora que vem.',
+      ohKicker:'A primeira porta · O jogo da sabedoria',
+      ohTitle:'O Oráculo do Fogo',
+      ohSub:'Tira uma carta · Leva o atalho do dia',
+      ohLead:'Um oráculo não adivinha o teu futuro — confia-to. Cada carta é um atalho para o que já sabes e esqueces todos os dias: um pensamento claro, um convite de um minuto, um gesto bom para a hora que vem. Passo a passo, hora a hora.',
+      ohCircles:'18 Círculos, da Terra ao Silêncio · centenas de cartas em três línguas',
+      sampleEl:'Círculo do Tempo', sampleKw:'O Instante',
+      sampleT:'«Tens um único tesouro que só pode ser roubado com o teu consentimento: este instante.»',
+      sampleInv:'Está inteiro aqui, por um minuto inteiro.',
       ohBless:'Bendito seja o Nome de Deus por todo o bem que traz ao mundo.',
       ohPlay:'Entra no jogo →', ohAll:'Vê todas as cartas',
       c1k:'Consola musical', c1t:'All Inclusive no Universo',
