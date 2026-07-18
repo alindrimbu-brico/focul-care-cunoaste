@@ -128,7 +128,16 @@
   .gallery .card{width:100%;height:auto;aspect-ratio:150/236}
 
   /* footer */
-  footer{text-align:center;padding:56px 0 20px;color:var(--muted);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em}
+  footer{text-align:center;padding:70px 0 28px;color:var(--muted)}
+  .f-sigil{width:52px;height:52px;margin:0 auto 14px;display:block;opacity:.9}
+  .f-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.15rem;color:var(--cream)}
+  .f-tag{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+  .f-bless{max-width:46ch;margin:18px auto 0;font-style:italic;font-size:.95rem;line-height:1.7;color:var(--muted)}
+  .f-bless::before,.f-bless::after{content:"✦";color:var(--gold);opacity:.7;margin:0 10px;font-style:normal}
+  .f-nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:22px;padding-top:22px;border-top:1px solid var(--line)}
+  .f-nav a{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:.2s}
+  .f-nav a:hover{color:var(--gold)}
+  .f-copy{margin-top:18px;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em}
   footer .sig{color:var(--gold);font-weight:700}
 
   a{color:var(--gold)}
@@ -147,6 +156,7 @@
   <span class="globe" aria-hidden="true">🌐</span>
   <button data-lang="ro" class="active">RO</button>
   <button data-lang="en">EN</button>
+  <button data-lang="pt">PT</button>
 </div>
 
 <div class="sky" aria-hidden="true"><div class="glow"></div><div class="stars" id="stars"></div></div>
@@ -220,8 +230,26 @@
   </section>
 
   <footer data-freq="852">
-    <div>Un produs <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</div>
-    <div style="margin-top:8px;opacity:.7" data-i18n="footerLine">33 de cărți · Cele Cinci Cercuri + Trei Chei · pentru Etsy, Amazon și retail</div>
+    <svg class="f-sigil" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="20" fill="none" stroke="#F5B847" stroke-width="1.4"/>
+      <circle cx="50" cy="50" r="8" fill="#F5B847" opacity=".85"/>
+      <g stroke="#F5B847" stroke-width="1.2">
+        <line x1="50" y1="6" x2="50" y2="24"/><line x1="50" y1="76" x2="50" y2="94"/>
+        <line x1="6" y1="50" x2="24" y2="50"/><line x1="76" y1="50" x2="94" y2="50"/>
+      </g>
+    </svg>
+    <div class="f-name" data-i18n="title">Focul care cunoaște</div>
+    <div class="f-tag" data-i18n="footTag">Fii treaz. Respiră. Fii de față.</div>
+    <p class="f-bless" data-i18n="footBless">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
+    <nav class="f-nav">
+      <a href="index.html">Aether Nomad</a>
+      <a href="all-inclusive-univers.html">All Inclusive</a>
+      <a href="atentia.html">Atenția</a>
+      <a href="respiratia.html">Respirația</a>
+      <a href="prezenta.html">Prezența</a>
+    </nav>
+    <div class="f-copy" data-i18n="footerLine">Cercurile Focului · pentru Etsy, Amazon și retail</div>
+    <div class="f-copy" style="margin-top:8px">© MMXXVI <span class="sig">Aether Nomad</span></div>
   </footer>
 
 </div>
@@ -241,7 +269,7 @@
   // ---------- i18n (UI) ----------
   var UI = {
     ro:{title:'Focul care cunoaște',sub:'Oracle Deck · {n} de cărți de înțelepciune',
-      desc:'Cele Cinci Cercuri și cele Trei Chei. Distilarea cărților noastre într-un singur oracol: trage o carte și ascultă ce știe focul.',
+      desc:'Cercurile Focului — de la Pământ și Apă până la Inimă, Putere, Minte și Drum. Trage o carte și ascultă ce știe focul.',
       invite:'Un <b>joc de înțelepciune</b> pentru viața de zi cu zi: scurtături care te ajută <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea.',
       blessing:'Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.',
       btnDraw:'Trage o carte',btnSpread:'Desfășurare · 3 cărți',btnGallery:'Toate cărțile',
@@ -250,9 +278,9 @@
       galleryEyebrow:'Colecția completă',galleryTitle:'Cele {n} de cărți',
       tapHint:'Atinge cartea pentru a o întoarce',btnAgain:'Trage din nou',btnHome:'← Acasă',
       footerLine:'{n} de cărți · Cercurile Focului · pentru Etsy, Amazon și retail',
-      pos:['Trup','Minte','Duh']},
+      footTag:'Fii treaz. Respiră. Fii de față.',footBless:'Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.',pos:['Trup','Minte','Duh']},
     en:{title:'The Fire That Knows',sub:'Oracle Deck · {n} wisdom cards',
-      desc:'The Five Circles and the Three Keys. Our books distilled into a single oracle: draw a card and hear what the fire knows.',
+      desc:'The Circles of the Fire — from Earth and Water to Heart, Power, Mind and Path. Draw a card and hear what the fire knows.',
       invite:'A <b>game of wisdom</b> for everyday life: shortcuts that help you <b>step by step, hour by hour, clock by clock</b>. Pause a moment, ask your question, turn the card.',
       blessing:'Blessed be the Name of God for all the good He brings into the world.',
       btnDraw:'Draw a card',btnSpread:'Spread · 3 cards',btnGallery:'All cards',
@@ -261,9 +289,21 @@
       galleryEyebrow:'The full collection',galleryTitle:'The {n} cards',
       tapHint:'Tap the card to turn it',btnAgain:'Draw again',btnHome:'← Home',
       footerLine:'{n} cards · The Circles of the Fire · for Etsy, Amazon & retail',
-      pos:['Body','Mind','Spirit']}
+      footTag:'Be awake. Breathe. Be present.',footBless:'Blessed be the Name of God for all the good He brings into the world.',pos:['Body','Mind','Spirit']},
+    pt:{title:'O Fogo que Sabe',sub:'Oracle Deck · {n} cartas de sabedoria',
+      desc:'Os Círculos do Fogo — da Terra e da Água ao Coração, ao Poder, à Mente e ao Caminho. Tira uma carta e escuta o que o fogo sabe.',
+      invite:'Um <b>jogo de sabedoria</b> para o dia a dia: atalhos que ajudam <b>passo a passo, hora a hora</b>. Para um instante, faz a tua pergunta, vira a carta.',
+      blessing:'Bendito seja o Nome de Deus por todo o bem que traz ao mundo.',
+      btnDraw:'Tira uma carta',btnSpread:'Tiragem · 3 cartas',btnGallery:'Todas as cartas',
+      drawEyebrow:'A tua carta',drawTitle:'O que o fogo sabe para ti',
+      spreadEyebrow:'A tiragem',spreadTitle:'Corpo · Mente · Espírito',
+      galleryEyebrow:'A coleção completa',galleryTitle:'As {n} cartas',
+      tapHint:'Toca na carta para a virar',btnAgain:'Tira outra vez',btnHome:'← Início',
+      footerLine:'{n} cartas · Os Círculos do Fogo · para Etsy, Amazon e retalho',
+      footTag:'Está desperto. Respira. Está presente.',footBless:'Bendito seja o Nome de Deus por todo o bem que traz ao mundo.',
+      pos:['Corpo','Mente','Espírito']}
   };
-  var lang='ro';
+  var lang=(function(){var v=localStorage.getItem('aether.lang');if(v==='ro'||v==='en'||v==='pt')return v;var n=(navigator.language||'ro').toLowerCase();return n.indexOf('pt')===0?'pt':n.indexOf('en')===0?'en':'ro';})();
   function applyLang(){
     document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.dataset.i18n; if(UI[lang][k]!==undefined) el.textContent=UI[lang][k].replace('{n}', CARDS.length);});
     document.querySelectorAll('[data-i18n-html]').forEach(function(el){var k=el.dataset.i18nHtml; if(UI[lang][k]!==undefined) el.innerHTML=UI[lang][k];});
@@ -272,7 +312,7 @@
     // re-render any open view to refresh card language
     if(current) renderView(current, false);
   }
-  document.querySelectorAll('.lang-switch button').forEach(function(b){b.addEventListener('click',function(){lang=b.dataset.lang;applyLang();});});
+  document.querySelectorAll('.lang-switch button').forEach(function(b){b.addEventListener('click',function(){lang=b.dataset.lang;localStorage.setItem('aether.lang',lang);applyLang();});});
 
   // ---------- SVG sigil for card back ----------
   var BACK = '<svg class="back-sigil" viewBox="0 0 100 100" aria-hidden="true">'+
@@ -286,6 +326,7 @@
     '<circle cx="50" cy="50" r="36" fill="none" stroke="#F5B847" stroke-width=".4" opacity=".45"/></svg>';
 
   // ---------- card element ----------
+  function T(x){return x[lang]||x.en||x.ro;}
   function cardEl(card, small){
     var meta = EL[card.el], idx = CARDS.indexOf(card)+1;
     var d = document.createElement('div');
@@ -296,12 +337,12 @@
         '<div class="card-face card-back">'+BACK+'</div>'+
         '<div class="card-face card-front">'+
           '<div class="c-top"><span class="c-num">'+(idx<10?'0':'')+idx+' / '+CARDS.length+'</span>'+
-            '<span class="c-el">'+meta[lang]+' · '+(card.el==='key'?(lang==='ro'?'Cheie':'Key'):meta.glyph)+'</span></div>'+
+            '<span class="c-el">'+(meta[lang]||meta.en)+' · '+meta.glyph+'</span></div>'+
           '<div class="c-glyph">'+meta.glyph+'</div>'+
           '<div class="c-body">'+
-            '<div class="c-kw">'+card.kw[lang]+'</div>'+
-            '<div class="c-text">'+card.t[lang]+'</div>'+
-            '<div class="c-inv">'+card.inv[lang]+'</div>'+
+            '<div class="c-kw">'+T(card.kw)+'</div>'+
+            '<div class="c-text">'+T(card.t)+'</div>'+
+            '<div class="c-inv">'+T(card.inv)+'</div>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -349,7 +390,7 @@
           lastEl=card.el;
           var h=document.createElement('div'); h.className='gal-head';
           h.style.setProperty('--accent', EL[card.el].color);
-          h.textContent=EL[card.el].circle[lang];
+          h.textContent=EL[card.el].circle[lang]||EL[card.el].circle.en;
           g.appendChild(h);
         }
         var c=cardEl(card,true); c.classList.add('flipped'); g.appendChild(c);

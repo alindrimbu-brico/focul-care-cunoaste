@@ -30,6 +30,15 @@
 
   .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 24px 80px}
 
+  .lang-switch{position:fixed;top:16px;right:16px;z-index:60;display:flex;align-items:center;gap:4px;
+    background:rgba(20,14,38,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:999px;padding:6px 8px 6px 12px}
+  .lang-switch .globe{font-size:.8rem;opacity:.7;margin-right:3px}
+  .lang-switch button{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--muted);
+    background:transparent;border:none;padding:6px 10px;border-radius:999px;cursor:pointer;transition:.2s}
+  .lang-switch button:hover{color:var(--cream)}
+  .lang-switch button.active{background:var(--gold);color:#1a1228;font-weight:700}
+
   header.hero{text-align:center;padding:110px 0 44px}
   .brandmark{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);
     margin-bottom:26px;animation:rise .8s both .1s;display:inline-flex;align-items:center;gap:12px}
@@ -38,7 +47,10 @@
   h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2.6rem,8vw,5rem);line-height:.96;letter-spacing:-.025em;
     background:linear-gradient(160deg,var(--cream),var(--gold) 55%,var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;
     animation:rise .9s both .25s}
-  .lead{max-width:52ch;margin:24px auto 0;color:var(--muted);font-size:1.1rem;font-weight:300;animation:rise .9s both .45s}
+  .lead{max-width:56ch;margin:26px auto 0;color:var(--cream);font-size:1.12rem;font-weight:300;line-height:1.8;animation:rise .9s both .45s}
+  .lead em{color:var(--gold);font-style:italic}
+  .hero-rule{width:72px;height:1px;margin:26px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:rise .9s both .55s}
+  .hero-motto{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:18px;animation:rise .9s both .6s}
   @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:20px}
@@ -54,7 +66,16 @@
   .card .go{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-top:18px;opacity:.8;transition:.25s}
   .card:hover .go{opacity:1;transform:translateX(4px)}
 
-  footer{text-align:center;padding:56px 0 20px;color:var(--muted);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.06em}
+  footer{text-align:center;padding:70px 0 28px;color:var(--muted)}
+  .f-sigil{width:52px;height:52px;margin:0 auto 14px;display:block;opacity:.9}
+  .f-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.15rem;color:var(--cream)}
+  .f-tag{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+  .f-bless{max-width:46ch;margin:18px auto 0;font-style:italic;font-size:.95rem;line-height:1.7;color:var(--muted)}
+  .f-bless::before,.f-bless::after{content:"✦";color:var(--gold);opacity:.7;margin:0 10px;font-style:normal}
+  .f-nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:22px;padding-top:22px;border-top:1px solid var(--line)}
+  .f-nav a{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:.2s}
+  .f-nav a:hover{color:var(--gold)}
+  .f-copy{margin-top:18px;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em}
   footer .sig{color:var(--gold);font-weight:700}
 
   /* ---------- ORACLE HERO (de sine stătătoare) ---------- */
@@ -107,13 +128,21 @@
 </style>
 </head>
 <body>
+<div class="lang-switch" role="group" aria-label="Language">
+  <span class="globe" aria-hidden="true">🌐</span>
+  <button data-lang="ro" class="active">RO</button>
+  <button data-lang="en">EN</button>
+  <button data-lang="pt">PT</button>
+</div>
 <div class="sky" aria-hidden="true"><div class="glow"></div><div class="stars" id="stars"></div></div>
 
 <div class="wrap">
   <header class="hero" data-freq="432">
     <div class="brandmark">Aether Nomad</div>
     <h1>Focul care cunoaște</h1>
-    <p class="lead">Un univers de experiențe: muzică, filozofie și înțelepciune. Alege o poartă.</p>
+    <p class="lead" data-i18n-html="lead">Sunt locuri unde cunoașterea nu se citește — <em>se aprinde</em>. Aether Nomad este un atelier de trezire: muzică născută din liniște, eseuri despre atenție, respirație și prezență, și un oracol viu, cu sutele lui de cărți. Trei porți. Aceeași flacără.</p>
+    <div class="hero-rule" aria-hidden="true"></div>
+    <p class="hero-motto" data-i18n="motto">Fii treaz · Respiră · Fii de față</p>
   </header>
 
   <!-- ORACLE DECK — hero de sine stătătoare -->
@@ -124,49 +153,64 @@
       <div class="oh-card"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="none" stroke="#F5B847" stroke-width="1.2"/><circle cx="50" cy="50" r="7" fill="#F5B847" opacity=".85"/><g stroke="#F5B847" stroke-width="1"><line x1="22" y1="22" x2="33" y2="33"/><line x1="67" y1="67" x2="78" y2="78"/><line x1="78" y1="22" x2="67" y2="33"/><line x1="33" y1="67" x2="22" y2="78"/></g></svg></div>
     </div>
     <div class="oh-body">
-      <span class="kicker">Jocul zilei · Oracle Deck</span>
-      <h2>Trage o carte.<br>Ia-ți scurtătura zilei.</h2>
-      <p class="oh-lead">Un joc de înțelepciune pentru viața de zi cu zi: <b>scurtături</b> care te ajută
-        <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea —
-        și ia cu tine un singur gest bun pentru ceasul care urmează.</p>
-      <p class="oh-blessing">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
+      <span class="kicker" data-i18n="ohKicker">Jocul zilei · Oracle Deck</span>
+      <h2 data-i18n-html="ohTitle">Trage o carte.<br>Ia-ți scurtătura zilei.</h2>
+      <p class="oh-lead" data-i18n-html="ohLead">Un joc de înțelepciune pentru viața de zi cu zi: <b>scurtături</b> care te ajută <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea — și ia cu tine un singur gest bun pentru ceasul care urmează.</p>
+      <p class="oh-blessing" data-i18n="ohBless">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
       <div class="oh-actions">
-        <a class="oh-btn primary" href="oracle-deck.html">Intră în joc →</a>
-        <a class="oh-btn ghost" href="oracle-deck.html">Vezi toate cărțile</a>
+        <a class="oh-btn primary" href="oracle-deck.html" data-i18n="ohPlay">Intră în joc →</a>
+        <a class="oh-btn ghost" href="oracle-deck.html" data-i18n="ohAll">Vezi toate cărțile</a>
       </div>
     </div>
   </section>
 
   <main class="grid" data-freq="639">
     <a class="card" href="all-inclusive-univers.html" style="--ac:var(--gold)">
-      <span class="kicker">Consolă muzicală</span>
-      <h2>All Inclusive în Univers</h2>
-      <p>Consolă de zbor cosmică pentru proiectul Aether Nomad: prompturi Suno, versuri în RO/EN/PT, sunet ambiental generativ și ritm de 65 BPM.</p>
-      <span class="go">Deschide →</span>
+      <span class="kicker" data-i18n="c1k">Consolă muzicală</span>
+      <h2 data-i18n="c1t">All Inclusive în Univers</h2>
+      <p data-i18n="c1d">Consolă de zbor cosmică pentru proiectul Aether Nomad: prompturi Suno, versuri în RO/EN/PT, sunet ambiental generativ și ritm de 65 BPM.</p>
+      <span class="go" data-i18n="goOpen">Deschide →</span>
     </a>
     <a class="card" href="atentia.html" style="--ac:var(--gold)">
-      <span class="kicker">Eseu · Biletul</span>
-      <h2>Atenția</h2>
-      <p>Tot ce se poate spune despre atenție — de la William James la nepsis, sati și muraqaba. Academic și spiritual.</p>
-      <span class="go">Citește →</span>
+      <span class="kicker" data-i18n="c2k">Eseu · Biletul</span>
+      <h2 data-i18n="c2t">Atenția</h2>
+      <p data-i18n="c2d">Tot ce se poate spune despre atenție — de la William James la nepsis, sati și muraqaba. Academic și spiritual.</p>
+      <span class="go" data-i18n="goRead">Citește →</span>
     </a>
     <a class="card" href="respiratia.html" style="--ac:var(--teal)">
-      <span class="kicker">Eseu · Vehiculul</span>
-      <h2>Respirația</h2>
-      <p>De la nervul vag și respirația coerentă la prana, pneuma și ruach — cu un ghid de respirație interactiv.</p>
-      <span class="go">Citește →</span>
+      <span class="kicker" data-i18n="c3k">Eseu · Vehiculul</span>
+      <h2 data-i18n="c3t">Respirația</h2>
+      <p data-i18n="c3d">De la nervul vag și respirația coerentă la prana, pneuma și ruach — cu un ghid de respirație interactiv.</p>
+      <span class="go" data-i18n="goRead">Citește →</span>
     </a>
     <a class="card" href="prezenta.html" style="--ac:var(--lilac)">
-      <span class="kicker">Eseu · Pașaportul</span>
-      <h2>Prezența</h2>
-      <p>Prezentul aparent al lui James, Dasein-ul lui Heidegger, nunc stans-ul veșnic — și practica prezenței. Acum.</p>
-      <span class="go">Citește →</span>
+      <span class="kicker" data-i18n="c4k">Eseu · Pașaportul</span>
+      <h2 data-i18n="c4t">Prezența</h2>
+      <p data-i18n="c4d">Prezentul aparent al lui James, Dasein-ul lui Heidegger, nunc stans-ul veșnic — și practica prezenței. Acum.</p>
+      <span class="go" data-i18n="goRead">Citește →</span>
     </a>
   </main>
 
   <footer data-freq="852">
-    <div>© <span class="sig">Aether Nomad</span> · „Focul care cunoaște"</div>
-    <div style="margin-top:8px;opacity:.7">Fii treaz. Respiră. Fii de față.</div>
+    <svg class="f-sigil" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="20" fill="none" stroke="#F5B847" stroke-width="1.4"/>
+      <circle cx="50" cy="50" r="8" fill="#F5B847" opacity=".85"/>
+      <g stroke="#F5B847" stroke-width="1.2">
+        <line x1="50" y1="6" x2="50" y2="24"/><line x1="50" y1="76" x2="50" y2="94"/>
+        <line x1="6" y1="50" x2="24" y2="50"/><line x1="76" y1="50" x2="94" y2="50"/>
+      </g>
+    </svg>
+    <div class="f-name" data-i18n="fName">Focul care cunoaște</div>
+    <div class="f-tag" data-i18n="motto">Fii treaz · Respiră · Fii de față</div>
+    <p class="f-bless" data-i18n="ohBless">Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.</p>
+    <nav class="f-nav">
+      <a href="all-inclusive-univers.html">All Inclusive</a>
+      <a href="oracle-deck.html">Oracle Deck</a>
+      <a href="atentia.html" data-i18n="c2t">Atenția</a>
+      <a href="respiratia.html" data-i18n="c3t">Respirația</a>
+      <a href="prezenta.html" data-i18n="c4t">Prezența</a>
+    </nav>
+    <div class="f-copy">© MMXXVI <span class="sig">Aether Nomad</span></div>
   </footer>
 </div>
 
@@ -175,6 +219,79 @@
     for(var i=0;i<55;i++){var s=document.createElement('div');s.className='star';var z=Math.random()*2+1;
       s.style.width=z+'px';s.style.height=z+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
       s.style.animationDelay=(Math.random()*6)+'s';f.appendChild(s);}b.appendChild(f);})();
+
+  // ———— i18n RO/EN/PT ————
+  var UI = {
+    ro:{
+      title:'Focul care cunoaște — Aether Nomad', fName:'Focul care cunoaște',
+      lead:'Sunt locuri unde cunoașterea nu se citește — <em>se aprinde</em>. Aether Nomad este un atelier de trezire: muzică născută din liniște, eseuri despre atenție, respirație și prezență, și un oracol viu, cu sutele lui de cărți. Trei porți. Aceeași flacără.',
+      motto:'Fii treaz · Respiră · Fii de față',
+      ohKicker:'Jocul zilei · Oracle Deck',
+      ohTitle:'Trage o carte.<br>Ia-ți scurtătura zilei.',
+      ohLead:'Un joc de înțelepciune pentru viața de zi cu zi: <b>scurtături</b> care te ajută <b>pas cu pas, oră de oră, ceas de ceas</b>. Oprește-te o clipă, pune întrebarea, întoarce cartea — și ia cu tine un singur gest bun pentru ceasul care urmează.',
+      ohBless:'Numele lui Dumnezeu fie binecuvântat pentru tot binele pe care îl aduce în lume.',
+      ohPlay:'Intră în joc →', ohAll:'Vezi toate cărțile',
+      c1k:'Consolă muzicală', c1t:'All Inclusive în Univers',
+      c1d:'Consolă de zbor cosmică pentru proiectul Aether Nomad: prompturi Suno, versuri în RO/EN/PT, sunet ambiental generativ și ritm de 65 BPM.',
+      c2k:'Eseu · Biletul', c2t:'Atenția',
+      c2d:'Tot ce se poate spune despre atenție — de la William James la nepsis, sati și muraqaba. Academic și spiritual.',
+      c3k:'Eseu · Vehiculul', c3t:'Respirația',
+      c3d:'De la nervul vag și respirația coerentă la prana, pneuma și ruach — cu un ghid de respirație interactiv.',
+      c4k:'Eseu · Pașaportul', c4t:'Prezența',
+      c4d:'Prezentul aparent al lui James, Dasein-ul lui Heidegger, nunc stans-ul veșnic — și practica prezenței. Acum.',
+      goOpen:'Deschide →', goRead:'Citește →'
+    },
+    en:{
+      title:'The Fire That Knows — Aether Nomad', fName:'The Fire That Knows',
+      lead:'There are places where knowledge is not read — <em>it is kindled</em>. Aether Nomad is a workshop of awakening: music born of silence, essays on attention, breath and presence, and a living oracle with its hundreds of cards. Three gates. One flame.',
+      motto:'Be awake · Breathe · Be present',
+      ohKicker:'The daily game · Oracle Deck',
+      ohTitle:'Draw a card.<br>Take the day’s shortcut.',
+      ohLead:'A game of wisdom for everyday life: <b>shortcuts</b> that help you <b>step by step, hour by hour, clock by clock</b>. Pause for a moment, ask your question, turn the card — and carry one good gesture into the hour ahead.',
+      ohBless:'Blessed be the Name of God for all the good He brings into the world.',
+      ohPlay:'Enter the game →', ohAll:'See all the cards',
+      c1k:'Music console', c1t:'All Inclusive in the Universe',
+      c1d:'A cosmic flight console for the Aether Nomad project: Suno prompts, lyrics in RO/EN/PT, generative ambient sound and a 65 BPM pulse.',
+      c2k:'Essay · The Ticket', c2t:'Attention',
+      c2d:'All that can be said about attention — from William James to nepsis, sati and muraqaba. Academic and spiritual. (In Romanian.)',
+      c3k:'Essay · The Vehicle', c3t:'The Breath',
+      c3d:'From the vagus nerve and coherent breathing to prana, pneuma and ruach — with an interactive breathing guide. (In Romanian.)',
+      c4k:'Essay · The Passport', c4t:'Presence',
+      c4d:'James’s specious present, Heidegger’s Dasein, the eternal nunc stans — and the practice of presence. Now. (In Romanian.)',
+      goOpen:'Open →', goRead:'Read →'
+    },
+    pt:{
+      title:'O Fogo que Sabe — Aether Nomad', fName:'O Fogo que Sabe',
+      lead:'Há lugares onde o conhecimento não se lê — <em>acende-se</em>. Aether Nomad é uma oficina de despertar: música nascida do silêncio, ensaios sobre atenção, respiração e presença, e um oráculo vivo, com as suas centenas de cartas. Três portas. A mesma chama.',
+      motto:'Está desperto · Respira · Está presente',
+      ohKicker:'O jogo do dia · Oracle Deck',
+      ohTitle:'Tira uma carta.<br>Leva o atalho do dia.',
+      ohLead:'Um jogo de sabedoria para o dia a dia: <b>atalhos</b> que ajudam <b>passo a passo, hora a hora</b>. Para um instante, faz a tua pergunta, vira a carta — e leva contigo um gesto bom para a hora que vem.',
+      ohBless:'Bendito seja o Nome de Deus por todo o bem que traz ao mundo.',
+      ohPlay:'Entra no jogo →', ohAll:'Vê todas as cartas',
+      c1k:'Consola musical', c1t:'All Inclusive no Universo',
+      c1d:'Uma consola de voo cósmica para o projeto Aether Nomad: prompts Suno, letras em RO/EN/PT, som ambiente generativo e pulso de 65 BPM.',
+      c2k:'Ensaio · O Bilhete', c2t:'A Atenção',
+      c2d:'Tudo o que se pode dizer sobre a atenção — de William James a nepsis, sati e muraqaba. Académico e espiritual. (Em romeno.)',
+      c3k:'Ensaio · O Veículo', c3t:'A Respiração',
+      c3d:'Do nervo vago e da respiração coerente a prana, pneuma e ruach — com um guia interativo de respiração. (Em romeno.)',
+      c4k:'Ensaio · O Passaporte', c4t:'A Presença',
+      c4d:'O presente aparente de James, o Dasein de Heidegger, o eterno nunc stans — e a prática da presença. Agora. (Em romeno.)',
+      goOpen:'Abrir →', goRead:'Ler →'
+    }
+  };
+  var lang=(function(){var v=localStorage.getItem('aether.lang');if(v==='ro'||v==='en'||v==='pt')return v;var n=(navigator.language||'ro').toLowerCase();return n.indexOf('pt')===0?'pt':n.indexOf('en')===0?'en':'ro';})();
+  function applyLang(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.dataset.i18n;if(UI[lang][k]!==undefined)el.textContent=UI[lang][k];});
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){var k=el.dataset.i18nHtml;if(UI[lang][k]!==undefined)el.innerHTML=UI[lang][k];});
+    document.querySelectorAll('.lang-switch button').forEach(function(b){b.classList.toggle('active',b.dataset.lang===lang);});
+    document.documentElement.lang=lang;
+    document.title=UI[lang].title;
+  }
+  document.querySelectorAll('.lang-switch button').forEach(function(b){
+    b.addEventListener('click',function(){lang=b.dataset.lang;localStorage.setItem('aether.lang',lang);applyLang();});
+  });
+  applyLang();
 </script>
 <script src="aether-ambient.js" defer></script>
 </body>
